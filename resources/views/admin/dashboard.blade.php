@@ -1,4 +1,4 @@
 <x-admin-layout>
 
-    hi
+    aca va el menu
 </x-admin-layout>
