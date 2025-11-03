@@ -17,7 +17,7 @@ class TiposCampañaSeeder extends Seeder
         DB::table('TiposCampañas')->insert(
             [
                 [
-                    'Tnombre_Tipocampaña' => 'Campaña contra el tetanp',
+                    'Tnombre_Tipocampaña' => 'Campaña contra el tetano',
                     'Tdescripcion_Tipocampaña'=> 'Habla sobre el tetano',
                     'Nestado_Tipocampaña' => 1,
                     'created_at' => now(),

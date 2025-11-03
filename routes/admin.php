@@ -10,7 +10,7 @@ Route::get('/',function(){
 
 //ruta de la campañas
 Route::resource('Campañas',CampañasController::class);
-Route::put('Campañas/adelantar',[CampañasController::class,'adelantar'])->name('Campañas.adelantar');
+Route::get('/editar/{id}',[CampañasController::class,'editar']);
 
 
 

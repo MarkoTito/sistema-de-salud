@@ -87,9 +87,21 @@ class CampañasController extends Controller
     }
 
 
+
     public function edit($id)
     {
-        return $id;
+        $campañaShow = DB::select('EXEC dbo.OneCAMPAÑA ? ',[$id]);
+        $Tiposcampañas=DB::select('EXEC dbo.ViewsTiposCampañas');
+        $Colaboradores=DB::select('EXEC dbo.ViewsColaboradores');
+
+
+        if (!empty($campañaShow)) {
+            $campaña = $campañaShow[0];
+            return view('admin/campaña/editCampaña',compact('campaña','Tiposcampañas','Colaboradores'));
+        } else {
+            return redirect()->back()->with('error', 'No se encontró la campaña.');
+        }
+        
     }
 
     public function update(Request $request, $id)
@@ -144,33 +156,54 @@ class CampañasController extends Controller
                     'text' => 'No se reabrió  la campaña correctamente'
                 ]);
             }   
+        } 
+        if ($request->situacion ==4 ) {
+            $resultado=DB::statement('EXEC dbo.EditarCampaña ?,?,?,?,?,?',
+            [
+                $id,
+                $request->newCampaña,
+                $request->colaborador,
+                $request->newFecha ,
+                $request->newHora ,
+                $request->newLugar
+            ]);
+            
+            if ($resultado === true) {
+                session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => '¡Buen trabajo!',
+                    'text' => 'Se actualizo la campaña correctamente '
+                ]);
+            } else {
+                session()->flash('swal', [
+                    'icon' => 'error',
+                    'title' => '¡Ups!',
+                    'text' => 'No se actualizo la campaña correctamente'
+                ]);
+            } 
         }
         return redirect()->route('admin.Campañas.index');
     }
-     public function adelantar(Request $request, $id)
-    {
-        //funcion para adelantar la campañas
-        //$Idusuario=Auth::user()->id;
-        $resultado=DB::statement('EXEC dbo.AdelantarCampaña ? ',[$id]);
-        if ($resultado === true) {
-            session()->flash('swal', [
-                'icon' => 'success',
-                'title' => '¡Buen trabajo!',
-                'text' => 'Se adelanto la campaña correctamente'
-            ]);
-        } else {
-            session()->flash('swal', [
-                'icon' => 'error',
-                'title' => '¡Ups!',
-                'text' => 'No se adelanto la campaña correctamente'
-            ]);
-        }
-
-        return redirect()->route('admin.Campañas.index');
-    } 
+    
 
     public function destroy($id)
     {
-        
+        $campañaShow = DB::select('EXEC dbo.EliminarCampaña ? ',[$id]);
+        if ($campañaShow === true) {
+            session()->flash('swal', [
+                'icon' => 'error',
+                'title' => '¡Ups!',
+                'text' => 'No se elimino la campaña correctamente'
+            ]);
+        } else {
+            session()->flash('swal', [
+                'icon' => 'success',
+                'title' => '¡Buen trabajo!',
+                'text' => 'Se elimino la campaña correctamente'
+            ]);
+            
+        }
+
+        return redirect()->route('admin.Campañas.index');
     }
 }

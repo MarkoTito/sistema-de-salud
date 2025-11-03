@@ -81,25 +81,25 @@
                                 <label for="checkbox-all-search" class="sr-only">checkbox</label>
                             </div>
                         </th> --}}
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="px-6 py-3" align="center" >
                             Numero de campaña
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="px-6 py-3" align="center" >
                             Nombre de campaña
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="px-6 py-3" align="center" >
                             Lugar
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="px-6 py-3" align="center" >
                             Fecha de inicio
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="px-6 py-3" align="center" >
                             Hora de inicio
                         </th>
                         <th scope="col" class="px-6 py-3" align="center" >
                             Estado
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="px-6 py-3" align="center" >
                             Acción
                         </th>
                     </tr>
@@ -169,16 +169,16 @@
                                 @endif
                                 
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
-                                    <a href="{{route('admin.Campañas.show',$campaña->PK_Campaña)}}">
+                                    <a href="">
                                         <i class="fa-solid fa-download"></i>   
                                     </a>
                                     <a href="{{route('admin.Campañas.show',$campaña->PK_Campaña)}}">
                                         <i class="fa-solid fa-eye"></i>   
                                     </a>
-                                    <a href="{{route('admin.Campañas.show',$campaña->PK_Campaña)}}">
+                                    <a href="{{route('admin.Campañas.edit',$campaña->PK_Campaña)}}">
                                         <i class="fa-solid fa-pen-to-square"></i>   
                                     </a>
-                                    <a href="{{route('admin.Campañas.show',$campaña->PK_Campaña)}}">
+                                    <a href="{{route('admin.Campañas.destroy',$campaña->PK_Campaña)}}" class="btn-finalizar" data-nombre="{{ $campaña->Tnombre_Tipocampaña }}">
                                         <i class="fa-solid fa-trash"></i>
                                     </a>
                                     
@@ -197,6 +197,35 @@
             </table>
         </div>
     </div>
+
+    @push('js')
+        <script>
+            document.querySelectorAll('.btn-finalizar').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault(); // evita que el enlace se ejecute directamente
+
+                    const url = this.getAttribute('href');
+                    const nombre = this.getAttribute('data-nombre');
+
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "Vas a eliminar la campaña: " + nombre,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sí, eliminar',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = url; // redirige si confirma
+                        }
+                    });
+                });
+            });
+        </script>
+    @endpush
+
 
    
     
