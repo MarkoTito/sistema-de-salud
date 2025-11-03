@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
-            'password' => '12345678'
+            'password' => 'liammateo01'
         ]);
         $this->call([
         RazasSeeder::class,

@@ -148,7 +148,7 @@
                                 {{$campaña->ThoraIni_campaña}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                <a href="">
+                                <a href="{{route('admin.Campañas.show',$campaña->PK_Campaña)}}">
                                     Edit    
                                 </a>
                             </th>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AsistenteController;
 use App\Http\Controllers\CampañasController;
 use Illuminate\Support\Facades\Route;
 
@@ -9,3 +10,5 @@ Route::get('/',function(){
 
 //ruta de la campañas
 Route::resource('Campañas',CampañasController::class);
+Route::resource('Asitentes',AsistenteController::class);
+Route::post('Asitentes/eliminar',[AsistenteController::class,'eliminar'])->name('Asitentes.eliminar');

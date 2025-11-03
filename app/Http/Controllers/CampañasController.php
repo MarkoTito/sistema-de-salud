@@ -12,6 +12,7 @@ class CampañasController extends Controller
     public function index()
     {
         $campañas= DB::select('EXEC dbo.viewCampañas');
+        
         return view('admin/campaña/viewCampaña', compact('campañas'));
         
     }
@@ -53,9 +54,24 @@ class CampañasController extends Controller
         return redirect()->route('admin.Campañas.index');
     } 
 
+    public function show($id)
+    {
+        $campañaShow = DB::select('EXEC dbo.OneCAMPAÑA ? ',[$id]);
+        $especialidades = DB::select('EXEC dbo.ViewsEspecialidad');
+        $asistentes= DB::select('EXEC dbo.ViewsAsistentesCampañas ? ',[$id]);
+        $cantidad= count($asistentes);
+        if (!empty($campañaShow)) {
+            $campaña = $campañaShow[0];
+            return view('admin.campaña.oneCampaña', compact('campaña','especialidades','asistentes','cantidad'));
+        } else {
+            return redirect()->back()->with('error', 'No se encontró la campaña.');
+        }
+    }
+
+
     public function edit($id)
     {
-        
+        return $id;
     }
 
     public function update(Request $request, $id)
