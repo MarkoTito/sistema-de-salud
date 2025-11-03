@@ -10,17 +10,33 @@
             <form action="{{route('admin.Campañas.update',$campaña->PK_Campaña)}}" method="POST" class="finalizar-form" >
                 @method('PUT')
                 @csrf
+                <input type="text" name="situacion" value="1" hidden>
                 <button type="submit"  class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
                     {{$estado}}
                 </button>
             </form>
         </div>
-    @else
+    @endif
+    @if ($estado == "Empesar antes de tiempo")
         <div class="flex justify-end">
             <form action="{{route('admin.Campañas.update',$campaña->PK_Campaña)}}" method="POST" class="adelantar-form" >
                 @method('PUT')
                 @csrf
+                <input type="text" name="situacion" value="2" hidden >
                 <button type="submit"  class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    {{$estado}}
+                </button>
+            </form>
+        </div>
+        
+    @endif
+    @if ($estado == "reabrir campaña?")
+        <div class="flex justify-end">
+            <form action="{{route('admin.Campañas.update',$campaña->PK_Campaña)}}" method="POST" class="reabrir-form" >
+                @method('PUT')
+                @csrf
+                <input type="text" name="situacion" value="3" hidden >
+                <button type="submit"  class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
                     {{$estado}}
                 </button>
             </form>
@@ -56,6 +72,15 @@
                 <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Entidad colaborativa:</label>    
                 <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$campaña->Tnombre_colaborador}}" disabled>                
             </div>
+            @if ($estado == "reabrir campaña?")
+                <div>
+                    <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Fecha de Inicio:</label>    
+                    <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$campaña->DfechaFin_campaña}}" disabled>                
+                </div>
+                
+            @else
+                
+            @endif
         </div>
 
     </div>
@@ -217,12 +242,17 @@
         </button>
 
         <!-- Botón Derecho: abre el modal -->
-        <button 
-            @click="open = true"
-            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-            <i class="fa-solid fa-user"></i>
-            Agregar Asistente
-        </button>
+        @if ($estado == "Finalizar")
+            <button 
+                @click="open = true"
+                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                <i class="fa-solid fa-user"></i>
+                Agregar Asistente
+            </button>
+            
+        @else
+            
+        @endif
 
         <!-- Modal -->
         <div x-show="open"class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -344,7 +374,7 @@
         </script>
         <script>
         //que seleciona todos esos formularios que tengan ese nombre de delete-form 
-            forms = document.querySelectorAll('.adelantar-form')
+            forms = document.querySelectorAll('.reabrir-form')
             //que recorra todos los formularios
             forms.forEach(form => {
                 //que se ponga al escucha de ese formulario con el evento submit
@@ -352,13 +382,39 @@
                     //previne el evento 
                     e.preventDefault('');
                         Swal.fire({
-                            title: "Desea iniciar la campaña ahora?",
+                            title: "Desea reabrir la campaña ahora?",
                             //text: "no podrás revertir esto",
                             icon: "warning",
                             showCancelButton: true,
                             confirmButtonColor: "#3085d6",
                             cancelButtonColor: "#d33",
-                            confirmButtonText: "Si, empesar",
+                            confirmButtonText: "Si, reabrir",
+                            cancelButtonText: "No, cancelar"
+                            }).then((result) => {
+                            if (result.isConfirmed) {
+                                form.submit();
+                            }
+                        });    
+                });
+            });
+        </script>
+        <script>
+        //que seleciona todos esos formularios que tengan ese nombre de delete-form 
+            forms = document.querySelectorAll('.finalizar-form')
+            //que recorra todos los formularios
+            forms.forEach(form => {
+                //que se ponga al escucha de ese formulario con el evento submit
+                form.addEventListener('submit',function(e){ //e es el evento en si
+                    //previne el evento 
+                    e.preventDefault('');
+                        Swal.fire({
+                            title: "Desea finalizar la campaña ahora?",
+                            //text: "no podrás revertir esto",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Si, finalizar",
                             cancelButtonText: "No, cancelar"
                             }).then((result) => {
                             if (result.isConfirmed) {

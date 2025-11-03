@@ -71,112 +71,131 @@
                 <input type="text" id="table-search" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items">
             </div>
         </div>
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    {{-- <th scope="col" class="p-4">
-                        <div class="flex items-center">
-                            <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="checkbox-all-search" class="sr-only">checkbox</label>
-                        </div>
-                    </th> --}}
-                    <th scope="col" class="px-6 py-3">
-                        Numero de campaña
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Nombre de campaña
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Lugar
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Fecha de inicio
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Hora de inicio
-                    </th>
-                    <th scope="col" class="px-6 py-3" align="center" >
-                        Estado
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Acción
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (!$campañas)
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            No existe campaña
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        {{-- <th scope="col" class="p-4">
+                            <div class="flex items-center">
+                                <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                <label for="checkbox-all-search" class="sr-only">checkbox</label>
+                            </div>
+                        </th> --}}
+                        <th scope="col" class="px-6 py-3">
+                            Numero de campaña
                         </th>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            No existe campaña
+                        <th scope="col" class="px-6 py-3">
+                            Nombre de campaña
                         </th>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            No existe campaña
+                        <th scope="col" class="px-6 py-3">
+                            Lugar
                         </th>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            No existe campaña
+                        <th scope="col" class="px-6 py-3">
+                            Fecha de inicio
                         </th>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            No existe campaña
+                        <th scope="col" class="px-6 py-3">
+                            Hora de inicio
                         </th>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            No existe campaña
+                        <th scope="col" class="px-6 py-3" align="center" >
+                            Estado
                         </th>
-                    </tr>    
-                @else
-                    @foreach ($campañas as $campaña)
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            {{-- <td class="w-4 p-4">
-                                <div class="flex items-center">
-                                    <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                    <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                                </div>
-                            </td> --}}
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$campaña->PK_Campaña}}
+                        <th scope="col" class="px-6 py-3">
+                            Acción
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!$campañas)
+                        <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                            
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                No existe campaña
                             </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$campaña->Tnombre_Tipocampaña}}
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                No existe campaña
                             </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$campaña->Tlugar_campaña}}
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                No existe campaña
                             </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$campaña->DfechaIni_campaña}}
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                No existe campaña
                             </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$campaña->ThoraIni_campaña}}
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                No existe campaña
                             </th>
-                            @if ($campaña->Nestado_campaña ==1)
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    Pendiente
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                No existe campaña
+                            </th>
+                        </tr>    
+                    @else
+                        @foreach ($campañas as $campaña)
+                            <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                                {{-- <td class="w-4 p-4">
+                                    <div class="flex items-center">
+                                        <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                        <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
+                                    </div>
+                                </td> --}}
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                    {{$campaña->PK_Campaña}}
                                 </th>
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                    {{$campaña->Tnombre_Tipocampaña}}
+                                </th>
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                    {{$campaña->Tlugar_campaña}}
+                                </th>
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                    {{$campaña->DfechaIni_campaña}}
+                                </th>
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                    {{$campaña->ThoraIni_campaña}}
+                                </th>
+                                @if ($campaña->Nestado_campaña ==1)
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                        Pendiente
+                                    </th>
+                                    
+                                @endif
+                                @if ($campaña->Nestado_campaña ==2)
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                        Abierto
+                                    </th>
+                                @endif
+                                @if ($campaña->Nestado_campaña ==3)
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                        Finalizado
+                                    </th>
+                                @endif
                                 
-                            @endif
-                            @if ($campaña->Nestado_campaña ==2)
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    Abierto
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                    <a href="{{route('admin.Campañas.show',$campaña->PK_Campaña)}}">
+                                        <i class="fa-solid fa-download"></i>   
+                                    </a>
+                                    <a href="{{route('admin.Campañas.show',$campaña->PK_Campaña)}}">
+                                        <i class="fa-solid fa-eye"></i>   
+                                    </a>
+                                    <a href="{{route('admin.Campañas.show',$campaña->PK_Campaña)}}">
+                                        <i class="fa-solid fa-pen-to-square"></i>   
+                                    </a>
+                                    <a href="{{route('admin.Campañas.show',$campaña->PK_Campaña)}}">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
+                                    
+                                    
+                                    
                                 </th>
-                            @endif
-                            
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                <a href="{{route('admin.Campañas.show',$campaña->PK_Campaña)}}">
-                                    Edit    
-                                </a>
-                            </th>
 
+                                
+                            </tr>
                             
-                        </tr>
+                        @endforeach
                         
-                    @endforeach
+                    @endif
                     
-                @endif
-                
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
 
    

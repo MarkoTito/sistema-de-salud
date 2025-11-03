@@ -65,11 +65,18 @@ class CampañasController extends Controller
 
         $fechaHora = Carbon::parse($campañaShow[0]->DfechaIni_campaña . ' ' . $campañaShow[0]->ThoraIni_campaña);
         if ($fechaHora->lessThan(Carbon::now())) {
-            // Significa que la fecha/hora ya pasó
-            $estado = 'Finalizar';
+            if ($campañaShow[0]->Nestado_campaña ==3) {
+                # significa ya paso su hoora de open (pero ya finalizo)
+                $estado = 'reabrir campaña?';
+            } else {
+                # code...
+                // Significa que la fecha/hora ya pasó (y esta abierto)
+                $estado = 'Finalizar';
+            }
+            
         } else {
             // Significa que es en el futuro
-            $estado = 'Empesar antes de timpo';
+            $estado = 'Empesar antes de tiempo';
         }
         if (!empty($campañaShow)) {
             $campaña = $campañaShow[0];
@@ -87,21 +94,57 @@ class CampañasController extends Controller
 
     public function update(Request $request, $id)
     {
-        $resultado=DB::statement('EXEC dbo.AdelantarCampaña ? ',[$id]);
-        if ($resultado === true) {
-            session()->flash('swal', [
-                'icon' => 'success',
-                'title' => '¡Buen trabajo!',
-                'text' => 'Se adelanto la campaña correctamente'
-            ]);
-        } else {
-            session()->flash('swal', [
-                'icon' => 'error',
-                'title' => '¡Ups!',
-                'text' => 'No se adelanto la campaña correctamente'
-            ]);
+        if ($request->situacion ==1 ) {
+            # para finalizarlo
+            $resultado=DB::statement('EXEC dbo.FinalizarCampaña ? ',[$id]);
+            if ($resultado === true) {
+                session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => '¡Buen trabajo!',
+                    'text' => 'Se finalizo la campaña correctamente'
+                ]);
+            } else {
+                session()->flash('swal', [
+                    'icon' => 'error',
+                    'title' => '¡Ups!',
+                    'text' => 'No se finalizo la campaña correctamente'
+                ]);
+            }   
+        } 
+        if ($request->situacion ==2 ) {
+            #para adelnatarlo
+            $resultado=DB::statement('EXEC dbo.AdelantarCampaña ? ',[$id]);
+            if ($resultado === true) {
+                session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => '¡Buen trabajo!',
+                    'text' => 'Se adelanto la campaña correctamente'
+                ]);
+            } else {
+                session()->flash('swal', [
+                    'icon' => 'error',
+                    'title' => '¡Ups!',
+                    'text' => 'No se adelanto la campaña correctamente'
+                ]);
+            }   
         }
-
+        if ($request->situacion ==3 ) {
+            #para adelnatarlo
+            $resultado=DB::statement('EXEC dbo.ReabirCampaña ? ',[$id]);
+            if ($resultado === true) {
+                session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => '¡Buen trabajo!',
+                    'text' => 'Se reabrió  la campaña correctamente'
+                ]);
+            } else {
+                session()->flash('swal', [
+                    'icon' => 'error',
+                    'title' => '¡Ups!',
+                    'text' => 'No se reabrió  la campaña correctamente'
+                ]);
+            }   
+        }
         return redirect()->route('admin.Campañas.index');
     }
      public function adelantar(Request $request, $id)
