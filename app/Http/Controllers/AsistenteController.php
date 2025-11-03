@@ -80,6 +80,7 @@ class AsistenteController extends Controller
 
         return redirect()->route('admin.Campañas.index');
     }
+    
    
 
     public function destroy($id)

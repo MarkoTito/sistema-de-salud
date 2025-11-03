@@ -95,6 +95,9 @@
                     <th scope="col" class="px-6 py-3">
                         Hora de inicio
                     </th>
+                    <th scope="col" class="px-6 py-3" align="center" >
+                        Estado
+                    </th>
                     <th scope="col" class="px-6 py-3">
                         Acción
                     </th>
@@ -147,6 +150,18 @@
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{$campaña->ThoraIni_campaña}}
                             </th>
+                            @if ($campaña->Nestado_campaña ==1)
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    Pendiente
+                                </th>
+                                
+                            @endif
+                            @if ($campaña->Nestado_campaña ==2)
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    Abierto
+                                </th>
+                            @endif
+                            
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 <a href="{{route('admin.Campañas.show',$campaña->PK_Campaña)}}">
                                     Edit    

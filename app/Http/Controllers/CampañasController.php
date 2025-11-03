@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class CampañasController extends Controller
 {
@@ -60,9 +61,19 @@ class CampañasController extends Controller
         $especialidades = DB::select('EXEC dbo.ViewsEspecialidad');
         $asistentes= DB::select('EXEC dbo.ViewsAsistentesCampañas ? ',[$id]);
         $cantidad= count($asistentes);
+
+
+        $fechaHora = Carbon::parse($campañaShow[0]->DfechaIni_campaña . ' ' . $campañaShow[0]->ThoraIni_campaña);
+        if ($fechaHora->lessThan(Carbon::now())) {
+            // Significa que la fecha/hora ya pasó
+            $estado = 'Finalizar';
+        } else {
+            // Significa que es en el futuro
+            $estado = 'Empesar antes de timpo';
+        }
         if (!empty($campañaShow)) {
             $campaña = $campañaShow[0];
-            return view('admin.campaña.oneCampaña', compact('campaña','especialidades','asistentes','cantidad'));
+            return view('admin.campaña.oneCampaña', compact('campaña','especialidades','asistentes','cantidad','estado'));
         } else {
             return redirect()->back()->with('error', 'No se encontró la campaña.');
         }
@@ -76,8 +87,44 @@ class CampañasController extends Controller
 
     public function update(Request $request, $id)
     {
-        
+        $resultado=DB::statement('EXEC dbo.AdelantarCampaña ? ',[$id]);
+        if ($resultado === true) {
+            session()->flash('swal', [
+                'icon' => 'success',
+                'title' => '¡Buen trabajo!',
+                'text' => 'Se adelanto la campaña correctamente'
+            ]);
+        } else {
+            session()->flash('swal', [
+                'icon' => 'error',
+                'title' => '¡Ups!',
+                'text' => 'No se adelanto la campaña correctamente'
+            ]);
+        }
+
+        return redirect()->route('admin.Campañas.index');
     }
+     public function adelantar(Request $request, $id)
+    {
+        //funcion para adelantar la campañas
+        //$Idusuario=Auth::user()->id;
+        $resultado=DB::statement('EXEC dbo.AdelantarCampaña ? ',[$id]);
+        if ($resultado === true) {
+            session()->flash('swal', [
+                'icon' => 'success',
+                'title' => '¡Buen trabajo!',
+                'text' => 'Se adelanto la campaña correctamente'
+            ]);
+        } else {
+            session()->flash('swal', [
+                'icon' => 'error',
+                'title' => '¡Ups!',
+                'text' => 'No se adelanto la campaña correctamente'
+            ]);
+        }
+
+        return redirect()->route('admin.Campañas.index');
+    } 
 
     public function destroy($id)
     {
