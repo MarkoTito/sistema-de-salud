@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AsistenteController;
 use App\Http\Controllers\CampañasController;
+use App\Http\Controllers\ConfiguaracionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/',function(){
@@ -10,9 +11,8 @@ Route::get('/',function(){
 
 //ruta de la campañas
 Route::resource('Campañas',CampañasController::class);
-Route::get('/editar/{id}',[CampañasController::class,'editar']);
-
-
 
 Route::resource('Asitentes',AsistenteController::class);
-Route::post('Asitentes/eliminar',[AsistenteController::class,'eliminar'])->name('Asitentes.eliminar');
+
+Route::resource('Configuracion',ConfiguaracionController::class);
+

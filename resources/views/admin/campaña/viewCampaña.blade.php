@@ -178,7 +178,7 @@
                                     <a href="{{route('admin.Campañas.edit',$campaña->PK_Campaña)}}">
                                         <i class="fa-solid fa-pen-to-square"></i>   
                                     </a>
-                                    <a href="{{route('admin.Campañas.destroy',$campaña->PK_Campaña)}}" class="btn-finalizar" data-nombre="{{ $campaña->Tnombre_Tipocampaña }}">
+                                    <a href="{{route('admin.Configuracion.edit',$campaña->PK_Campaña)}}" class="btn-finalizar" data-nombre="{{ $campaña->Tnombre_Tipocampaña }}">
                                         <i class="fa-solid fa-trash"></i>
                                     </a>
                                     

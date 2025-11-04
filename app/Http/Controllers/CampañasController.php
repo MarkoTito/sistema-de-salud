@@ -103,9 +103,14 @@ class CampañasController extends Controller
         }
         
     }
+    public function destroy($id)
+    {
+        
+        
+    }
 
     public function update(Request $request, $id)
-    {
+    {        
         if ($request->situacion ==1 ) {
             # para finalizarlo
             $resultado=DB::statement('EXEC dbo.FinalizarCampaña ? ',[$id]);
@@ -186,24 +191,5 @@ class CampañasController extends Controller
     }
     
 
-    public function destroy($id)
-    {
-        $campañaShow = DB::select('EXEC dbo.EliminarCampaña ? ',[$id]);
-        if ($campañaShow === true) {
-            session()->flash('swal', [
-                'icon' => 'error',
-                'title' => '¡Ups!',
-                'text' => 'No se elimino la campaña correctamente'
-            ]);
-        } else {
-            session()->flash('swal', [
-                'icon' => 'success',
-                'title' => '¡Buen trabajo!',
-                'text' => 'Se elimino la campaña correctamente'
-            ]);
-            
-        }
-
-        return redirect()->route('admin.Campañas.index');
-    }
+    
 }
