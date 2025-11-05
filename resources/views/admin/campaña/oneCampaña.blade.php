@@ -1,7 +1,7 @@
 <x-admin-layout>
-    <div class="flex justify-center mt-4" >
-        <h1 class="text-8xl font-extrabold">
-            {{$campaña->Tnombre_Tipocampaña}}
+    <div class="flex justify-center mt-4">
+        <h1 class="font-extrabold text-gray-900" style="font-size: 2rem;">
+            {{ $campaña->Tnombre_Tipocampaña }}
         </h1>
     </div>
 
@@ -48,7 +48,13 @@
     <br>
     <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4 ">
         <div>
-            aca va la imagen
+           @if (!$imagen || empty($imagen->Tpath_imagenes))
+            <img src="https://www.stellamaris.com.pe/uploads/shares/BLOG/CAMPA__A_DE_SALUD_-_RESP__SOCIAL.jpg" height="450px" width="640px" alt="imagen de la campaña">
+        @else
+            <div class="mb-4">
+                <img src="{{ asset('storage/'.$imagen->Tpath_imagenes) }}" height="450px" width="640px" alt="imagen de la campaña">
+            </div>
+        @endif
         </div>
         <div class="grid gap-6 mb-4 md:grid-cols-2">
             <div>

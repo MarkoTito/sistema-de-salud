@@ -55,9 +55,6 @@
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
                                         No existe ninguna campaña
                                     </th>
-                                    {{-- <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
-                                        $2999
-                                    </th> --}}
                                 </tr>
                                 
                             @else
@@ -70,11 +67,14 @@
                                             {{$campañasTi->Tdescripcion_Tipocampaña}}
                                         </th>
                                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
-                                            Edit
+                                            <a href="{{route('admin.Tipocampaña.show',$campañasTi->PK_TiposCampañas)}}">
+                                                <i class="fa-solid fa-camera"></i>
+                                            </a>
+                                            <a href="">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </a>
                                         </th>
-                                        {{-- <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
-                                            $2999
-                                        </th> --}}
+                            
                                     </tr>
                                     
                                 @endforeach

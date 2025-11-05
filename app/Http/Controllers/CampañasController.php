@@ -76,8 +76,10 @@ class CampañasController extends Controller
     public function show($id)
     {
         $campañaShow = DB::select('EXEC dbo.OneCAMPAÑA ? ',[$id]);
-        $especialidades = DB::select('EXEC dbo.ViewsEspecialidad');
+        //imagen
+        $Tiposcampañas=DB::select('EXEC dbo.ViewsTiposCampañas');
         $asistentes= DB::select('EXEC dbo.ViewsAsistentesCampañas ? ',[$id]);
+        $especialidades= DB::select('EXEC dbo.ViewsEspecialidad');
         $cantidad= count($asistentes);
 
 
@@ -98,7 +100,9 @@ class CampañasController extends Controller
         }
         if (!empty($campañaShow)) {
             $campaña = $campañaShow[0];
-            return view('admin.campaña.oneCampaña', compact('campaña','especialidades','asistentes','cantidad','estado'));
+            $imagen = collect(DB::select('EXEC dbo.ViewImagenCampanias ?', [$campaña->PK_TiposCampañas]))->first();
+           
+            return view('admin.campaña.oneCampaña', compact('campaña','especialidades','asistentes','cantidad','estado','imagen'));
         } else {
             return redirect()->back()->with('error', 'No se encontró la campaña.');
         }
