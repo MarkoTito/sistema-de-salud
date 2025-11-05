@@ -13,8 +13,10 @@ class CampañasController extends Controller
     public function index()
     {
         $campañas= DB::select('EXEC dbo.viewCampañas');
+        $Tiposcampañas=DB::select('EXEC dbo.ViewsTiposCampañas');
+        $Colaboradores=DB::select('EXEC dbo.ViewsColaboradores');
         
-        return view('admin/campaña/viewCampaña', compact('campañas'));
+        return view('admin/campaña/viewCampaña', compact('campañas','Tiposcampañas','Colaboradores'));
         
     }
 
@@ -28,32 +30,48 @@ class CampañasController extends Controller
 
     public function store(Request $request)
     {
-        //funcion para ingresar a la tabla campañas
-        $Idusuario=Auth::user()->id;
-        $resultado=DB::statement('EXEC dbo.InserCampaña ?,?,?,?,?,?',[
-            $request->Campañas,
-            $request->colaborador,
-            $Idusuario,
-            $request->DfechaIni_campaña,
-            $request->hora_inicio,
-            $request->Tlugar_campaña,
-        ]);
-        if ($resultado === true) {
-            session()->flash('swal', [
-                'icon' => 'success',
-                'title' => '¡Buen trabajo!',
-                'text' => 'Se registró la campaña correctamente'
+        try {
+            // 🔹 Validar datos recibidos
+            $validated = $request->validate([
+                'Campañas' => 'required|integer',
+                'colaborador' => 'required|integer',
+                'DfechaIni_campaña' => 'required|date',
+                'hora_inicio' => 'required',
+                'Tlugar_campaña' => 'required|string|max:30',
             ]);
-        } else {
-            session()->flash('swal', [
-                'icon' => 'error',
-                'title' => '¡Ups!',
-                'text' => 'No se registró la campaña correctamente'
-            ]);
-        }
 
-        return redirect()->route('admin.Campañas.index');
-    } 
+           
+            $Idusuario = Auth::user()->id;
+            $resultado = DB::statement('EXEC dbo.InserCampaña ?, ?, ?, ?, ?, ?', [
+                $validated['Campañas'],
+                $validated['colaborador'],
+                $Idusuario,
+                $validated['DfechaIni_campaña'],
+                $validated['hora_inicio'],
+                $validated['Tlugar_campaña'],
+            ]);
+
+            if ($resultado === true) {
+                return response()->json([
+                    'ok' => true,
+                    'msg' => 'Campaña registrada correctamente'
+                ]);
+            } else {
+                return response()->json([
+                    'ok' => false,
+                    'msg' => 'No se registró la campaña correctamente'
+                ]);
+            }
+
+        } catch (\Throwable $e) {
+            return response()->json([
+                'ok' => false,
+                'msg' => 'Error en el servidor',
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ], 500);
+        }
+    }
 
     public function show($id)
     {

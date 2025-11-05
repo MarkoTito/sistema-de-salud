@@ -267,7 +267,7 @@
                     <div class="flex justify-end gap-3">
                         <button 
                             @click="open = false"
-                            class="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500">
+                            <button type="submit"  class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
                             Cancelar
                         </button>
                         <button type="submit" 

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
 
 class AsistenteController extends Controller
 {
@@ -52,6 +54,27 @@ class AsistenteController extends Controller
 
     public function show($id)
     {
+       //descargar los asistentes de la campaña
+       $informacion=DB::select('EXEC dbo.ViewsAsistentesCampañas ?',[$id]);
+       //$fecha = Carbon::now()->format('dmY');
+       
+        if (empty($informacion[0])) {
+            # ver si esta vacio
+             # code...
+            session()->flash('swal', [
+                    'icon' => 'error',
+                    'title' => '¡Ups!',
+                    'text' => 'no cuenta con asistentes registrados'
+                ]);
+            return redirect()->route('admin.Campañas.index');
+            
+        } else {
+            $resultado = collect($informacion);
+            $primero = $resultado->first();
+            return Excel::download(new \App\Exports\AsistenteExport($resultado),'E-'.$primero->Tnombre_Tipocampaña.'-'.$primero->DfechaIni_campaña.'.xlsx');
+        }
+        
+        
        
     }
 
