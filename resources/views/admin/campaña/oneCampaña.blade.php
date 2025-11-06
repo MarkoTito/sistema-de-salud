@@ -92,13 +92,29 @@
     </div>
 
     @if ($estado == "Finalizar")
-        <div class="flex justify-end" >
-            <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" id="agregar-asistente" >
-                <i class="fa-solid fa-user"></i>
-                Agregar Asistente
 
-            </button>
+        <div class="flex justify-between items-center mb-4">
+            <div>
+                <div class="grid gap-6 mb-4 md:grid-cols-2">
+                    <div>
+                        <input type="text" id="first_name" maxlength="8" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ingresar DNI" required oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
+                    </div>
+                    <div>
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"><i class="fa-solid fa-magnifying-glass"></i></button> 
+                    </div>
+
+                </div>
+            </div>
+            <div >
+                <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" id="agregar-asistente" >
+                    <i class="fa-solid fa-user"></i>
+                    Agregar Asistente
+    
+                </button>
+            </div>
+
         </div>
+
         
     @else
         
@@ -106,6 +122,7 @@
     
     <br>
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -227,6 +244,7 @@
                 @endif
         </table>
     </div>
+    
 
    
 
@@ -256,23 +274,23 @@
                                     <input type="text" name="nombre" id=""
                                         class="swal2-input" style="width: 90%;"
                                         placeholder="Ingrese el nombre completo"
-                                        maxlength="120" required>
+                                        maxlength="70" required>
                                 </div>
                                 <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4">
                                     <div>
                                         <label class="block text-sm font-medium text-gray-900">Apellido Paterno:</label>
-                                        <input type="text" name="apeP" id="" class="swal2-input"  required>
+                                        <input type="text" name="apeP" id="" class="swal2-input" maxlength="50" required>
                                     </div>
 
                                     <div>
                                         <label class="block text-sm font-medium text-gray-900">Apellido Materno:</label>
-                                        <input type="text" name="apeM" id="" class="swal2-input" required>
+                                        <input type="text" name="apeM" id="" class="swal2-input" maxlength="50" required>
                                     </div>
                                 </div>    
                             </div>
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-900">DNI:</label>
-                                <input type="text" name="DNI" id="" class="swal2-input"  required>
+                                <input type="text" name="DNI" id="" class="swal2-input" maxlength="8" required oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
                             </div>
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-900">Especialidad:</label>

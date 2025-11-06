@@ -6,18 +6,38 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class CampañasController extends Controller
 {
     //
     public function index()
     {
-        $campañas= DB::select('EXEC dbo.viewCampañas');
-        $Tiposcampañas=DB::select('EXEC dbo.ViewsTiposCampañas');
-        $Colaboradores=DB::select('EXEC dbo.ViewsColaboradores');
-        
-        return view('admin/campaña/viewCampaña', compact('campañas','Tiposcampañas','Colaboradores'));
-        
+        // Ejecutas tus procedimientos
+        $results = DB::select('EXEC dbo.viewCampañas');
+        $Tiposcampañas = DB::select('EXEC dbo.ViewsTiposCampañas');
+        $Colaboradores = DB::select('EXEC dbo.ViewsColaboradores');
+
+        // Convertir a colección
+        $collection = collect($results);
+
+        // Parámetros de paginación
+        $perPage = 10; 
+        $page = request()->get('page', 1); 
+
+        $items = $collection->slice(($page - 1) * $perPage, $perPage)->values();
+
+        $campañas = new LengthAwarePaginator(
+            $items,
+            $collection->count(),
+            $perPage,
+            $page,
+            ['path' => request()->url(), 'query' => request()->query()]
+        );
+
+       
+        return view('admin/campaña/viewCampaña', compact('campañas', 'Tiposcampañas', 'Colaboradores'));
     }
 
     public function create()
