@@ -17,21 +17,21 @@ class TiposCampañaSeeder extends Seeder
         DB::table('TiposCampañas')->insert(
             [
                 [
-                    'Tnombre_Tipocampaña' => 'Campaña contra el tetano',
+                    'Tnombre_Tipocampaña' => 'CAMPAÑA CONTRA EL TÉTANO',
                     'Tdescripcion_Tipocampaña'=> 'Habla sobre el tetano',
                     'Nestado_Tipocampaña' => 1,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ],
                 [
-                    'Tnombre_Tipocampaña' => 'Campaña contra dengue',
+                    'Tnombre_Tipocampaña' => 'CAMPAÑA CONTRA DENGUE',
                     'Tdescripcion_Tipocampaña'=> 'Habla sobre el degue',
                     'Nestado_Tipocampaña' => 1,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ],
                 [
-                    'Tnombre_Tipocampaña' => 'Campaña canina ',
+                    'Tnombre_Tipocampaña' => 'CAMPAÑA CANINA ',
                     'Tdescripcion_Tipocampaña'=> 'Habla sobre el cuidado de los perros',
                     'Nestado_Tipocampaña' => 1,
                     'created_at' => now(),
