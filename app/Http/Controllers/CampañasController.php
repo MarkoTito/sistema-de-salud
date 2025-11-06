@@ -209,7 +209,7 @@ class CampañasController extends Controller
                 ]);
             } 
         }
-        return redirect()->route('admin.Campañas.index');
+        return redirect()->route('admin.Campañas.show',$id);
     }
     
 

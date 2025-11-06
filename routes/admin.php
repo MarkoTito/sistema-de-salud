@@ -14,6 +14,7 @@ Route::get('/',function(){
 Route::resource('Campañas',CampañasController::class);
 
 Route::resource('Asitentes',AsistenteController::class);
+Route::post('Asitentes/{asitente}/edit2',[AsistenteController::class,'edit2'])->name('Asitentes.edit2');
 
 Route::resource('Configuracion',ConfiguaracionController::class);
 

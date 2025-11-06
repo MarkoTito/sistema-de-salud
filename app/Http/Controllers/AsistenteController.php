@@ -26,32 +26,36 @@ class AsistenteController extends Controller
 
     public function store(Request $request)
     {
-        $Idusuario=Auth::user()->id;
-        $resultado=DB::statement('EXEC dbo.InserAsistenteCampaña ?,?,?,?,?,?,?',[
-            $request->campañaId,
-            $request->especialidad,
-            $Idusuario,
-            $request->AsistenteName,
-            $request->AsistenteApelliP,
-            $request->AsistenApellM,
-            $request->AsitenteDni,
-        ]);
-        if ($resultado === true) {
-            session()->flash('swal', [
-                'icon' => 'success',
-                'title' => '¡Buen trabajo!',
-                'text' => 'Se registró el usuario correctamente'
-            ]);
-        } else {
-            session()->flash('swal', [
-                'icon' => 'error',
-                'title' => '¡Ups!',
-                'text' => 'No se registró el usuario correctamente'
-            ]);
-        }
 
-        return redirect()->route('admin.Campañas.index');
-        
+        try {
+            $Idusuario=Auth::user()->id;
+            $resultado=DB::statement('EXEC dbo.InserAsistenteCampaña ?,?,?,?,?,?,?',[
+                $request->idCampaña,
+                $request->especialidad,
+                $Idusuario,
+                $request->nombre,
+                $request->apeP,
+                $request->apeM,
+                $request->DNI,
+            ]);
+            if ($resultado === true) {
+                session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => '¡Buen trabajo!',
+                    'text' => 'Se registró el usuario correctamente'
+                ]);
+            } else {
+                session()->flash('swal', [
+                    'icon' => 'error',
+                    'title' => '¡Ups!',
+                    'text' => 'No se registró el usuario correctamente'
+                ]);
+            }
+            return response()->json(['ok' => true, 'msg' => 'Asistente registrado correctamente']);
+
+        } catch (\Exception $e) {
+            return response()->json(['ok' => false, 'msg' => 'Error al registrar asitente']);
+        }        
     } 
 
     public function show($id)
@@ -81,9 +85,31 @@ class AsistenteController extends Controller
     }
 
 
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        return $id;
+        
+    }
+
+    public function edit2(Request $request, $id)
+    {
+        
+        $resultado = DB::statement('EXEC dbo.EliminarAsitenteCampaña ?', [$id]);
+        if ($resultado === true) {
+            session()->flash('swal', [
+                'icon' => 'success',
+                'title' => '¡El usuario fue eliminado de sla campaña!',
+                'text' => 'Se elimino usuario correctamente'
+            ]);
+        } else {
+            session()->flash('swal', [
+                'icon' => 'error',
+                'title' => '¡Ups!',
+                'text' => 'No se elemino usuario correctamente'
+            ]);
+        }
+
+        return redirect()->route('admin.Campañas.show',$request->idCampaña);
+        
     }
 
     public function update(Request $request, $id)

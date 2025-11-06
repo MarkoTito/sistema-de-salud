@@ -90,6 +90,19 @@
         </div>
 
     </div>
+
+    @if ($estado == "Finalizar")
+        <div class="flex justify-end" >
+            <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" id="agregar-asistente" >
+                <i class="fa-solid fa-user"></i>
+                Agregar Asistente
+
+            </button>
+        </div>
+        
+    @else
+        
+    @endif
     
     <br>
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -141,11 +154,21 @@
                     </tr>
                     
                 @else
+                    @php
+                        $numero=1;
+                    @endphp
                     @foreach ($asistentes as $asistente)
                         <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                            {{-- <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
                                 {{$asistente->PK_Asistentes}}
+                            </th> --}}
+                            
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                {{$numero}}
                             </th>
+                            @php
+                                $numero=1+$numero;
+                            @endphp
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
                                 {{$asistente->Tnombre_asistente}}
                             </th>
@@ -177,15 +200,22 @@
                                     </div>
     
                                     <div>
-                                        <form action="{{route('admin.Asitentes.update',$asistente->PK_Asistentes)}}" class="edit-form" method="POST">
-                                            @method('PUT')
+                                        <form action="{{route('admin.Asitentes.edit2',$asistente->PK_Asistentes)}}" class="edit-form" method="POST">
                                             @csrf
+                                            <input  hidden type="text" name="idCampaña" value="{{$campaña->PK_Campaña}}" id="">
                                             <button type="submit" 
                                                 class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
                                                Eliminar 
                                            </button>
 
                                         </form>
+                                        {{-- <a href="{{route('admin.Asitentes.edit',$asistente->PK_Asistentes)}}">
+                                            <button type="button" 
+                                                class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                                                Eliminar 
+                                            </button>
+
+                                        </a> --}}
                                     </div>
                                     
                                 </div>
@@ -198,122 +228,115 @@
         </table>
     </div>
 
-    <div id="popup-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-w-md max-h-full">
-            <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
-                <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="popup-modal">
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                    </svg>
-                    <span class="sr-only">Close modal</span>
-                </button>
-                <div class="p-4 md:p-5 text-center">
-                    <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                    </svg>
-                    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this product?</h3>
-                    <button data-modal-hide="popup-modal" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
-                        Yes, I'm sure
-                    </button>
-                    <button data-modal-hide="popup-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">No, cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
+   
 
 
     
-    <!-- AGREGAR -->
-    <script src="//unpkg.com/alpinejs" defer></script>
-
-    <div x-data="{ open: false }" class="flex justify-between items-center mt-4 px-8">
-        <!-- Botón Izquierdo -->
-        <button class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
-            Cancelar
-        </button>
-
-        <!-- Botón Derecho: abre el modal -->
-        @if ($estado == "Finalizar")
-            <button 
-                @click="open = true"
-                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                <i class="fa-solid fa-user"></i>
-                Agregar Asistente
-            </button>
-            
-        @else
-            
-        @endif
-
-        <!-- Modal -->
-        <div x-show="open"class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div class="bg-white rounded-lg shadow-lg w-96 p-6">
-                
-                <div class="flex justify-center mt-4" >
-
-                    <h2 class="text-lg font-semibold mb-4">Agregar usuario</h2>
-                </div>
-                <form action="{{route('admin.Asitentes.store')}}" method="POST">
-                    @csrf
-                    <div class="flex justify-end gap-3">
-                        <button 
-                            @click="open = false"
-                            <button type="submit"  class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-                            Cancelar
-                        </button>
-                        <button type="submit" 
-                            @click="open = false"
-                            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-
-                            Confirmar
-                        </button>
-                    </div>
-                    <input type="text" name="campañaId" hidden value=" {{$campaña->PK_Campaña}}">
-                    <div >
-                        <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">DNI:</label>    
-                        <div class="flex justify-center mt-4" >
-                            <input required type="text" name="AsitenteDni" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  >                
-                        </div>
-                    </div>
-    
-                    <div class="grid gap-6 mb-4 md:grid-cols-3">
-                        <div>
-                            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Nombre:</label>    
-                            <input required type="text" name="AsistenteName"  aria-label=" input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  >                
-                        </div>
-                        <div>
-                            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Apellido Paterno:</label>    
-                            <input required type="text" name="AsistenteApelliP" aria-label=" input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  >                
-                        </div>
-                        <div>
-                            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Apellido Materno:</label>    
-                            <input required type="text" name="AsistenApellM"  aria-label=" input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  >                
-                        </div>
-                    </div>
-                    <div>
-                        <label for="especialidades" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Elige una especialidad</label>
-                        <div class="flex justify-center mt-4" >
-                            <select required name="especialidad" id="miSelect-especialidad"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option value=""selected disabled >---Seleccioné una especialidad---</option>
-                                @foreach ($especialidades as $especialidad)
-                                    <option value="{{$especialidad->PK_Especialidades}}" >{{$especialidad->Tdescripcion_especialidad}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                </form>
-
-                
-            </div>
-        </div>
-    </div>
-
+   
 
     @push('js')
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        
         <script>
+            //para agregar usuario
+                document.getElementById('agregar-asistente').addEventListener('click', function() {
+                    Swal.fire({
+                        title: 'Agregar Asistente',
+                        html: `
+                        <form id="formAsistente" >
+                            @csrf
+                            <div class="grid gap-4 text-left">
+                                
+                                <input type="text" name="idCampaña" id=""  hidden value="{{$campaña->PK_Campaña}}" class="swal2-input" required>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-900">Nombre:</label>
+                                    <input type="text" name="nombre" id=""
+                                        class="swal2-input" style="width: 90%;"
+                                        placeholder="Ingrese el nombre completo"
+                                        maxlength="120" required>
+                                </div>
+                                <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-900">Apellido Paterno:</label>
+                                        <input type="text" name="apeP" id="" class="swal2-input"  required>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-900">Apellido Materno:</label>
+                                        <input type="text" name="apeM" id="" class="swal2-input" required>
+                                    </div>
+                                </div>    
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-900">DNI:</label>
+                                <input type="text" name="DNI" id="" class="swal2-input"  required>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-900">Especialidad:</label>
+                                <select name="especialidad" id="especialidad" class="swal2-input" style="width:100%;" required>
+                                    <option value="" selected disabled>---Selecciona una especialidad---</option>
+                                    @foreach ($especialidades as $especie)
+                                        <option value="{{$especie->PK_Especialidades}}">{{$especie->Tdescripcion_especialidad}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </form>
+                        `,
+                        focusConfirm: false,
+                        showCancelButton: true,
+                        confirmButtonText: 'Registrar',
+                        cancelButtonText: 'Cancelar',
+                        width: '600px',
+                        preConfirm: () => {
+                            const form = document.getElementById('formAsistente');
+                            const formData = new FormData(form);
+
+                            return fetch("{{ route('admin.Asitentes.store') }}", {
+                                method: 'POST',
+                                body: formData,
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (!data.ok) {
+                                    Swal.showValidationMessage(data.msg || 'No se pudo registrar el asitente');
+                                }
+                                return data;
+                            })
+                            .catch(error => {
+                                Swal.showValidationMessage(`Error: ${error}`);
+                            });
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed && result.value.ok) {
+                            Swal.fire('Éxito', 'Asistente registrado correctamente', 'success')
+                                .then(() => location.reload());
+                        }
+                    });
+                });
+        </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <script>
+            //para editar usuario
         document.addEventListener('DOMContentLoaded', function () {
             // Selecciona todos los botones con la clase .btnEditarAsistente
             document.querySelectorAll('.btnEditarAsistente').forEach(button => {
