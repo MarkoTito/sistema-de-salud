@@ -164,13 +164,14 @@
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
                                 <div class="grid gap-6 mb-4 md:grid-cols-2">
                                     <div>
-                                        {{-- <button 
-                                            onclick="mostrarAsistente({{ json_encode($asistente) }})" 
-                                            class="text-white bg-blue-700 hover:bg-blue-800 px-3 py-1 rounded-lg">
-                                            Ver Detalles
-                                        </button> --}}
-                                        <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-                                            Toggle modal
+                                        <button class="btnEditarAsistente bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                                            data-id="{{ $asistente->PK_Asistentes }}"
+                                            data-nombre="{{ $asistente->Tnombre_asistente }}"
+                                            data-apellidoP="{{ $asistente->TapellidoP_asistente }}"
+                                            data-apellidoM="{{ $asistente->TapellidoM_asistente }}"
+                                            data-dni="{{ $asistente->Tdni_asistente }}"
+                                            data-especialidad="{{ $asistente->PK_Especialidades }}">
+                                            Editar Asistente
                                         </button>
                                         
                                     </div>
@@ -180,7 +181,7 @@
                                             @method('PUT')
                                             @csrf
                                             <button type="submit" 
-                                                class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                                                class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
                                                Eliminar 
                                            </button>
 
@@ -197,22 +198,6 @@
         </table>
     </div>
 
-
-    
-
-    <!-- Modal EDICION USUARIO -->
-    {{-- <div id="modalAsistente" tabindex="-1" aria-hidden="true"
-        class="hidden fixed inset-0 flex items-center justify-center bg-gray-900/50">
-        <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-5">
-            <h3 class="text-lg font-bold mb-4">Detalles del Asistente</h3>
-            <p><strong>Nombre:</strong> <span id="nombreAsistente"></span></p>
-            <p><strong>DNI:</strong> <span id="dniAsistente"></span></p>
-            <p><strong>Especialidad:</strong> <span id="especialidadAsistente"></span></p>
-            <div class="mt-5 text-right">
-                <button onclick="cerrarModal()" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Cerrar</button>
-            </div>
-        </div>
-    </div> --}}
     <div id="popup-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative p-4 w-full max-w-md max-h-full">
             <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
@@ -326,6 +311,126 @@
 
 
     @push('js')
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Selecciona todos los botones con la clase .btnEditarAsistente
+            document.querySelectorAll('.btnEditarAsistente').forEach(button => {
+                button.addEventListener('click', function () {
+                    // Obtener los datos del asistente desde los atributos data-*
+                    const id = this.getAttribute('data-id');
+                    const nombre = this.getAttribute('data-nombre');
+                    const apellidop = this.getAttribute('data-apellidoP');
+                    const apellidom = this.getAttribute('data-apellidoM');
+                    const dni = this.getAttribute('data-dni');
+                    const especialidad = this.getAttribute('data-especialidad');
+
+                    // Mostrar el SweetAlert2 con el formulario prellenado
+                    Swal.fire({
+                        title: 'Editar Asistente',
+                        html: `
+                            <form id="formEditarAsistente">
+                                @csrf
+                                
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium text-gray-900">Nombre:</label>
+                                    <input type="text" id="nombre" name="nombre" class="swal2-input"
+                                        style="width: 90%;" value="${nombre}" required>
+                                </div>
+
+                                <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-900">Apellido Paterno:</label>
+                                        <input type="text" id="apellidoP" name="apellidoP" class="swal2-input" value="${apellidop}" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-900">Apellido Materno:</label>
+                                        <input type="text" id="apellidoM" name="apellidoM" class="swal2-input" value="${apellidom}" required>
+                                    </div>    
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium text-gray-900">DNI:</label>
+                                    <input type="text" id="dni" name="dni" class="swal2-input" value="${dni}" required>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium text-gray-900">Especialidad:</label>
+                                    <select id="especialidad" name="especialidad" class="swal2-input" style="width:100%;" required>
+                                        <option value="" disabled>---Selecciona una especialidad---</option>
+                                        @foreach ($especialidades as $especie)
+                                            <option value="{{$especie->PK_Especialidades}}" 
+                                                ${especialidad == '{{$especie->PK_Especialidades}}' ? 'selected' : ''}>
+                                                {{$especie->Tdescripcion_especialidad}}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </form>
+                        `,
+                        showCancelButton: true,
+                        confirmButtonText: 'Guardar cambios',
+                        cancelButtonText: 'Cancelar',
+                        focusConfirm: false,
+                        preConfirm: () => {
+                            // Leer los valores del formulario dentro del SweetAlert
+                            const nombre = Swal.getPopup().querySelector('#nombre').value;
+                            const apellidoP = Swal.getPopup().querySelector('#apellidoP').value;
+                            const apellidoM = Swal.getPopup().querySelector('#apellidoM').value;
+                            const dni = Swal.getPopup().querySelector('#dni').value;
+                            const especialidad = Swal.getPopup().querySelector('#especialidad').value;
+
+                            if (!nombre || !apellidoP || !apellidoM || !dni || !especialidad) {
+                                Swal.showValidationMessage(`Por favor completa todos los campos`);
+                                return false;
+                            }
+
+                            return { id, nombre, apellidoP, apellidoM, dni, especialidad };
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            const datos = result.value;
+                            const formData = new FormData();
+                            formData.append('_method', 'PUT'); // importante para que Laravel lo trate como PUT
+                            formData.append('nombre', datos.nombre);
+                            formData.append('apellidoP', datos.apellidoP);
+                            formData.append('apellidoM', datos.apellidoM);
+                            formData.append('dni', datos.dni);
+                            formData.append('especialidad', datos.especialidad);
+
+                            fetch(`/admin/Asitentes/${datos.id}`, {
+                                method: 'POST', // Laravel reconocerá PUT por el _method
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                },
+                                body: formData
+                            })
+                            .then(res => {
+                                if (!res.ok) throw new Error('Error en la actualización');
+                                return res.json();
+                            })
+                            .then(data => {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Actualizado',
+                                    text: 'El asistente fue editado correctamente'
+                                }).then(() => location.reload());
+                            })
+                            .catch(err => {
+                                Swal.fire('Error', 'No se pudo actualizar el asistente', 'error');
+                                console.error(err);
+                            });
+                        }
+                    });
+                });
+            });
+        });
+        </script>
+
+
+
+
         <script>
             function mostrarAsistente(asistente) {
                 // Rellena los campos del modal
@@ -456,6 +561,8 @@
                 });
             });
         </script>
+
+        
     @endpush
 
 

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Log;
+
 use Carbon\Carbon;
 
 class AsistenteController extends Controller
@@ -86,22 +88,21 @@ class AsistenteController extends Controller
 
     public function update(Request $request, $id)
     {
-        $resultado = DB::statement('EXEC dbo.EliminarAsitenteCampaña ?', [$id]);
-        if ($resultado === true) {
-            session()->flash('swal', [
-                'icon' => 'success',
-                'title' => '¡El usuario fue eliminado de sla campaña!',
-                'text' => 'Se elimino usuario correctamente'
-            ]);
-        } else {
-            session()->flash('swal', [
-                'icon' => 'error',
-                'title' => '¡Ups!',
-                'text' => 'No se eliino usuario correctamente'
-            ]);
-        }
+        
+        Log::info('Llega correctamente', ['id' => $id, 'data' => $request->all()]);
+        $resultado = DB::statement('EXEC dbo.EditarAsistenteCampaña ?,?,?,?,?,?', [
+            $id,
+            $request->nombre,
+            $request->apellidoP,
+            $request->apellidoM,
+            $request->dni,
+            $request->especialidad,
+        ]);
 
-        return redirect()->route('admin.Campañas.index');
+        return response()->json(['message' => 'Asistente actualizado correctamente']);
+
+
+
     }
     
    

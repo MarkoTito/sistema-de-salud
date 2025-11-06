@@ -292,7 +292,7 @@
         <script>
             document.querySelectorAll('.btn-finalizar').forEach(link => {
                 link.addEventListener('click', function(e) {
-                    e.preventDefault(); // evita que el enlace se ejecute directamente
+                    e.preventDefault(); 
 
                     const url = this.getAttribute('href');
                     const nombre = this.getAttribute('data-nombre');
