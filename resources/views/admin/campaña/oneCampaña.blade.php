@@ -95,15 +95,19 @@
 
         <div class="flex justify-between items-center mb-4">
             <div>
-                <div class="grid gap-6 mb-4 md:grid-cols-2">
-                    <div>
-                        <input type="text" id="first_name" maxlength="8" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ingresar DNI" required oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
-                    </div>
-                    <div>
-                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"><i class="fa-solid fa-magnifying-glass"></i></button> 
+                <form action="{{route('admin.Asitentes.look')}}" method="POST" >
+                    @csrf
+                    <input type="text" hidden name="idcampana" value="{{$campaña->PK_Campaña}}" required />
+                    <div class="grid gap-6 mb-4 md:grid-cols-2">
+                        <div>
+                            <input type="text" id="first_name" name="dni" maxlength="8" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ingresar DNI" required oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
+                        </div>
+                        <div>
+                            <button required type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"><i class="fa-solid fa-magnifying-glass"></i></button> 
+                        </div>
                     </div>
 
-                </div>
+                </form>
             </div>
             <div >
                 <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" id="agregar-asistente" >

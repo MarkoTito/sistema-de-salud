@@ -42,13 +42,13 @@ class AsistenteController extends Controller
                 session()->flash('swal', [
                     'icon' => 'success',
                     'title' => '¡Buen trabajo!',
-                    'text' => 'Se registró el usuario correctamente'
+                    'text' => 'Se registró el asistente correctamente'
                 ]);
             } else {
                 session()->flash('swal', [
                     'icon' => 'error',
                     'title' => '¡Ups!',
-                    'text' => 'No se registró el usuario correctamente'
+                    'text' => 'No se registró el asistente correctamente'
                 ]);
             }
             return response()->json(['ok' => true, 'msg' => 'Asistente registrado correctamente']);
@@ -97,7 +97,7 @@ class AsistenteController extends Controller
         if ($resultado === true) {
             session()->flash('swal', [
                 'icon' => 'success',
-                'title' => '¡El usuario fue eliminado de sla campaña!',
+                'title' => '¡El usuario fue eliminado de la campaña!',
                 'text' => 'Se elimino usuario correctamente'
             ]);
         } else {
@@ -137,4 +137,59 @@ class AsistenteController extends Controller
     {
         
     }
+    public function look(Request $request)
+    {
+        
+        $resultado = DB::select('EXEC dbo.LookAsistentesCampañas ?, ?',[
+            $request->dni,
+            $request->idcampana
+        ]);
+
+        if (count($resultado) > 0) {
+            $campañaShow = DB::select('EXEC dbo.OneCAMPAÑA ? ',[$request->idcampana]);
+            //imagen
+            $Tiposcampañas=DB::select('EXEC dbo.ViewsTiposCampañas');
+            //$asistentes= DB::select('EXEC dbo.ViewsAsistentesCampañas ? ',[$id]); == $resultado
+
+            $especialidades= DB::select('EXEC dbo.ViewsEspecialidad');
+
+            $fechaHora = Carbon::parse($campañaShow[0]->DfechaIni_campaña . ' ' . $campañaShow[0]->ThoraIni_campaña);
+            if ($fechaHora->lessThan(Carbon::now())) {
+                if ($campañaShow[0]->Nestado_campaña ==3) {
+                    # significa ya paso su hoora de open (pero ya finalizo)
+                    $estado = 'reabrir campaña?';
+                } else {
+                    # code...
+                    // Significa que la fecha/hora ya pasó (y esta abierto)
+                    $estado = 'Finalizar';
+                }
+                
+            } else {
+                // Significa que es en el futuro
+                $estado = 'Empesar antes de tiempo';
+            }
+            if (!empty($campañaShow)) {
+                $campaña = $campañaShow[0];
+                $imagen = collect(DB::select('EXEC dbo.ViewImagenCampanias ?', [$campaña->PK_TiposCampañas]))->first();
+            
+                return view('admin.campaña.oneAsitente', compact('campaña','especialidades','resultado','estado','imagen'));
+            } else {
+                return redirect()->back()->with('error', 'No se encontró la campaña.');
+            }
+
+
+
+
+            //return redirect()->route('admin.Asitentes.found')->with(['dni' => $request->dni,'idcampana' => $request->idcampana]);
+
+        } else {
+            session()->flash('swal', [
+                'icon' => 'error',
+                'title' => '¡Ups!',
+                'text' => 'No se encontro el asistente'
+            ]);
+            return redirect()->route('admin.Campañas.show',$request->idcampana);
+        }
+    }
+
 }
