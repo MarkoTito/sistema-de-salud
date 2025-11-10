@@ -1,9 +1,9 @@
 <x-admin-layout>
     
     <div class="flex justify-end mb-4 ">
-        <a href="{{route('admin.Campañas.create')}}">
+        <a href="{{route('admin.Charlas.create')}}">
             <button  class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                <i class="fa-solid fa-plus"></i> Agregar Campaña
+                <i class="fa-solid fa-plus"></i> Agregar charla
             </button>
 
         </a>
@@ -51,29 +51,17 @@
                     </ul>
                 </div>
             </div>
-            {{-- <label for="table-search" class="sr-only">Search</label>
-            <div class="relative">
-                <div class="absolute inset-y-0 left-0 rtl:inset-r-0 rtl:right-0 flex items-center ps-3 pointer-events-none">
-                    <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
-                </div>
-                <input type="text" id="table-search" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items">
-            </div> --}}
+            
         </div>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                        {{-- <th scope="col" class="p-4">
-                            <div class="flex items-center">
-                                <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                <label for="checkbox-all-search" class="sr-only">checkbox</label>
-                            </div>
-                        </th> --}}
                         <th scope="col" class="px-6 py-3" align="center" >
                             Numero 
                         </th>
                         <th scope="col" class="px-6 py-3" align="center" >
-                            Nombre de la charla
+                            Nombre de charla        
                         </th>
                         <th scope="col" class="px-6 py-3" align="center" >
                             Lugar
@@ -93,88 +81,77 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (!$campañas)
+                    @if (!$charlas)
                         <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
                             
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
-                                No existe campaña
+                                No existe charla
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
-                                No existe campaña
+                                No existe charla
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
-                                No existe campaña
+                                No existe charla
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
-                                No existe campaña
+                                No existe charla
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
-                                No existe campaña
+                                No existe charla
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
-                                No existe campaña
+                                No existe charla
                             </th>
                         </tr>    
                     @else
-                        @foreach ($campañas as $campaña)
+                        @foreach ($charlas as $charla)
                             <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
-                                {{-- <td class="w-4 p-4">
-                                    <div class="flex items-center">
-                                        <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                                    </div>
-                                </td> --}}
+                                
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
-                                    {{$campaña->PK_Campaña}}
+                                    {{$charla->PK_Charlas}}
                                 </th>
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
-                                    {{$campaña->Tnombre_Tipocampaña}}
+                                    {{$charla->Tnombre_charla}}
                                 </th>
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
-                                    {{$campaña->Tlugar_campaña}}
+                                    {{$charla->Tlugar_charla}}
                                 </th>
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
-                                    {{$campaña->DfechaIni_campaña}}
+                                    {{$charla->DfechaIni_charla}}
                                 </th>
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
-                                    {{$campaña->ThoraIni_campaña}}
+                                    {{$charla->Thora_charla}}
                                 </th>
-                                @if ($campaña->Nestado_campaña ==1)
+                                @if ($charla->Nestado_charla ==1)
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-blue-600" align="center" >
                                         Pendiente
                                     </th>
                                     
                                 @endif
-                                @if ($campaña->Nestado_campaña ==2)
+                                @if ($charla->Nestado_charla ==2)
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-green-600" align="center" >
                                         Abierto
                                     </th>
                                 @endif
-                                @if ($campaña->Nestado_campaña ==3)
+                                @if ($charla->Nestado_charla ==3)
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  text-red-600" align="center" >
                                         Finalizado
                                     </th>
                                 @endif
-                                
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
-                                    <a href="{{route('admin.Asitentes.show',$campaña->PK_Campaña)}}"> 
+                                    <a href="{{route('admin.Asitentes.show',$charla->PK_Charlas)}}"> 
                                         <i class="fa-solid fa-download"></i>   
                                     </a>
-                                    <a href="{{route('admin.Campañas.show',$campaña->PK_Campaña)}}">
+                                    <a href="{{route('admin.Charlas.show',$charla->PK_Charlas)}}">
                                         <i class="fa-solid fa-eye"></i>   
                                     </a>
-                                    <a href="{{route('admin.Campañas.edit',$campaña->PK_Campaña)}}">
+                                    <a href="{{route('admin.Charlas.edit',$charla->PK_Charlas)}}">
                                         <i class="fa-solid fa-pen-to-square"></i>   
                                     </a>
-                                    <a href="{{route('admin.Configuracion.edit',$campaña->PK_Campaña)}}" class="btn-finalizar" data-nombre="{{ $campaña->Tnombre_Tipocampaña }}">
+                                    {{-- <a href="{{route('admin.Configuracion.edit',$charla->PK_Charlas)}}" class="btn-finalizar" data-nombre="{{ $campaña->Tnombre_Tipocampaña }}">
                                         <i class="fa-solid fa-trash"></i>
-                                    </a>
-                                    
-                                    
-                                    
+                                    </a> --}}
                                 </th>
-
-                                
                             </tr>
                             
                         @endforeach
@@ -186,13 +163,13 @@
         </div>
     </div>
     <div class="mt-4">
-        {{ $campañas->links() }}
+        {{ $charlas->links() }}
     </div>
 
     @push('js')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        <script>
+        {{-- <script>
             document.getElementById('btnAgregarCampania').addEventListener('click', function() {
                 Swal.fire({
                     title: 'Registrar Campaña',
@@ -279,7 +256,7 @@
                     }
                 });
             });
-    </script>
+    </script> --}}
 
 
 
