@@ -51,37 +51,54 @@ class CampañasController extends Controller
     public function store(Request $request)
     {
         try {
-            // 🔹 Validar datos recibidos
+            
             $validated = $request->validate([
                 'Campañas' => 'required|integer',
-                'colaborador' => 'required|integer',
+                'opciones' => 'required',
                 'DfechaIni_campaña' => 'required|date',
                 'hora_inicio' => 'required',
                 'Tlugar_campaña' => 'required|string|max:30',
             ]);
 
-           
+        
+           //return $request->opciones[0];
             $Idusuario = Auth::user()->id;
-            $resultado = DB::statement('EXEC dbo.InserCampaña ?, ?, ?, ?, ?, ?', [
+
+            $resultado = DB::select('EXEC dbo.InserCampaña ?, ?, ?, ?, ?', [
                 $validated['Campañas'],
-                $validated['colaborador'],
                 $Idusuario,
                 $validated['DfechaIni_campaña'],
                 $validated['hora_inicio'],
                 $validated['Tlugar_campaña'],
             ]);
 
-            if ($resultado === true) {
-                return response()->json([
-                    'ok' => true,
-                    'msg' => 'Campaña registrada correctamente'
-                ]);
-            } else {
-                return response()->json([
-                    'ok' => false,
-                    'msg' => 'No se registró la campaña correctamente'
+            $idInsertado = $resultado[0]->id_insertado;
+
+            $cant= count($request->opciones);
+            
+            
+            for ($i=0; $i <$cant ; $i++) { 
+                $colCampa = DB::select('EXEC dbo.InserCampaña_colaborador ?, ?', [
+                    $idInsertado,
+                    $request->opciones[$i]
                 ]);
             }
+
+            if ($colCampa === true) {
+                session()->flash('swal', [
+                    'icon' => 'error',
+                    'title' => '¡Ups!',
+                    'text' => 'No se registro la campaña correctamente'
+                ]);
+            } else {
+                session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => '¡Buen trabajo!',
+                    'text' => 'Se registro la campaña correctamente'
+                ]);
+                
+            } 
+            return redirect()->route('admin.Campañas.index');
 
         } catch (\Throwable $e) {
             return response()->json([
@@ -100,7 +117,11 @@ class CampañasController extends Controller
         $Tiposcampañas=DB::select('EXEC dbo.ViewsTiposCampañas');
         $asistentes= DB::select('EXEC dbo.ViewsAsistentesCampañas ? ',[$id]);
         $especialidades= DB::select('EXEC dbo.ViewsEspecialidad');
+        //te muestre todos los colaboradores de la campaña
+        $colaboradores= DB::select('EXEC dbo.ViewColaboradoresCamp ?',[$id]);
         $cantidad= count($asistentes);
+
+
 
 
         $fechaHora = Carbon::parse($campañaShow[0]->DfechaIni_campaña . ' ' . $campañaShow[0]->ThoraIni_campaña);
@@ -120,9 +141,17 @@ class CampañasController extends Controller
         }
         if (!empty($campañaShow)) {
             $campaña = $campañaShow[0];
-            $imagen = collect(DB::select('EXEC dbo.ViewImagenCampanias ?', [$campaña->PK_TiposCampañas]))->first();
+            $imagen = collect(DB::select('EXEC dbo.ViewImagenCampanias ?', [$campaña->PK_TiposCampañas]))->last();
+            $colaboradores= DB::select('EXEC dbo.ViewColaboradoresCamp ?',[$id]);
+            // $texto="";
+
+            // foreach ($colaboradores as $col) {
+            //     $texto = $col->Tnombre_colaborador . "," .$texto;
+            // }
+
+
            
-            return view('admin.campaña.oneCampaña', compact('campaña','especialidades','asistentes','cantidad','estado','imagen'));
+            return view('admin.campaña.oneCampaña', compact('campaña','especialidades','asistentes','cantidad','estado','imagen','colaboradores'));
         } else {
             return redirect()->back()->with('error', 'No se encontró la campaña.');
         }
@@ -135,11 +164,11 @@ class CampañasController extends Controller
         $campañaShow = DB::select('EXEC dbo.OneCAMPAÑA ? ',[$id]);
         $Tiposcampañas=DB::select('EXEC dbo.ViewsTiposCampañas');
         $Colaboradores=DB::select('EXEC dbo.ViewsColaboradores');
-
-
+        
         if (!empty($campañaShow)) {
+            $imagen = collect(DB::select('EXEC dbo.ViewImagenCampanias ?', [$id]))->last();
             $campaña = $campañaShow[0];
-            return view('admin/campaña/editCampaña',compact('campaña','Tiposcampañas','Colaboradores'));
+            return view('admin/campaña/editCampaña',compact('campaña','Tiposcampañas','Colaboradores','imagen'));
         } else {
             return redirect()->back()->with('error', 'No se encontró la campaña.');
         }
@@ -205,11 +234,10 @@ class CampañasController extends Controller
             }   
         } 
         if ($request->situacion ==4 ) {
-            $resultado=DB::statement('EXEC dbo.EditarCampaña ?,?,?,?,?,?',
+            $resultado=DB::statement('EXEC dbo.EditarCampaña ?,?,?,?,?',
             [
                 $id,
                 $request->newCampaña,
-                $request->colaborador,
                 $request->newFecha ,
                 $request->newHora ,
                 $request->newLugar

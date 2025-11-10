@@ -6,40 +6,82 @@
     </div>
 
     @if ($estado == "Finalizar")
-        <div class="flex justify-end">
-            <form action="{{route('admin.Campañas.update',$campaña->PK_Campaña)}}" method="POST" class="finalizar-form" >
-                @method('PUT')
-                @csrf
-                <input type="text" name="situacion" value="1" hidden>
-                <button type="submit"  class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-                    {{$estado}}
-                </button>
-            </form>
+        <div class="flex justify-between items-center mb-4">
+            @if (!$colaboradores)
+                
+            @else
+                <div>
+                    <button id="mostrarColaboradores" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                        Ver Colaboradores
+                    </button>
+                </div>
+                
+            @endif
+
+            <div>
+                <form action="{{route('admin.Campañas.update',$campaña->PK_Campaña)}}" method="POST" class="finalizar-form" >
+                    @method('PUT')
+                    @csrf
+                    <input type="text" name="situacion" value="1" hidden>
+                    <button type="submit"  class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                        {{$estado}}
+                    </button>
+                </form>
+
+            </div>
         </div>
     @endif
     @if ($estado == "Empesar antes de tiempo")
-        <div class="flex justify-end">
-            <form action="{{route('admin.Campañas.update',$campaña->PK_Campaña)}}" method="POST" class="adelantar-form" >
-                @method('PUT')
-                @csrf
-                <input type="text" name="situacion" value="2" hidden >
-                <button type="submit"  class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                    {{$estado}}
-                </button>
-            </form>
+        <div class="flex justify-between items-center mb-4">
+            @if (!$colaboradores)
+                
+            @else
+                <div>
+                    <button id="mostrarColaboradores" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                        Ver Colaboradores
+                    </button>
+                </div>
+                
+            @endif
+            <div>
+                <form action="{{route('admin.Campañas.update',$campaña->PK_Campaña)}}" method="POST" class="adelantar-form" >
+                    @method('PUT')
+                    @csrf
+                    <input type="text" name="situacion" value="2" hidden >
+                    <button type="submit"  class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                        {{$estado}}
+                    </button>
+                </form>
+
+            </div>
         </div>
         
     @endif
     @if ($estado == "reabrir campaña?")
-        <div class="flex justify-end">
-            <form action="{{route('admin.Campañas.update',$campaña->PK_Campaña)}}" method="POST" class="reabrir-form" >
-                @method('PUT')
-                @csrf
-                <input type="text" name="situacion" value="3" hidden >
-                <button type="submit"  class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
-                    {{$estado}}
-                </button>
-            </form>
+        <div class="flex justify-between items-center mb-4">
+
+            @if (!$colaboradores)
+                
+            @else
+                <div>
+                    <button id="mostrarColaboradores" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                        Ver Colaboradores
+                    </button>
+                </div>
+                
+            @endif
+
+            <div>
+                <form action="{{route('admin.Campañas.update',$campaña->PK_Campaña)}}" method="POST" class="reabrir-form" >
+                    @method('PUT')
+                    @csrf
+                    <input type="text" name="situacion" value="3" hidden >
+                    <button type="submit"  class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
+                        {{$estado}}
+                    </button>
+                </form>
+
+            </div>
         </div>
         
     @endif
@@ -48,9 +90,9 @@
     <br>
     <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4 ">
         <div>
-           @if (!$imagen || empty($imagen->Tpath_imagenes))
-            <img src="https://www.stellamaris.com.pe/uploads/shares/BLOG/CAMPA__A_DE_SALUD_-_RESP__SOCIAL.jpg" height="450px" width="640px" alt="imagen de la campaña">
-        @else
+            @if (!$imagen || empty($imagen->Tpath_imagenes))
+                <img src="https://www.stellamaris.com.pe/uploads/shares/BLOG/CAMPA__A_DE_SALUD_-_RESP__SOCIAL.jpg" height="450px" width="640px" alt="imagen de la campaña">
+            @else
             <div class="mb-4">
                 <img src="{{ asset('storage/'.$imagen->Tpath_imagenes) }}" height="450px" width="640px" alt="imagen de la campaña">
             </div>
@@ -74,10 +116,14 @@
                 <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Cantidad de Participantes:</label>    
                 <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$cantidad}}" disabled>                
             </div>
-            <div>
+           
+            {{-- <div>
                 <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Entidad colaborativa:</label>    
-                <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$campaña->Tnombre_colaborador}}" disabled>                
-            </div>
+                <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$texto }}" disabled>                
+            </div> --}}
+            
+                
+
             @if ($estado == "reabrir campaña?")
                 <div>
                     <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Fecha de Inicio:</label>    
@@ -156,6 +202,12 @@
             <tbody>
                 @if (!$asistentes)
                     <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                            No hay asistentes registrados
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                            No hay asistentes registrados
+                        </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
                             No hay asistentes registrados
                         </th>
@@ -259,7 +311,34 @@
     @push('js')
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            document.getElementById('mostrarColaboradores').addEventListener('click', function() {
+                const colaboradores = {!! json_encode($colaboradores) !!}; 
 
+                let tablaHTML = `
+                    <table style="width:100%; border-collapse: collapse;">
+                        
+                        <tbody>
+                            ${colaboradores.map(c => `
+                                <tr>
+                                    <td style="padding:8px; border-bottom:1px solid #ddd; text-align:center;">
+                                        ${c.Tnombre_colaborador ?? '(sin nombre)'}
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+
+                Swal.fire({
+                    title: ' Colaboradores',
+                    html: tablaHTML,
+                    width: 400,
+                    confirmButtonText: 'Cerrar',
+                    confirmButtonColor: '#2563eb'
+                });
+            });
+            </script>
         
         <script>
             //para agregar usuario

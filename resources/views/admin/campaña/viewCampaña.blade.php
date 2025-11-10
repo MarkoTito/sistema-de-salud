@@ -1,9 +1,12 @@
 <x-admin-layout>
     
     <div class="flex justify-end mb-4 ">
-        <button id="btnAgregarCampania" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-            <i class="fa-solid fa-plus"></i> Agregar Campaña
-        </button>
+        <a href="{{route('admin.Campañas.create')}}">
+            <button  class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                <i class="fa-solid fa-plus"></i> Agregar Campaña
+            </button>
+
+        </a>
     </div>
 
     <br>
