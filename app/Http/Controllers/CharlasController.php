@@ -117,7 +117,9 @@ class CharlasController extends Controller
     public function show(string $id)
     {
         //
-        return $id;
+        $charlaShow = DB::select('EXEC dbo.OneCHARLA ? ',[$id]);
+        $charla = $charlaShow[0];
+        return view('admin/charla/oneCharla', compact('charla'));
     }
 
     /**
@@ -126,6 +128,10 @@ class CharlasController extends Controller
     public function edit(string $id)
     {
         //
+        $charlaShow = DB::select('EXEC dbo.OneCHARLA ? ',[$id]);
+        $Tiposcharlas=DB::select('EXEC dbo.ViewsTiposCharlas');
+        $charla = $charlaShow[0];
+        return view('admin/charla/editCharla', compact('charla','Tiposcharlas'));
     }
 
     /**
@@ -133,7 +139,31 @@ class CharlasController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $resultado=DB::statement('EXEC dbo.EditarCharla ?,?,?,?,?,?',
+            [
+                $id,
+                $request->newtipo,
+                $request->fecha ,
+                $request->hora ,
+                $request->lugar,
+                $request->lugarEspe
+
+            ]);
+            
+            if ($resultado === true) {
+                session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => '¡Buen trabajo!',
+                    'text' => 'Se actualizo la campaña correctamente '
+                ]);
+            } else {
+                session()->flash('swal', [
+                    'icon' => 'error',
+                    'title' => '¡Ups!',
+                    'text' => 'No se actualizo la campaña correctamente'
+                ]);
+            } 
+        return redirect()->route('admin.Charlas.show',$id);
     }
 
     /**
@@ -141,6 +171,20 @@ class CharlasController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $resultado=DB::statement('EXEC dbo.EliminarCharla ? ',[$id]);
+            if ($resultado === true) {
+                session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => '¡Buen trabajo!',
+                    'text' => 'Se elimino la charla correctamente'
+                ]);
+            } else {
+                session()->flash('swal', [
+                    'icon' => 'error',
+                    'title' => '¡Ups!',
+                    'text' => 'No se elimino la charla correctamente'
+                ]);
+            }   
+        return redirect()->route('admin.Charlas.index');
     }
 }

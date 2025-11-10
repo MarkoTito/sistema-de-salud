@@ -73,7 +73,7 @@
                             Numero 
                         </th>
                         <th scope="col" class="px-6 py-3" align="center" >
-                            Nombre de la charla
+                            Nombre de la campaña
                         </th>
                         <th scope="col" class="px-6 py-3" align="center" >
                             Lugar

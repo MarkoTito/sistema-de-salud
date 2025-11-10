@@ -148,9 +148,14 @@
                                     <a href="{{route('admin.Charlas.edit',$charla->PK_Charlas)}}">
                                         <i class="fa-solid fa-pen-to-square"></i>   
                                     </a>
-                                    {{-- <a href="{{route('admin.Configuracion.edit',$charla->PK_Charlas)}}" class="btn-finalizar" data-nombre="{{ $campaña->Tnombre_Tipocampaña }}">
+                                    <a href="{{route('admin.Charlas.destroy',$charla->PK_Charlas)}}" class="btn-finalizar" data-id="{{$charla->PK_Charlas}}" data-nombre="{{$charla->Tnombre_charla}}">
                                         <i class="fa-solid fa-trash"></i>
-                                    </a> --}}
+                                    </a>
+
+                                    <form id="form-delete" method="POST" style="display:none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
                                 </th>
                             </tr>
                             
@@ -264,14 +269,14 @@
         <script>
             document.querySelectorAll('.btn-finalizar').forEach(link => {
                 link.addEventListener('click', function(e) {
-                    e.preventDefault(); 
-
-                    const url = this.getAttribute('href');
+                    e.preventDefault();
+                    const id = this.getAttribute('data-id');
                     const nombre = this.getAttribute('data-nombre');
+                    const form = document.getElementById('form-delete');
 
                     Swal.fire({
                         title: '¿Estás seguro?',
-                        text: "Vas a eliminar la campaña: " + nombre,
+                        text: "Vas a eliminar la charla: " + nombre,
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
@@ -280,7 +285,8 @@
                         cancelButtonText: 'Cancelar'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            window.location.href = url; // redirige si confirma
+                            form.action = `/admin/Charlas/${id}`;
+                            form.submit();
                         }
                     });
                 });
