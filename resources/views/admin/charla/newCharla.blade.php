@@ -1,6 +1,16 @@
-<x-admin-layout>
-    
- {{-- no olvidar hacer el pan --}}
+<x-admin-layout :breadcrumbs="[
+    [
+        'name'=>'Menu',
+        'href' => '/',
+    ],
+    [
+        'name'=>'Charlas',
+        'href' => route('admin.Charlas.index')
+    ],
+    [
+        'name'=> 'Agregar Charla',
+    ]
+    ]">
 
     <form action="{{route('admin.Charlas.store')}}" method="POST"  >
         @csrf

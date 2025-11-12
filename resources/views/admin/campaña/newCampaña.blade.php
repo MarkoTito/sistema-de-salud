@@ -1,4 +1,16 @@
-<x-admin-layout>
+<x-admin-layout :breadcrumbs="[
+    [
+        'name'=>'Menu',
+        'href' => '/',
+    ],
+    [
+        'name'=>'Campañas',
+        'href' => route('admin.Campañas.index')
+    ],
+    [
+        'name'=> 'Agregar Campaña',
+    ]
+    ]">
     
  {{-- no olvidar hacer el pan --}}
 

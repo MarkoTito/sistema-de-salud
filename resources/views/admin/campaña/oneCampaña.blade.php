@@ -1,4 +1,16 @@
-<x-admin-layout>
+<x-admin-layout :breadcrumbs="[
+    [
+        'name'=>'Menu',
+        'href' => '/',
+    ],
+    [
+        'name'=>'Campañas',
+        'href' => route('admin.Campañas.index')
+    ],
+    [
+        'name'=> 'Campaña',
+    ]
+    ]">
     <div class="flex justify-center mt-4">
         <h1 class="font-extrabold text-gray-900" style="font-size: 2rem;">
             {{ $campaña->Tnombre_Tipocampaña }}

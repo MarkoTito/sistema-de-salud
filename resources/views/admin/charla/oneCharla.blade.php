@@ -1,4 +1,16 @@
-<x-admin-layout>
+<x-admin-layout :breadcrumbs="[
+    [
+        'name'=>'Menu',
+        'href' => '/',
+    ],
+    [
+        'name'=>'Charlas',
+        'href' => route('admin.Charlas.index')
+    ],
+    [
+        'name'=> 'Charla',
+    ]
+    ]">
     
     <div class="flex justify-center mt-4">
         <h1 class="font-extrabold text-gray-900" style="font-size: 2rem;">
@@ -47,6 +59,19 @@
             <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$charla->}}" disabled>                
         </div> --}}
     </div>
+    <div class="flex justify-between items-center mb-4">
+        <div>
+            <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" id="agregar-asistente" >
+                <i class="fa-solid fa-user"></i>
+                Agregar Asistente
+            </button>
+        </div>
+        <div>
+            <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" id="agregar-asistente" >
+                <i class="fa-solid fa-user"></i>
+                Agregar Asistente
+            </button>
+        </div>
 
-
+    </div>
 </x-admin-layout>

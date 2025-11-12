@@ -1,4 +1,16 @@
-<x-admin-layout>
+<x-admin-layout :breadcrumbs="[
+    [
+        'name'=>'Menu',
+        'href' => '/',
+    ],
+    [
+        'name'=>'Campañas',
+        'href' => route('admin.Campañas.index')
+    ],
+    [
+        'name'=> 'Editar Campaña',
+    ]
+    ]">
 
     <br>
     <form action="{{route('admin.Campañas.update',$campaña->PK_Campaña)}}" method="POST">

@@ -1,4 +1,12 @@
-<x-admin-layout>
+<x-admin-layout :breadcrumbs="[
+    [
+        'name'=>'Menu',
+        'href' => '/',
+    ],
+    [
+        'name'=> 'Charlas',
+    ]
+    ]">
     
     <div class="flex justify-end mb-4 ">
         <a href="{{route('admin.Charlas.create')}}">
@@ -173,99 +181,6 @@
 
     @push('js')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-        {{-- <script>
-            document.getElementById('btnAgregarCampania').addEventListener('click', function() {
-                Swal.fire({
-                    title: 'Registrar Campaña',
-                    html: `
-                    <form id="formCampania" enctype="multipart/form-data">
-                        @csrf
-                        
-                        <div class="grid gap-4 text-left">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-900">Tipo de Campaña:</label>
-                                <select name="Campañas" id="tipoCampaña" class="swal2-input" style="width:100%;">
-                                    <option value="" selected disabled>---Selecciona una campaña---</option>
-                                    @foreach ($Tiposcampañas as $campaña)
-                                        <option value="{{$campaña->PK_TiposCampañas}}">{{$campaña->Tnombre_Tipocampaña}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium text-gray-900">Lugar:</label>
-                                <input type="text" name="Tlugar_campaña" id="Tlugar_campaña"
-                                    class="swal2-input"
-                                    style="width: 90%;"
-                                    placeholder="Ingrese el lugar completo"
-                                    maxlength="120" required>
-                            </div>
-                            <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-900">Fecha de inicio:</label>
-                                    <input type="date" name="DfechaIni_campaña" id="DfechaIni_campaña" class="swal2-input" min="{{ date('Y-m-d') }}" required>
-                                </div>
-
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-900">Hora de inicio:</label>
-                                    <input type="time" name="hora_inicio" id="hora_inicio" class="swal2-input" required>
-                                </div>
-                            
-                            </div>
-                            
-
-                            <div>
-                                <label class="block text-sm font-medium text-gray-900">Colaborador:</label>
-                                <select name="colaborador" id="colaborador" class="swal2-input" style="width:100%;" required>
-                                    <option value="" selected disabled>---Selecciona un colaborador---</option>
-                                    @foreach ($Colaboradores as $colaborador)
-                                        <option value="{{$colaborador->PK_Colaborador}}">{{$colaborador->Tnombre_colaborador}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </form>
-                    `,
-                    focusConfirm: false,
-                    showCancelButton: true,
-                    confirmButtonText: 'Registrar',
-                    cancelButtonText: 'Cancelar',
-                    width: '600px',
-                    preConfirm: () => {
-                        const form = document.getElementById('formCampania');
-                        const formData = new FormData(form);
-
-                        return fetch("{{ route('admin.Campañas.store') }}", {
-                            method: 'POST',
-                            body: formData,
-                            headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (!data.ok) {
-                                Swal.showValidationMessage(data.msg || 'No se pudo crear la campaña');
-                            }
-                            return data;
-                        })
-                        .catch(error => {
-                            Swal.showValidationMessage(`Error: ${error}`);
-                        });
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed && result.value.ok) {
-                        Swal.fire('Éxito', 'Campaña creada correctamente', 'success')
-                            .then(() => location.reload());
-                    }
-                });
-            });
-    </script> --}}
-
-
-
-
         <script>
             document.querySelectorAll('.btn-finalizar').forEach(link => {
                 link.addEventListener('click', function(e) {

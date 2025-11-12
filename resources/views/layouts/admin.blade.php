@@ -1,3 +1,9 @@
+@props([
+    'title' => config('app.name', 'Laravel'),
+    'breadcrumbs' =>[]
+    ])
+
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -42,9 +48,11 @@
         
 
         <div class="p-4 sm:ml-64">
-            <div class="mt-14">
-                {{$slot}}
+            <div class="mt-14" >
+                {{-- contenido que varia --}}
+                @include('layouts/includes/admin/breadcrumb')
             </div>
+            {{$slot}}
         </div>
 
 

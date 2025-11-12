@@ -1,4 +1,12 @@
-<x-admin-layout>
+<x-admin-layout :breadcrumbs="[
+    [
+        'name'=>'Menu',
+        'href' => '/',
+    ],
+    [
+        'name'=> 'Campañas',
+    ]
+    ]">
     
     <div class="flex justify-end mb-4 ">
         <a href="{{route('admin.Campañas.create')}}">

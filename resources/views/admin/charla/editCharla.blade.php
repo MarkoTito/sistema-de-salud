@@ -1,4 +1,16 @@
-<x-admin-layout>
+<x-admin-layout :breadcrumbs="[
+    [
+        'name'=>'Menu',
+        'href' => '/',
+    ],
+    [
+        'name'=>'Charlas',
+        'href' => route('admin.Charlas.index')
+    ],
+    [
+        'name'=> 'Editar Charla',
+    ]
+    ]">
     <form action="{{route('admin.Charlas.update',$charla->PK_Charlas)}}" method="POST">
         @method('PUT')
         @csrf
