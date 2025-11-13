@@ -38,5 +38,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
         EspecialidadesSeeder::class,
         ]);
+        $this->call([
+        ExpositorSeeder::class,
+        ]);
     }
 }

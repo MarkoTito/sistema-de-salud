@@ -31,8 +31,12 @@
             <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$charla->DfechaIni_charla}}" disabled>                
         </div>
         <div>
-            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Hora:</label>    
-            <input type="time" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$charla->Thora_charla}}" disabled>                
+            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Hora de inicio:</label>    
+            <input type="time" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$charla->ThoraIni_charla}}" disabled>                
+        </div>
+        <div>
+            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Hora de fin:</label>    
+            <input type="time" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$charla->ThoraFin_charla}}" disabled>                
         </div>
         @if (!$charla->Ncantidad_charla)
             <div>
@@ -54,24 +58,78 @@
             <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Lugar especifico:</label>    
             <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$charla->TdescripcionLugar_charla}}" disabled>                
         </div>
-        {{-- <div>
-            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Hora:</label>    
-            <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$charla->}}" disabled>                
-        </div> --}}
+        
     </div>
+
+
     <div class="flex justify-between items-center mb-4">
         <div>
-            <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" id="agregar-asistente" >
+            <button type="button"
+                class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
+                id="mostrarExpositores">
                 <i class="fa-solid fa-user"></i>
-                Agregar Asistente
+                Ver Expositores
             </button>
         </div>
         <div>
-            <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" id="agregar-asistente" >
-                <i class="fa-solid fa-user"></i>
-                Agregar Asistente
-            </button>
+            <a href="{{route('admin.charla.documento',$charla->PK_Charlas)}}">
+                <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" id="agregar-asistente" >
+                    <i class="fa-solid fa-file"></i>
+                    Agregar Asistente
+                </button>
+                
+            </a>
         </div>
-
+        
     </div>
+
+    @push('js')
+        <script>
+            document.getElementById('mostrarExpositores').addEventListener('click', function() {
+                const expositores = {!! json_encode($expositores) !!}; 
+
+                let tablaHTML = `
+                    <table style="width:100%; border-collapse: collapse;">
+                        
+                        <tbody>
+                            ${expositores.map(c => `
+                                <tr>
+                                    <td style="padding:8px; border-bottom:1px solid #ddd; text-align:center;">
+                                        ${c.Tnombre_expositor ?? '(sin nombre)'}
+                                    </td>
+                                    <td style="padding:8px; border-bottom:1px solid #ddd; text-align:center;">
+                                        ${c.TapellidoP_expositor ?? '(sin apellido)'}
+                                    </td>
+                                    <td style="padding:8px; border-bottom:1px solid #ddd; text-align:center;">
+                                        ${c.TapellidoM_expositor ?? '(sin apellido)'}
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+
+                Swal.fire({
+                    title: ' expositores',
+                    html: tablaHTML,
+                    width: 400,
+                    confirmButtonText: 'Cerrar',
+                    confirmButtonColor: '#2563eb'
+                });
+            });
+            </script>
+        
+        <script>
+        
+    @endpush
+
+
+
+
+
+
+
+
+
+
 </x-admin-layout>

@@ -54,10 +54,10 @@ class TipoCampañaController extends Controller
     }
     public function dropzone(Request $request,$id)
     {
-        $path= Storage::put('/imagenes',$request->file('file'));
+        $path= Storage::put('/documentos',$request->file('file'));
         $size = $request->file('file')->getSize();
 
-        $resultado = DB::statement('EXEC dbo.InsertarImagenCampanias ?, ?, ?', [
+        $resultado = DB::statement('EXEC dbo.InsertarDocumenteCharla ?, ?, ?', [
                $id,
                $size,
                $path
@@ -65,7 +65,7 @@ class TipoCampañaController extends Controller
             ]);
         return response()->json([
             'success' => true,
-            'message' => 'La imagen se subio correctamente',
+            'message' => 'La el archivo fue se subio correctamente',
             
         ]);
         

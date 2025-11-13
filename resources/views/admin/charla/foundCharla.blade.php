@@ -4,7 +4,11 @@
         'href' => '/',
     ],
     [
-        'name'=> 'Charlas',
+        'name'=>'Charlas',
+        'href' => route('admin.Charlas.index')
+    ],
+    [
+        'name'=> 'Charlas encontradas',
     ]
     ]">
     
@@ -193,6 +197,16 @@
     </div>
     <div class="mt-4">
         {{ $charlas->links() }}
+    </div>
+
+
+    <div class="flex justify-start">
+        <a href="{{ route('admin.export.excell',$request)}}">
+            <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                <i class="fa-solid fa-file-excel"></i>
+                Descargar
+            </button>
+        </a>
     </div>
 
     @push('js')
