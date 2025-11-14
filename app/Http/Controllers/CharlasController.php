@@ -150,14 +150,15 @@ class CharlasController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $resultado=DB::statement('EXEC dbo.EditarCharla ?,?,?,?,?,?',
+        $resultado=DB::statement('EXEC dbo.EditarCharla ?,?,?,?,?,?, ?',
             [
                 $id,
                 $request->newtipo,
                 $request->fecha ,
                 $request->hora ,
                 $request->lugar,
-                $request->lugarEspe
+                $request->lugarEspe,
+                $request->canti
 
             ]);
             
@@ -219,7 +220,7 @@ class CharlasController extends Controller
     }
     public function downloadFound(Request $request)
     {
-        if (!$request->founCharla & !$request->foundFecha ) {
+        if (!$request->founCharla & !$request->fehcIni ) {
             session()->flash('swal', [
                     'icon' => 'error',
                     'title' => '¡Ups!',
@@ -229,7 +230,8 @@ class CharlasController extends Controller
         } else {
             $results=DB::select('EXEC dbo.CharLAFound ?, ?',[
                 $request->founCharla,
-                $request->foundFecha
+                $request->fehcIni,
+                $request->fehFin
             ]);
             if (empty($results[0])) {
     
@@ -243,7 +245,6 @@ class CharlasController extends Controller
                 $Tiposcharlas=DB::select('EXEC dbo.ViewsTiposCharlas');
                 $collection = collect($results);
 
-                // Parámetros de paginación
                 $perPage = 5; 
                 $page = request()->get('page', 1); 
 
@@ -278,8 +279,22 @@ class CharlasController extends Controller
         return view('admin/charla/imagenCharla', compact('id'));
     }
 
-    public function dowloadExport(Request $request){
-        return $request;
+    public function     dowloadExport(Request $request){
+        #este descarga la busuqeda de charlas
+        $informacion=DB::select('EXEC dbo.CharlaFoundExport ?, ?',[
+                $request->founCharla,
+                $request->fehcIni
+        ]);
+        if (empty($informacion[0])) {    
+            session()->flash('swal', [
+                'icon' => 'error',
+                'title' => '¡Ups!',
+                'text' => 'no existe las charlas'
+            ]);
+            return redirect()->route('admin.Charlas.index');                
+        }
+        $resultado = collect($informacion);
+        return Excel::download(new \App\Exports\CharlaExport($resultado),'Descarga.xlsx');
     }
 
     public function dropzone(Request $request, $id)

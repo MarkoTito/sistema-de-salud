@@ -12,8 +12,7 @@
         <div>
             <form action="{{route('admin.charla.downloadFound')}}" method="POST" >
                 @csrf
-                
-                <div class="grid gap-6 mb-4 md:grid-cols-3">
+                <div class="flex items-center gap-4">
                     <div>
                         <select name="founCharla" id="miSelect-tipoCharla"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
@@ -29,7 +28,11 @@
 
                     </div>
                     <div>
-                        <input type="date" id="first_name" name="foundFecha" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                        <input type="date" id="first_name" name="fehcIni" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                    </div>
+
+                    <div>
+                        <input type="date" id="first_name" name="fehFin" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </div>
                     
                     <div>
@@ -231,7 +234,17 @@
                 });
             });
         </script>
+        <script>
+            const fehcIni = document.querySelector('input[name="fehcIni"]');
+            const fehFin = document.querySelector('input[name="fehFin"]');
 
+            fehcIni.addEventListener('change', () => {
+                fehFin.min = fehcIni.value;
+                if (fehFin.value < fehcIni.value) {
+                    fehFin.value = ""; 
+                }
+            });
+        </script>
 
     @endpush
 
