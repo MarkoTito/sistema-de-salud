@@ -1,7 +1,7 @@
 <x-admin-layout>
     
     <div class="mb-4">
-        <h2>Ingresar Documento</h2>
+        <h2>Ingresar imagen</h2>
     </div>
 
     @push('css')
@@ -9,7 +9,7 @@
     @endpush
 
     <div class="mb-4">
-        <form action="{{ route('admin.charla.documento.dropzone', $id) }}" 
+        <form action="{{ route('admin.charla.imagen.dropzone', $id) }}" 
               class="dropzone" 
               id="my-dropzone" 
               method="POST" 
@@ -25,7 +25,7 @@
         <script>
             Dropzone.options.myDropzone = {
                     maxFiles: 3,
-                    acceptedFiles: '.pdf,.doc,.docx,.xls,.xlsx,.txt',
+                    acceptedFiles: '.png,.jpg,.jpeg,.gif,.webp',
                     dictDefaultMessage: "Arrastra los archivos al recuadro para subirla",
                     success: function(file, response) {
                         Swal.fire({
@@ -40,7 +40,7 @@
                         this.on("success", function(file, response) {
                             // Espera un poquito para mostrar el mensaje y luego redirige
                             setTimeout(function() {
-                                window.location.href = "{{ route('admin.Charlas.index') }}";
+                                window.location.href = "{{ route('admin.Charlas.show',$id) }}";
                             }, 1500);
                         });
                     },

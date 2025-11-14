@@ -57,7 +57,7 @@ class TipoCampañaController extends Controller
         $path= Storage::put('/documentos',$request->file('file'));
         $size = $request->file('file')->getSize();
 
-        $resultado = DB::statement('EXEC dbo.InsertarDocumenteCharla ?, ?, ?', [
+        $resultado = DB::statement('EXEC dbo.InsertarImagenCampanias ?, ?, ?', [
                $id,
                $size,
                $path
@@ -65,7 +65,7 @@ class TipoCampañaController extends Controller
             ]);
         return response()->json([
             'success' => true,
-            'message' => 'La el archivo fue se subio correctamente',
+            'message' => 'La imagen se subio correctamente',
             
         ]);
         

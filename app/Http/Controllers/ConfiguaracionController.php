@@ -19,6 +19,10 @@ class ConfiguaracionController extends Controller
     {
         
     }
+    public function nada()
+    {
+         return view('admin/nada');
+    }
 
     public function store(Request $request)
     {

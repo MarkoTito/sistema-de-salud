@@ -127,9 +127,10 @@ class CharlasController extends Controller
         //
         $charlaShow = DB::select('EXEC dbo.OneCHARLA ? ',[$id]);
         $expositores = DB::select('EXEC dbo.ViewsColaboradoresCharlas ? ',[$id]);
-        $documentos = collect(DB::select('EXEC dbo.ViewImagenCampanias ?', [$id]));
+        $documentos = collect(DB::select('EXEC dbo.ViewDocumentCharla ?', [$id]));
+        $imagenes = collect(DB::select('EXEC dbo.ViewImagenCharla ?', [$id]));
         $charla = $charlaShow[0];
-        return view('admin/charla/oneCharla', compact('charla','expositores','documentos'));
+        return view('admin/charla/oneCharla', compact('charla','expositores','documentos','imagenes'));
     }
 
     /**
@@ -272,26 +273,85 @@ class CharlasController extends Controller
         return view('admin/charla/documenCharla', compact('id'));
     }
 
+    public function imagen(string $id)
+    {
+        return view('admin/charla/imagenCharla', compact('id'));
+    }
+
     public function dowloadExport(Request $request){
         return $request;
     }
 
-    public function dropzone(Request $request,$id)
+    public function dropzone(Request $request, $id)
     {
-        $path= Storage::put('/imagenes',$request->file('file'));
-        $size = $request->file('file')->getSize();
+        #para agregar documentos
+        $file = $request->file('file');
+        $path = Storage::put('documentos', $file);
+        $size = $file->getSize();
+        $nombre = $file->getClientOriginalName();
 
-        $resultado = DB::statement('EXEC dbo.InsertarImagenCampanias ?, ?, ?', [
+        // Usamos DB::select en lugar de DB::statement
+        $resultado = DB::statement('EXEC dbo.DocumentoCharla ?, ?, ?,?', [
                $id,
                $size,
-               $path
+               $path,
+               $nombre
                
             ]);
+
         return response()->json([
             'success' => true,
             'message' => 'Se subio correctamente el archivo',
-            
+            'resultado' => $resultado
         ]);
-        
     }
+
+    public function documentosDelete($id)
+    {
+        $resultado = DB::statement('EXEC dbo.EliminarDocumentoCharla ?', [
+               $id        
+            ]);
+
+        session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => '¡Buen trabajo!',
+                    'text' => 'Se elemino el documento correctamente'
+                ]);
+        return redirect()->route('admin.Charlas.show',$id);
+    }
+
+    public function dropzoneImagen(Request $request, $id)
+    {
+        $file = $request->file('file');
+        $path = Storage::put('imagenes', $file);
+        $size = $file->getSize();
+
+        $resultado = DB::statement('EXEC dbo.InsertarImagenCharla ?, ?, ?', [
+               $id,
+               $size,
+               $path       
+            ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Se subio correctamente las imagenes',
+            'resultado' => $resultado
+        ]);
+    }
+    public function imagenDelete($id)
+    {
+        $resultado = DB::statement('EXEC dbo.EliminarImagenCharla ?', [
+               $id        
+            ]);
+
+        session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => '¡Buen trabajo!',
+                    'text' => 'Se elemino la imagen correctamente'
+                ]);
+        return redirect()->route('admin.Charlas.index');
+    }
+
+
+
 }

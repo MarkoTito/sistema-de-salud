@@ -24,12 +24,24 @@ Route::middleware('auth')->group(function () {
     Route::resource('Charlas', CharlasController::class);
     Route::get('Charlas/{charla}/download', [CharlasController::class, 'downloadOne'])->name('charla.downloadOne');
     Route::get('Charlas/{charla}/documento', [CharlasController::class, 'documento'])->name('charla.documento');
+    Route::get('Charlas/{charla}/imagen', [CharlasController::class, 'imagen'])->name('charla.imagen');
     Route::post('Charlas/download', [CharlasController::class, 'downloadFound'])->name('charla.downloadFound');
     Route::get('Charlas/encontrado/excel',[CharlasController::class,'dowloadExport'])->name('export.excell');
-    Route::post('Charlas/{charla}/dropzone', [TipoCampañaController::class, 'dropzone'])->name('charla.dropzone');
+    Route::get('Charlas/{charla}/eleminar/documentos', [CharlasController::class, 'documentosDelete'])->name('charla.documentos.delete');
+    Route::post('Charlas/{charla}/dropzone/documento', [CharlasController::class, 'dropzone'])->name('charla.documento.dropzone');
+    Route::post('Charlas/{charla}/dropzone', [CharlasController::class, 'dropzoneImagen'])->name('charla.imagen.dropzone');
+    Route::get('Charlas/{charla}/eleminar/imagen', [CharlasController::class, 'imagenDelete'])->name('charla.imagen.delete');
+
+
     // ruta de generar link (solo admin)
     Route::get('/generar-link', [FormularioController::class, 'generarLink'])->name('formulario.generar');
+
+    //pruebas
+    Route::get('pruebas/nada',[ConfiguaracionController::class,'nada'])->name('prueba.nada');
 });
+
+
+
 
 // rutas públicas (sin auth)
 Route::middleware([])->group(function () {
