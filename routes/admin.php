@@ -15,12 +15,17 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
 
     Route::resource('Campañas', CampañasController::class);
+    #asistentes
     Route::resource('Asitentes', AsistenteController::class);
     Route::post('Asitentes/{asitente}/edit2', [AsistenteController::class, 'edit2'])->name('Asitentes.edit2');
     Route::post('Asitentes/look', [AsistenteController::class, 'look'])->name('Asitentes.look');
+    #configuaracion
     Route::resource('Configuracion', ConfiguaracionController::class);
+    #tipos de campañas
     Route::resource('Tipocampaña', TipoCampañaController::class);
     Route::post('tipos/{campaña}/dropzone', [TipoCampañaController::class, 'dropzone'])->name('campaña.dropzone');
+
+
     Route::resource('Charlas', CharlasController::class);
     Route::get('Charlas/{charla}/download', [CharlasController::class, 'downloadOne'])->name('charla.downloadOne');
     Route::get('Charlas/{charla}/documento', [CharlasController::class, 'documento'])->name('charla.documento');

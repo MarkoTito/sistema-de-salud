@@ -11,7 +11,9 @@ class ConfiguaracionController extends Controller
     public function index()
     {
         $Tiposcampañas=DB::select('EXEC dbo.ViewsTiposCampañas');
-        return view('admin/configuracion/configuracion',compact('Tiposcampañas'));
+        $TiposCharlas=DB::select('EXEC dbo.ViewsTiposCharlas');
+        $expositores=DB::select('EXEC dbo.ViewsExpositores');
+        return view('admin/configuracion/configuracion',compact('Tiposcampañas','TiposCharlas','expositores'));
         
     }
 
@@ -26,17 +28,66 @@ class ConfiguaracionController extends Controller
 
     public function store(Request $request)
     {
-       $validated = $request->validate([
-            'nombre' => 'required|string|max:255',
-            'mensaje' => 'required|string|max:250',
-        ]);
+        $validated = $request->validate([
+                'nombre' => 'required|string|max:255',
+                'mensaje' => 'required|string|max:250',
+                'tipo' => 'required|integer|in:1,2,3'
+            ]);
 
-        $creacionCampaña = DB::select('EXEC dbo.InsertarTiposCampañas ?, ?', [
-            $validated['nombre'],   
-            $validated['mensaje'],  
-        ]);
+        if ($validated['tipo']==1) {
+            $creacionCampaña = DB::select('EXEC dbo.InsertarTiposCampañas ?, ?', [
+                $validated['nombre'],   
+                $validated['mensaje'],  
+            ]);
+    
+            if (!empty($creacion)) {
+                return response()->json(['ok' => true, 'data' => $creacionCampaña[0]]);
+            }
 
-        return response()->json(['ok' => true, 'data' => $creacionCampaña]);
+            return response()->json(['ok' => false, 'msg' => 'No se registró la campaña']);
+        }
+        if ($validated['tipo']==2) {
+            $creacionCharla = DB::select('EXEC dbo.InsertarTiposCharla ?, ?', [
+                $validated['nombre'],   
+                $validated['mensaje'],  
+            ]);
+    
+            if (!empty($creacionCharla)) {
+                return response()->json([
+                    'ok' => true,
+                    'data' => $creacionCharla[0]   
+                ]);
+            }
+            return response()->json([
+                'ok' => false,
+                'msg' => 'No se registró el tipo de charla'
+            ]);
+        }
+        if ($validated['tipo']==3) {
+            $validated = $request->validate([
+                    'nombre' => 'required|string|max:255',
+                    'mensaje' => 'required|string|max:250',
+                    'tipo' => 'required|integer|in:1,2'
+                ]);
+            $creacionCharla = DB::select('EXEC dbo.InsertarTiposExpo ?, ?', [
+                $request->nombre,  
+                $request->apeP ,
+                $request->apeM,
+                $request->Numero,  
+            ]);
+    
+            if (!empty($creacionCharla)) {
+                return response()->json([
+                    'ok' => true,
+                    'data' => $creacionCharla[0]   
+                ]);
+            }
+            return response()->json([
+                'ok' => false,
+                'msg' => 'No se registró el el expositor'
+            ]);
+        }
+
         
     } 
 

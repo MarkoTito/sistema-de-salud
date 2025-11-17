@@ -150,12 +150,13 @@ class CharlasController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $resultado=DB::statement('EXEC dbo.EditarCharla ?,?,?,?,?,?, ?',
+        $resultado=DB::statement('EXEC dbo.EditarCharla ?,?,?,?,?,?,?, ?',
             [
                 $id,
                 $request->newtipo,
                 $request->fecha ,
                 $request->hora ,
+                $request->horafIN ,
                 $request->lugar,
                 $request->lugarEspe,
                 $request->canti
