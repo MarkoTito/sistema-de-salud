@@ -41,5 +41,13 @@ class DatabaseSeeder extends Seeder
         $this->call([
         ExpositorSeeder::class,
         ]);
+
+        $this->call([
+        RasaSeeder::class,
+        ]);
+
+        $this->call([
+        IdentificacionesSeeder::class,
+        ]);
     }
 }

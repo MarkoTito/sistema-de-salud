@@ -1,34 +1,47 @@
-<x-admin-layout>
-    
-    
+<x-admin-layout :breadcrumbs="[
+    [
+        'name'=>'Menu',
+        'href' => '/',
+    ],
+    [
+        'name'=> 'Mascotas',
+        'href' => route('admin.Mascotas.index')
+    ],
+    [
+        'name'=> 'Registrar Mascotas',
+    ]
+    ]">
 
-<div id="gallery" class="relative w-full" data-carousel="slide">
+
+    <div id="gallery" class="relative w-full" data-carousel="slide">
         
-    <ol class="flex items-center w-full space-x-4 mb-6">
-        <li id="s1" class="step-active flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-brand-subtle after:border-4 after:inline-block after:ms-4 after:rounded-full">
-            <span class="step-circle-active">
-                <i class="fa-solid fa-person"></i>
-                <span class="ml-2 text-sm">Registro responsables</span>
-            </span>
-        </li>
+        <ol class="flex items-center w-full space-x-4 mb-6">
+            <li id="s1" class="step-active flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-brand-subtle after:border-4 after:inline-block after:ms-4 after:rounded-full">
+                <span class="step-circle-active">
+                    <i class="fa-solid fa-person"></i>
+                    <span class="ml-2 text-sm">Registro responsables</span>
+                </span>
+            </li>
 
-        <li id="s2" class="step-inactive flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-default after:border-4 after:inline-block after:ms-4 after:rounded-full">
-            <span class="step-circle-inactive">
-                <i class="fa-solid fa-paw"></i>
-                <span class="ml-2 text-sm">Datos de la Mascota</span>
-            </span>
-        </li>
+            <li id="s2" class="step-inactive flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-default after:border-4 after:inline-block after:ms-4 after:rounded-full">
+                <span class="step-circle-inactive">
+                    <i class="fa-solid fa-paw"></i>
+                    <span class="ml-2 text-sm">Datos de la Mascota</span>
+                </span>
+            </li>
 
-        <li id="s3" class="step-inactive flex items-center w-full">
-            <span class="step-circle-inactive">
-                <i class="fa-solid fa-circle-check"></i>
-                <span class="ml-2 text-sm">Confirmación</span>
-            </span>
-        </li>
-    </ol>
+            <li id="s3" class="step-inactive flex items-center w-full">
+                <span class="step-circle-inactive">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span class="ml-2 text-sm">Confirmación</span>
+                </span>
+            </li>
+        </ol>
 
+    </div>
+    
     <!-- FORMULARIO COMPLETO -->
-    <form id="form1" class="max-w-md">
+    <form id="form1" class="max-w-md" enctype="multipart/form-data">
 
         <!-- PASO 1 -->
         <div id="paso1">
@@ -37,7 +50,7 @@
             <div class="grid gap-6 mb-4 md:grid-cols-3 mt-4">
                 <div class="mb-4">
                     <label class="text-sm">Nombre</label>
-                    <input name="nombreRes" maxlength="55" type="text" class="border w-full p-2 rounded-lg"  >
+                    <input name="nombreRes" maxlength="55" type="text" class="border w-full p-2 rounded-lg" required  >
                 </div>
         
                 <div class="mb-4">
@@ -67,20 +80,20 @@
             <div class="grid gap-4 mb-4 md:grid-cols-2 mt-4">
                 <div class="mb-4">
                     <label class="text-sm">Numero de Telefono Fijo:</label>
-                    <input type="text" maxlength="15" class="border w-full p-2 rounded-lg"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
+                    <input type="text" name="telFijo" maxlength="15" class="border w-full p-2 rounded-lg"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
                 </div>
                 <div class="mb-4">
                     <label class="text-sm">Correo electronico:</label>
-                    <input type="email" class="border w-full p-2 rounded-lg" >
+                    <input type="email" name="correo" class="border w-full p-2 rounded-lg" >
                 </div>
 
                 <div class="mb-4">
                     <label class="text-sm">Foto de documento:</label>
-                    <input type="file" class="border w-full p-2 rounded-lg" >
+                    <input type="file" name="docuImagen" class="border w-full p-2 rounded-lg" >
                 </div>
                 <div class="mb-4">
                     <label class="text-sm">Adjuntar Doc. - Residencia del Responsable (PDF):</label>
-                    <input type="file" class="border w-full p-2 rounded-lg" >
+                    <input type="file" name="residenciaDoc" class="border w-full p-2 rounded-lg" >
                 </div>
                 
             </div>
@@ -93,63 +106,83 @@
         <!-- PASO 2 -->
         <div id="paso2" class="hidden">
             <h3 class="text-lg font-medium mb-4">Paso 2: Datos de la Mascota</h3>
-
-            <div class="grid gap-6 mb-4 md:grid-cols-3 mt-4">
-                <div class="mb-4">
+            
+            <div class="flex gap-4">
+                <div class="w-3/4">
                     <label class="text-sm">Nombre</label>
-                    <input name="nombreRes" maxlength="55" type="text" class="border w-full p-2 rounded-lg"  >
+                    <input name="nombreMas"  maxlength="55" type="text" class="border w-full p-2 rounded-lg"  >
                 </div>
         
-                <div class="mb-4">
+                <div class="w-3/4">
                     <label class="text-sm">Especie:</label>
-                    <select name="" id="" style="width: 100%" >
+                    <select name="tipo" id="" style="width: 100%" >
+                        <option selected disabled  value="">Escoja una opción</option>
                         <option value="1">Felino</option>
-                        <option value="2">Camino</option>
+                        <option value="2">Canino</option>
                     </select>
                 </div>
-                <div class="mb-4">
+                <div class="w-3/4">
                     <label class="text-sm">Raza:</label>
-                    <select name="" id="" style="width: 100%" >
-                        <option value="1">Felino</option>
-                        <option value="2">Camino</option>
+                    <select name="raza" id="miSelect-raza" style="width: 100%" >
+                        <option selected disabled  value="">Escoja una opción</option>
+                        @foreach ($razas as $raza)
+                            <option value="{{$raza->PK_Raza}}">{{$raza->Tdescripcion_raza}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="w-3/4">
+                    <label class="text-sm">Sexo:</label>
+                    <select name="sexo" id="miSelect-raza" style="width: 100%" >
+                        <option selected disabled  value="">Escoja una opción</option>
+                        <option value="MACHO">MACHO</option>
+                        <option value="HEMBRA">HEMBRA</option>
                     </select>
                 </div>
 
+            </div>
+
+
+            <div class="grid gap-6 mb-4 md:grid-cols-3 mt-4">
+
                 <div class="mb-4">
-                    <label class="text-sm">Fecha de Macimiento:</label>
-                    <input type="Date" name="dniRes" class="border w-full p-2 rounded-lg" />
+                    <label class="text-sm">Fecha de Nacimiento:</label>
+                    <input type="Date" name="fechaNaci" class="border w-full p-2 rounded-lg" max="{{ date('Y-m-d') }}" />
                 </div>
         
                 <div class="mb-4">
                     <label class="text-sm">Color:</label>
-                    <input type="text" name="numCelRes"  class="border w-full p-2 rounded-lg"  />
+                    <input type="text" name="color" maxlength="80"   class="border w-full p-2 rounded-lg"  />
                 </div>
                 <div class="mb-4">
-                   <label class="text-sm">Antecedentes de Agresividad   :</label>
-                    <select name="" id="" style="width: 100%" >
-                        <option value="1">Si</option>
-                        <option value="0">No</option>
+                <label class="text-sm">Antecedentes de Agresividad   :</label>
+                    <select name="antecedentes" id="" style="width: 100%" >
+                        <option selected disabled  value="">Escoja una opción</option>
+                        <option value="Si">Si</option>
+                        <option value="No">No</option>
                     </select>
                 </div>
 
 
                 <div class="mb-4">
-                   <label class="text-sm">Potencialmente Peligrosos:</label>
-                    <select name="" id="" style="width: 100%" >
-                        <option value="1">Si</option>
-                        <option value="0">No</option>
+                <label class="text-sm">Potencialmente Peligroso:</label>
+                    <select name="peligrocidad" id="" style="width: 100%" >
+                        <option selected disabled  value="">Escoja una opción</option>
+                        <option value="Si">Si</option>
+                        <option value="NO">No</option>
                     </select>
                 </div>
         
                 <div class="mb-4">
                     <label class="text-sm">Señas particulares:</label>
-                    <input type="text" name="numCelRes"  class="border w-full p-2 rounded-lg"  />
+                    <input type="text" name="señales" maxlength="100" class="border w-full p-2 rounded-lg"  />
                 </div>
                 <div class="mb-4">
-                   <label class="text-sm">Identificación :</label>
-                    <select name="" id="" style="width: 100%" >
-                        <option value="1">Si</option>
-                        <option value="0">No</option>
+                <label class="text-sm">Identificación :</label>
+                    <select name="identificacion" id="miSelect-identificacion" style="width: 100%" >
+                        <option selected disabled  value="">Escoja una opción</option>
+                        @foreach ($identificadores as $iden)
+                            <option value="{{$iden->PK_Identificacion}}">{{$iden->Tnombre_identificacion}}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -157,11 +190,11 @@
             <div class="grid gap-4 mb-4 md:grid-cols-2 mt-4">
                 <div class="mb-4">
                     <label class="text-sm">Fotografia de la Mascota:</label>
-                    <input type="file" class="border w-full p-2 rounded-lg" >
+                    <input type="file" name="fotoMascota"  class="border w-full p-2 rounded-lg" >
                 </div>
                 <div class="mb-4">
                     <label class="text-sm">Certificado de Vacunación:</label>
-                    <input type="file" class="border w-full p-2 rounded-lg" >
+                    <input type="file"name="certiMascota" class="border w-full p-2 rounded-lg" >
                 </div>
                 
             </div>
@@ -186,8 +219,6 @@
     </form>
 
 
-
-
     @push('css')
         <style>
             .step-active .step-circle-active {
@@ -199,7 +230,62 @@
         </style>
     @endpush
 
+
     @push('js')
+        <script>
+        window.onload = () => {
+
+            const form = document.getElementById("form1");
+
+            form.addEventListener("submit", async function (e) {
+                e.preventDefault();
+
+                const data = new FormData(this);
+
+                // Para verificar
+                console.log([...data.entries()]);
+
+                try {
+                    const response = await fetch("{{ route('admin.Mascotas.store') }}", {
+                        method: "POST",
+                        headers: {
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: data
+                    });
+
+                    const result = await response.json();
+                    console.log(result);
+
+                   if (result.success) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Guardado",
+                            text: "Los datos se guardaron correctamente"
+                        }).then(() => {
+                            window.location.href = "{{route('admin.Mascotas.index')}}";
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "Ocurrió un problema guardando los datos"
+                        });
+                    }
+
+                } catch (error) {
+                    console.error(error);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "No se pudo enviar la información"
+                    });
+                }
+
+            });
+
+        };
+        </script>
         <script>
         document.addEventListener("DOMContentLoaded", () => {
 
@@ -280,36 +366,7 @@
             document.getElementById("back2").onclick = () => activarPaso(2);
 
 
-            // SUBMIT FINAL
-            form.addEventListener("submit", function(e){
-                e.preventDefault();
-
-                const data = new FormData(this);
-
-                fetch("/mi-ruta-final", {
-                    method: "POST",
-                    body: data,
-                    headers: {
-                        "X-CSRF-TOKEN": document.querySelector('meta[name=\"csrf-token\"]').content
-                    }
-                })
-                .then(res => res.json())
-                .then(resp => {
-                    Swal.fire("Correcto", "Formulario enviado con éxito", "success");
-                })
-                .catch(err => {
-                    Swal.fire("Error", "Ocurrió un problema al enviar", "error");
-                });
-
-            });
-
         });
         </script>
-        @endpush
-
-
-
-
-
-
+    @endpush
 </x-admin-layout>

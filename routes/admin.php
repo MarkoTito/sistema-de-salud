@@ -5,6 +5,7 @@ use App\Http\Controllers\CampañasController;
 use App\Http\Controllers\CharlasController;
 use App\Http\Controllers\ConfiguaracionController;
 use App\Http\Controllers\FormularioController;
+use App\Http\Controllers\MascotasController;
 use App\Http\Controllers\TipoCampañaController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +44,11 @@ Route::middleware('auth')->group(function () {
 
     //pruebas
     Route::get('pruebas/nada',[ConfiguaracionController::class,'nada'])->name('prueba.nada');
+    
+    //Mascotas
+    Route::resource('Mascotas', MascotasController::class);
+
+
 });
 
 
