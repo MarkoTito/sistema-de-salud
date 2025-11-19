@@ -101,7 +101,18 @@
                                 {{$mascota->Tnombre_responsable}}
                             </td>
                             <td class="px-6 py-4" align="center" >
-                                No existe registro de mascotas
+                                <a href=""> 
+                                        <i class="fa-solid fa-download"></i>   
+                                </a>
+                                <a href="">
+                                    <i class="fa-solid fa-eye"></i>   
+                                </a>
+                                <a href="">
+                                    <i class="fa-solid fa-pen-to-square"></i>   
+                                </a>
+                                <a href="">
+                                    <i class="fa-solid fa-trash"></i>
+                                </a>
                             </td>
                         </tr>                        
                     @endforeach

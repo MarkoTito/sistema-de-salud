@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class MascotasController extends Controller
 {
@@ -28,14 +29,13 @@ class MascotasController extends Controller
 
     public function store(Request $request)
     {
-
         // $idMascota = $mascota[0]->id_insertado;
         $Idusuario = Auth::user()->id;
-
         $viewDueño=DB::select('EXEC dbo.FoundResponsable ?',[$request->dniRes]);
 
         if (!empty($viewDueño)) {
             $idResponsable= $viewDueño[0]->PK_Responsable;
+            
             $mascota=DB::select('EXEC dbo.InserMascota  ?,?,?,?,?,?,?,?,?,?,?',
                     [
                         $idResponsable,
@@ -51,6 +51,65 @@ class MascotasController extends Controller
                         $request->antecedentes,
             
                     ]);
+            $idMascota = $mascota[0]->id_insertado;
+            
+                    if ($request->hasFile('docuImagen') && $request->file('docuImagen')->isValid()) {
+                            $file = $request->file('docuImagen');
+                            $path = Storage::put('documentos', $file);
+                            $size = $file->getSize();
+                            $nombre = $file->getClientOriginalName();
+
+                            DB::statement('EXEC dbo.InsertarDocumentoRespon ?, ?, ?,?', [
+                                $idResponsable,
+                                $size,
+                                $path,
+                                $nombre
+                            ]);
+                    }
+                    if ($request->hasFile('residenciaDoc') && $request->file('residenciaDoc')->isValid()) {
+                            $file = $request->file('residenciaDoc');
+                            $path = Storage::put('documentos', $file);
+                            $size = $file->getSize();
+                            $nombre = $file->getClientOriginalName();
+
+                            DB::statement('EXEC dbo.InsertarDocumentoRespon ?, ?, ?,?', [
+                                $idResponsable,
+                                $size,
+                                $path,
+                                $nombre
+                                
+                            ]);
+                    }
+
+                    if ($request->hasFile('certiMascota') && $request->file('certiMascota')->isValid()) {
+                            $file = $request->file('certiMascota');
+                            $path = Storage::put('documentos', $file);
+                            $size = $file->getSize();
+                            $nombre = $file->getClientOriginalName();
+
+                            DB::statement('EXEC dbo.InsertarDocumentoRespon ?, ?, ?,?', [
+                                $idResponsable,
+                                $size,
+                                $path,
+                                $nombre
+                                
+                            ]);
+                    }
+
+                    if ($request->hasFile('fotoMascota') && $request->file('fotoMascota')->isValid()) {
+                            $file = $request->file('fotoMascota');
+                            $path = Storage::put('imagenes', $file);
+                            $size = $file->getSize();
+
+                            DB::statement('EXEC dbo.InsertarImagenMascota   ?, ?,?', [
+                                $idMascota,
+                                $size,
+                                $path,
+                            ]);
+                    }
+
+
+
                     if ($mascota && $mascota[0]->estado === 'OK') {
                         return response()->json([
                             'success' => true,
@@ -94,19 +153,82 @@ class MascotasController extends Controller
                         $request->antecedentes,
                     
                     ]);
+
+                $idMascota = $mascota[0]->id_insertado;
+
                 if ($mascota && $mascota[0]->estado === 'OK') {
         
                     if ($mascota && $mascota[0]->estado === 'OK') {
+
+                        if ($request->hasFile('docuImagen') && $request->file('docuImagen')->isValid()) {
+                            $file = $request->file('docuImagen');
+                            $path = Storage::put('documentos', $file);
+                            $size = $file->getSize();
+                            $nombre = $file->getClientOriginalName();
+
+                            DB::statement('EXEC dbo.InsertarDocumentoRespon ?, ?, ?,?', [
+                                $idResponsable,
+                                $size,
+                                $path,
+                                $nombre
+                                
+                            ]);
+                        }
+                        if ($request->hasFile('residenciaDoc') && $request->file('residenciaDoc')->isValid()) {
+                            $file = $request->file('residenciaDoc');
+                            $path = Storage::put('documentos', $file);
+                            $size = $file->getSize();
+                            $nombre = $file->getClientOriginalName();
+
+                            DB::statement('EXEC dbo.InsertarDocumentoRespon ?, ?, ?,?', [
+                                $idResponsable,
+                                $size,
+                                $path,
+                                $nombre
+                                
+                            ]);
+                        }
+                        if ($request->hasFile('certiMascota') && $request->file('certiMascota')->isValid()) {
+                            $file = $request->file('certiMascota');
+                            $path = Storage::put('documentos', $file);
+                            $size = $file->getSize();
+                            $nombre = $file->getClientOriginalName();
+
+                            DB::statement('EXEC dbo.InsertarDocumentoRespon ?, ?, ?,?', [
+                                $idResponsable,
+                                $size,
+                                $path,
+                                $nombre
+                                
+                            ]);
+                        }
+
+                        if ($request->hasFile('fotoMascota') && $request->file('fotoMascota')->isValid()) {
+                            $file = $request->file('fotoMascota');
+                            $path = Storage::put('imagenes', $file);
+                            $size = $file->getSize();
+                            $nombre = $file->getClientOriginalName();
+
+                            DB::statement('EXEC dbo.InsertarImagenMascota  ?, ?,?', [
+                                $idMascota,
+                                $size,
+                                $path,
+                                
+                            ]);
+                        }
+
                         return response()->json([
                             'success' => true,
                         ]);
+
+
                     } else {
                         return response()->json(['success' => false]);
                     }
                 }
-    
-    
             }
+
+
         }
         return response()->json(['success' => false]);
     } 

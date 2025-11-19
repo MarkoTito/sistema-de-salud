@@ -195,6 +195,7 @@
                 <div class="mb-4">
                     <label class="text-sm">Certificado de Vacunación:</label>
                     <input type="file"name="certiMascota" class="border w-full p-2 rounded-lg" >
+                
                 </div>
                 
             </div>
