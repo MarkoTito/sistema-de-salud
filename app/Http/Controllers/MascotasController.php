@@ -14,10 +14,6 @@ class MascotasController extends Controller
     {
         $mascotas=DB::select('EXEC dbo.viewMascotas');
         return view('admin/Veterinaria/Mascotas',compact('mascotas'));
-
-        // $viewDueño=DB::select('EXEC dbo.FoundResponsable ?',['72921093']);
-        // return $viewDueño[0]->PK_Responsable;
-        
     }
 
     public function create()
@@ -235,25 +231,119 @@ class MascotasController extends Controller
 
     public function show($id)
     {
-       
+        $resultado=DB::select('EXEC dbo.OneMascota ? ',[$id]);
+        $mascota= $resultado[0];
+        $documentos = collect(DB::select('EXEC dbo.ViewDocumentResponsable ?', [$id]));
+        //$resulIma = collect(DB::select('EXEC dbo.ViewImagenMascota ?', [$id]));
+        $imagen = collect(DB::select('EXEC dbo.ViewImagenMascota ?', [$id]))->last();
+        
+        return view('admin/Veterinaria/oneMascota',compact('mascota','documentos','imagen'));
+        
     }
 
 
     public function edit($id)
     {
+        $resultado=DB::select('EXEC dbo.OneMascota ? ',[$id]);
+        $mascota= $resultado[0];
+        $documentos = collect(DB::select('EXEC dbo.ViewDocumentResponsable ?', [$id]));
         
+        $imagen = collect(DB::select('EXEC dbo.ViewImagenMascota ?', [$id]))->last();
+
+        $razas = DB::select('EXEC dbo.viewRazas');
+        $identificadores = DB::select('EXEC dbo.viewIdentificaciones');
+        
+        return view('admin/Veterinaria/editMascota',compact('mascota','documentos','imagen','razas','identificadores'));
     }
 
     public function update(Request $request, $id)
     {
-       
+        //return $request;
+        $resultado=DB::select('EXEC dbo.OneMascota ? ',[$id]);
+        $mascota= $resultado[0];
+        $idResponsable = $mascota->PK_Responsable;
+        
+        $resultado=DB::statement('EXEC dbo.EditarResponsable ?,?,?,?,?,?,?,?,?',
+            [
+                $idResponsable,
+                $request->resName,
+                $request->resApeP,
+                $request->resApeM,
+                $request->resDNI,
+                $request->resCel,
+                $request->resDire,
+                $request->resEmail,
+                $request->resTel
+
+            ]);
+
+        if ($resultado === true) {
+
+            
+            $Mascota=DB::statement('EXEC dbo.EditarMascota ?,?,?,?,?,?,?,?,?,?,?',
+            [
+                $id,
+                $request->raza,
+                $request->identificacion,
+
+                $request->masName,
+                $request->tipo,
+                $request->masColor,
+
+                $request->peligrosidad,
+                $request->masSeñas,
+                $request->fecha,
+
+                $request->sexo,
+                $request->antecedentes
+
+            ]);
+            if ($Mascota === true) {
+                session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => '¡Buen trabajo!',
+                    'text' => 'Se edito la informacion correctamente'
+                ]);
+                return redirect()->route('admin.Mascotas.show', [$id]);
+            }
+            else {
+            session()->flash('swal', [
+                'icon' => 'error',
+                'title' => '¡Ups!',
+                'text' => 'No edito la informacion correctamente'
+            ]);
+            return redirect()->route('admin.Mascotas.edit', [$id]);
+        }   
+        } else {
+            session()->flash('swal', [
+                'icon' => 'error',
+                'title' => '¡Ups!',
+                'text' => 'No edito la informacion correctamente'
+            ]);
+            return redirect()->route('admin.Mascotas.edit', [$id]);
+        }   
+        return redirect()->route('admin.Mascotas.edit', [$id]);
     }
     
    
 
     public function destroy($id)
     {
-        
+        $resultado=DB::statement('EXEC dbo.EliminarMascota ? ',[$id]);
+        if ($resultado === true) {
+            session()->flash('swal', [
+                'icon' => 'success',
+                'title' => '¡Buen trabajo!',
+                'text' => 'Se elimino la mascota correctamente'
+            ]);
+        } else {
+            session()->flash('swal', [
+                'icon' => 'error',
+                'title' => '¡Ups!',
+                'text' => 'No se mascota la charla correctamente'
+            ]);
+        }   
+        return redirect()->route('admin.Mascotas.index');
           
     }
 }

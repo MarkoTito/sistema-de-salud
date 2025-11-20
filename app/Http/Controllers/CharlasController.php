@@ -198,7 +198,7 @@ class CharlasController extends Controller
                     'text' => 'No se elimino la charla correctamente'
                 ]);
             }   
-        return redirect()->route('admin.Charlas.index');
+        return redirect()->route('admin.Chamrlas.index');
     }
 
     public function downloadOne(string $id)

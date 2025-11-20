@@ -101,16 +101,16 @@
                                 {{$mascota->Tnombre_responsable}}
                             </td>
                             <td class="px-6 py-4" align="center" >
-                                <a href=""> 
+                                <a href="">
                                         <i class="fa-solid fa-download"></i>   
                                 </a>
-                                <a href="">
+                                <a href=" {{route('admin.Mascotas.show',$mascota->PK_Mascota)}} "> 
                                     <i class="fa-solid fa-eye"></i>   
                                 </a>
-                                <a href="">
+                                <a href=" {{route('admin.Mascotas.edit',$mascota->PK_Mascota)}} "> 
                                     <i class="fa-solid fa-pen-to-square"></i>   
                                 </a>
-                                <a href="">
+                                <a href=" {{route('admin.Mascotas.destroy',$mascota->PK_Mascota)}} " class="btn-finalizar" data-id="{{$mascota->PK_Mascota}}" data-nombre="{{$mascota->Tnombre_mascota}}"> 
                                     <i class="fa-solid fa-trash"></i>
                                 </a>
                             </td>
@@ -123,7 +123,35 @@
 
 
     
+    @push('js')
+        <script>
+            document.querySelectorAll('.btn-finalizar').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const id = this.getAttribute('data-id');
+                    const nombre = this.getAttribute('data-nombre');
+                    const form = document.getElementById('form-delete');
 
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "Eliminar a la siguiente mascota: " + nombre,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sí, eliminar',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.action = `/admin/Mascotas/${id}`;
+                            form.submit();
+                        }
+                    });
+                });
+            });
+        </script>
+        
+    @endpush
     
 
     
