@@ -13,211 +13,222 @@
     ]">
 
 
-    <div id="gallery" class="relative w-full" data-carousel="slide">
+    <div class="max-w-6xl mx-auto p-6">
         
-        <ol class="flex items-center w-full space-x-4 mb-6">
-            <li id="s1" class="step-active flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-brand-subtle after:border-4 after:inline-block after:ms-4 after:rounded-full">
-                <span class="step-circle-active">
-                    <i class="fa-solid fa-person"></i>
-                    <span class="ml-2 text-sm">Registro responsables</span>
-                </span>
-            </li>
+        <div id="gallery" class="w-full" data-carousel="slide">
+            
+            <ol class="flex items-center w-full space-x-4 mb-6">
+                <li id="s1" class="step-active flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-brand-subtle after:border-4 after:inline-block after:ms-4 after:rounded-full">
+                    <span class="step-circle-active">
+                        <i class="fa-solid fa-person"></i>
+                        <span class="ml-2 text-sm">Registro responsables</span>
+                    </span>
+                </li>
+    
+                <li id="s2" class="step-inactive flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-default after:border-4 after:inline-block after:ms-4 after:rounded-full">
+                    <span class="step-circle-inactive">
+                        <i class="fa-solid fa-paw"></i>
+                        <span class="ml-2 text-sm">Datos de la Mascota</span>
+                    </span>
+                </li>
+    
+                <li id="s3" class="step-inactive flex items-center w-full">
+                    <span class="step-circle-inactive">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span class="ml-2 text-sm">Confirmación</span>
+                    </span>
+                </li>
+            </ol>
+    
+        </div>
+    </div>
 
-            <li id="s2" class="step-inactive flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-default after:border-4 after:inline-block after:ms-4 after:rounded-full">
-                <span class="step-circle-inactive">
-                    <i class="fa-solid fa-paw"></i>
-                    <span class="ml-2 text-sm">Datos de la Mascota</span>
-                </span>
-            </li>
+    
 
-            <li id="s3" class="step-inactive flex items-center w-full">
-                <span class="step-circle-inactive">
-                    <i class="fa-solid fa-circle-check"></i>
-                    <span class="ml-2 text-sm">Confirmación</span>
-                </span>
-            </li>
-        </ol>
+    <div class="max-w-6xl mx-auto p-6">
+        <!-- FORMULARIO COMPLETO -->
+        <form id="form1" class="w-full" enctype="multipart/form-data">
+    
+            <!-- PASO 1 -->
+            <div id="paso1">
+                <h3 class="text-lg font-medium mb-4">Paso 1: Responsable</h3>
+    
+                <div class="grid gap-6 mb-4 md:grid-cols-3 mt-4">
+                    <div class="mb-4">
+                        <label class="text-sm">Nombre</label>
+                        <input name="nombreRes" maxlength="55" type="text" class="border w-full p-2 rounded-lg"   >
+                    </div>
+            
+                    <div class="mb-4">
+                        <label class="text-sm">Apellido Paterno:</label>
+                        <input type="text" name="apePaRes" maxlength="30" class="border w-full p-2 rounded-lg"   >
+                    </div>
+                    <div class="mb-4">
+                        <label class="text-sm">Apellido Materno:</label>
+                        <input type="text" name="apeMaRes" maxlength="30" class="border w-full p-2 rounded-lg"  >
+                    </div>
+    
+                    <div class="mb-4">
+                        <label class="text-sm">DNI:</label>
+                        <input type="text" name="dniRes" maxlength="8" class="border w-full p-2 rounded-lg"  oninput="this.value = this.value.replace(/[^0-9]/g, '');"   />
+                    </div>
+            
+                    <div class="mb-4">
+                        <label class="text-sm">Celular:</label>
+                        <input type="text" name="numCelRes" maxlength="9" class="border w-full p-2 rounded-lg"  oninput="this.value = this.value.replace(/[^0-9]/g, '');"   />
+                    </div>
+                    <div class="mb-4">
+                        <label class="text-sm">Direccion:</label>
+                        <input type="text" name="direRes" maxlength="120" class="border w-full p-2 rounded-lg"   >
+                    </div>
+                </div>
+    
+                <div class="grid gap-4 mb-4 md:grid-cols-2 mt-4">
+                    <div class="mb-4">
+                        <label class="text-sm">Numero de Telefono Fijo:</label>
+                        <input type="text" name="telFijo" maxlength="15" class="border w-full p-2 rounded-lg"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
+                    </div>
+                    <div class="mb-4">
+                        <label class="text-sm">Correo electronico:</label>
+                        <input type="email" name="correo" class="border w-full p-2 rounded-lg" >
+                    </div>
+    
+                    <div class="mb-4">
+                        <label class="text-sm">Foto de documento:</label>
+                        <input type="file" name="docuImagen" class="border w-full p-2 rounded-lg" >
+                    </div>
+                    <div class="mb-4">
+                        <label class="text-sm">Adjuntar Doc. - Residencia del Responsable (PDF):</label>
+                        <input type="file" name="residenciaDoc" class="border w-full p-2 rounded-lg" >
+                    </div>
+                    
+                </div>
+    
+                <button type="button" id="next1" class="bg-blue-600 text-white px-4 py-2 rounded">
+                    Siguiente
+                </button>
+            </div>
+    
+            <!-- PASO 2 -->
+            <div id="paso2" class="hidden">
+                <h3 class="text-lg font-medium mb-4">Paso 2: Datos de la Mascota</h3>
+                
+                <div class="flex gap-4">
+                    <div class="w-3/4">
+                        <label class="text-sm">Nombre</label>
+                        <input name="nombreMas"  maxlength="55" type="text" class="border w-full p-2 rounded-lg"  >
+                    </div>
+            
+                    <div class="w-3/4">
+                        <label class="text-sm">Especie:</label>
+                        <select name="tipo" id="" style="width: 100%"  >
+                            <option selected disabled  value="">Escoja una opción</option>
+                            <option value="Canino">Canino</option>
+                            <option value="Felino">Felino</option>
+                        </select>
+                    </div>
+                    <div class="w-3/4">
+                        <label class="text-sm">Raza:</label>
+                        <select name="raza" id="miSelect-raza" style="width: 100%"  >
+                            <option selected disabled  value="">Escoja una opción</option>
+                            @foreach ($razas as $raza)
+                                <option value="{{$raza->PK_Raza}}">{{$raza->Tdescripcion_raza}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="w-3/4">
+                        <label class="text-sm">Sexo:</label>
+                        <select name="sexo" id="miSelect-raza" style="width: 100%"  >
+                            <option selected disabled  value="">Escoja una opción</option>
+                            <option value="MACHO">MACHO</option>
+                            <option value="HEMBRA">HEMBRA</option>
+                        </select>
+                    </div>
+    
+                </div>
+    
+    
+                <div class="grid gap-6 mb-4 md:grid-cols-3 mt-4">
+    
+                    <div class="mb-4">
+                        <label class="text-sm">Fecha de Nacimiento:</label>
+                        <input  type="Date" name="fechaNaci" class="border w-full p-2 rounded-lg" max="{{ date('Y-m-d') }}" />
+                    </div>
+            
+                    <div class="mb-4">
+                        <label class="text-sm">Color:</label>
+                        <input type="text" name="color" maxlength="80"   class="border w-full p-2 rounded-lg"  />
+                    </div>
+                    <div class="mb-4">
+                        <label class="text-sm">Antecedentes de Agresividad   :</label>
+                        <select  name="antecedentes" id="" style="width: 100%" >
+                            <option selected disabled  value="">Escoja una opción</option>
+                            <option value="Si">Si</option>
+                            <option value="No">NO</option>
+                        </select>
+                    </div>
+    
+    
+                    <div class="mb-4">
+                    <label class="text-sm">Potencialmente Peligroso:</label>
+                        <select   name="peligrocidad" id="" style="width: 100%" >
+                            <option selected disabled  value="">Escoja una opción</option>
+                            <option value="Si">Si</option>
+                            <option value="NO">No</option>
+                        </select>
+                    </div>
+            
+                    <div class="mb-4">
+                        <label class="text-sm">Señas particulares:</label>
+                        <input type="text" name="señales" maxlength="100" class="border w-full p-2 rounded-lg"  />
+                    </div>
+                    <div class="mb-4">
+                    <label class="text-sm">Identificación :</label>
+                        <select name="identificacion" id="miSelect-identificacion" style="width: 100%" >
+                            <option selected disabled  value="">Escoja una opción</option>
+                            @foreach ($identificadores as $iden)
+                                <option value="{{$iden->PK_Identificacion}}">{{$iden->Tnombre_identificacion}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+    
+                <div class="grid gap-4 mb-4 md:grid-cols-2 mt-4">
+                    <div class="mb-4">
+                        <label class="text-sm">Fotografía de la Mascota: </label>
+                        <input type="file" name="fotoMascota[]" multiple accept="image/*" class="border w-full p-2 rounded-lg" >
+    
+                    </div>
+                    <div class="mb-4">
+                        <label class="text-sm">Certificado de Vacunación:</label>
+                        <input type="file"name="certiMascota" class="border w-full p-2 rounded-lg"  >
+                    
+                    </div>
+                    
+                </div>
+    
+                <button type="button" id="back1" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Atrás</button>
+                <button type="button" id="next2" class="bg-blue-600 text-white px-4 py-2 rounded">Siguiente</button>
+            </div>
+    
+            <!-- PASO 3 -->
+            <div id="paso3" class="hidden">
+                <h3 class="text-lg font-medium mb-4">Paso 3: Confirmación</h3>
+    
+                <p class="mb-4">Revisa la información antes de enviar.</p>
+    
+                <button type="button" id="back2" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Atrás</button>
+    
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
+                    Finalizar y Enviar
+                </button>
+            </div>
+    
+        </form>
+
 
     </div>
-    
-    <!-- FORMULARIO COMPLETO -->
-    <form id="form1" class="max-w-md" enctype="multipart/form-data">
 
-        <!-- PASO 1 -->
-        <div id="paso1">
-            <h3 class="text-lg font-medium mb-4">Paso 1: Responsable</h3>
-
-            <div class="grid gap-6 mb-4 md:grid-cols-3 mt-4">
-                <div class="mb-4">
-                    <label class="text-sm">Nombre</label>
-                    <input name="nombreRes" maxlength="55" type="text" class="border w-full p-2 rounded-lg" required  >
-                </div>
-        
-                <div class="mb-4">
-                    <label class="text-sm">Apellido Paterno:</label>
-                    <input type="text" name="apePaRes" maxlength="30" class="border w-full p-2 rounded-lg" required  >
-                </div>
-                <div class="mb-4">
-                    <label class="text-sm">Apellido Materno:</label>
-                    <input type="text" name="apeMaRes" maxlength="30" class="border w-full p-2 rounded-lg" required >
-                </div>
-
-                <div class="mb-4">
-                    <label class="text-sm">DNI:</label>
-                    <input type="text" name="dniRes" maxlength="8" class="border w-full p-2 rounded-lg"  oninput="this.value = this.value.replace(/[^0-9]/g, '');"  required />
-                </div>
-        
-                <div class="mb-4">
-                    <label class="text-sm">Celular:</label>
-                    <input type="text" name="numCelRes" maxlength="9" class="border w-full p-2 rounded-lg"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" required  />
-                </div>
-                <div class="mb-4">
-                    <label class="text-sm">Direccion:</label>
-                    <input type="text" name="direRes" maxlength="120" class="border w-full p-2 rounded-lg" required  >
-                </div>
-            </div>
-
-            <div class="grid gap-4 mb-4 md:grid-cols-2 mt-4">
-                <div class="mb-4">
-                    <label class="text-sm">Numero de Telefono Fijo:</label>
-                    <input type="text" name="telFijo" maxlength="15" class="border w-full p-2 rounded-lg"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
-                </div>
-                <div class="mb-4">
-                    <label class="text-sm">Correo electronico:</label>
-                    <input type="email" name="correo" class="border w-full p-2 rounded-lg" >
-                </div>
-
-                <div class="mb-4">
-                    <label class="text-sm">Foto de documento:</label>
-                    <input type="file" name="docuImagen" class="border w-full p-2 rounded-lg" >
-                </div>
-                <div class="mb-4">
-                    <label class="text-sm">Adjuntar Doc. - Residencia del Responsable (PDF):</label>
-                    <input type="file" name="residenciaDoc" class="border w-full p-2 rounded-lg" >
-                </div>
-                
-            </div>
-
-            <button type="button" id="next1" class="bg-blue-600 text-white px-4 py-2 rounded">
-                Siguiente
-            </button>
-        </div>
-
-        <!-- PASO 2 -->
-        <div id="paso2" class="hidden">
-            <h3 class="text-lg font-medium mb-4">Paso 2: Datos de la Mascota</h3>
-            
-            <div class="flex gap-4">
-                <div class="w-3/4">
-                    <label class="text-sm">Nombre</label>
-                    <input name="nombreMas"  maxlength="55" type="text" class="border w-full p-2 rounded-lg"required  >
-                </div>
-        
-                <div class="w-3/4">
-                    <label class="text-sm">Especie:</label>
-                    <select name="tipo" id="" style="width: 100%"  required>
-                        <option selected disabled  value="">Escoja una opción</option>
-                        <option value="Canino">Canino</option>
-                        <option value="Felino">Felino</option>
-                    </select>
-                </div>
-                <div class="w-3/4">
-                    <label class="text-sm">Raza:</label>
-                    <select name="raza" id="miSelect-raza" style="width: 100%" required >
-                        <option selected disabled  value="">Escoja una opción</option>
-                        @foreach ($razas as $raza)
-                            <option value="{{$raza->PK_Raza}}">{{$raza->Tdescripcion_raza}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="w-3/4">
-                    <label class="text-sm">Sexo:</label>
-                    <select name="sexo" id="miSelect-raza" style="width: 100%" required >
-                        <option selected disabled  value="">Escoja una opción</option>
-                        <option value="MACHO">MACHO</option>
-                        <option value="HEMBRA">HEMBRA</option>
-                    </select>
-                </div>
-
-            </div>
-
-
-            <div class="grid gap-6 mb-4 md:grid-cols-3 mt-4">
-
-                <div class="mb-4">
-                    <label class="text-sm">Fecha de Nacimiento:</label>
-                    <input  type="Date" name="fechaNaci" class="border w-full p-2 rounded-lg" max="{{ date('Y-m-d') }}" />
-                </div>
-        
-                <div class="mb-4">
-                    <label class="text-sm">Color:</label>
-                    <input type="text" name="color" maxlength="80"   class="border w-full p-2 rounded-lg" required />
-                </div>
-                <div class="mb-4">
-                    <label class="text-sm">Antecedentes de Agresividad   :</label>
-                    <select required name="antecedentes" id="" style="width: 100%" >
-                        <option selected disabled  value="">Escoja una opción</option>
-                        <option value="Si">Si</option>
-                        <option value="No">NO</option>
-                    </select>
-                </div>
-
-
-                <div class="mb-4">
-                <label class="text-sm">Potencialmente Peligroso:</label>
-                    <select  required name="peligrocidad" id="" style="width: 100%" >
-                        <option selected disabled  value="">Escoja una opción</option>
-                        <option value="Si">Si</option>
-                        <option value="NO">No</option>
-                    </select>
-                </div>
-        
-                <div class="mb-4">
-                    <label class="text-sm">Señas particulares:</label>
-                    <input type="text" name="señales" maxlength="100" class="border w-full p-2 rounded-lg"  />
-                </div>
-                <div class="mb-4">
-                <label class="text-sm">Identificación :</label>
-                    <select name="identificacion" id="miSelect-identificacion" style="width: 100%" >
-                        <option selected disabled  value="">Escoja una opción</option>
-                        @foreach ($identificadores as $iden)
-                            <option value="{{$iden->PK_Identificacion}}">{{$iden->Tnombre_identificacion}}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-
-            <div class="grid gap-4 mb-4 md:grid-cols-2 mt-4">
-                <div class="mb-4">
-                    <label class="text-sm">Fotografia de la Mascota: </label>
-                    <input type="file" name="fotoMascota"  class="border w-full p-2 rounded-lg"  required>
-                </div>
-                <div class="mb-4">
-                    <label class="text-sm">Certificado de Vacunación:</label>
-                    <input type="file"name="certiMascota" class="border w-full p-2 rounded-lg" required >
-                
-                </div>
-                
-            </div>
-
-            <button type="button" id="back1" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Atrás</button>
-            <button type="button" id="next2" class="bg-blue-600 text-white px-4 py-2 rounded">Siguiente</button>
-        </div>
-
-        <!-- PASO 3 -->
-        <div id="paso3" class="hidden">
-            <h3 class="text-lg font-medium mb-4">Paso 3: Confirmación</h3>
-
-            <p class="mb-4">Revisa la información antes de enviar.</p>
-
-            <button type="button" id="back2" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Atrás</button>
-
-            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
-                Finalizar y Enviar
-            </button>
-        </div>
-
-    </form>
 
 
     @push('css')
@@ -233,6 +244,18 @@
 
 
     @push('js')
+        
+        <script>
+            function validarMaximoImagenes(input) {
+                if (input.files.length > 2) {
+                    alert("Solo puedes subir un máximo de 2 imágenes.");
+                    input.value = ""; // limpia el input
+                }
+            }
+        </script>
+
+
+
         <script>
         window.onload = () => {
 

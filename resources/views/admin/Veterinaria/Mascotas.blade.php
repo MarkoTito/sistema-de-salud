@@ -34,6 +34,9 @@
                         Nombre
                     </th>
                     <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap bg-brand-strong" align="center" >
+                        Especie
+                    </td>
+                    <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap bg-brand-strong" align="center" >
                         Raza
                     </td>
                     <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap bg-brand-strong" align="center" >
@@ -56,6 +59,9 @@
             <tbody>
                 @if (!$mascotas)
                     <tr class="bg-brand border-b border-brand-light">
+                        <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap">
+                            No existe registro de mascotas
+                        </th>
                         <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap">
                             No existe registro de mascotas
                         </th>
@@ -85,6 +91,9 @@
                             <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap"align="center" >
                                 {{$mascota->Tnombre_mascota}}
                             </th>
+                            <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap"align="center" >
+                                {{$mascota->Tespecie_mascota}}
+                            </th>
                             <td class="px-6 py-4" align="center" >
                                 {{$mascota->Tdescripcion_raza}}
                             </td>
@@ -101,18 +110,25 @@
                                 {{$mascota->Tnombre_responsable}}
                             </td>
                             <td class="px-6 py-4" align="center" >
-                                <a href="">
+                                {{-- <a href="">
                                         <i class="fa-solid fa-download"></i>   
-                                </a>
+                                </a> --}}
                                 <a href=" {{route('admin.Mascotas.show',$mascota->PK_Mascota)}} "> 
                                     <i class="fa-solid fa-eye"></i>   
                                 </a>
                                 <a href=" {{route('admin.Mascotas.edit',$mascota->PK_Mascota)}} "> 
                                     <i class="fa-solid fa-pen-to-square"></i>   
                                 </a>
-                                <a href=" {{route('admin.Mascotas.destroy',$mascota->PK_Mascota)}} " class="btn-finalizar" data-id="{{$mascota->PK_Mascota}}" data-nombre="{{$mascota->Tnombre_mascota}}"> 
+                               <button type="button" onclick="eliminarMascota({{ $mascota->PK_Mascota }})" class="text-red-600">
                                     <i class="fa-solid fa-trash"></i>
-                                </a>
+                                </button>
+
+                                <form id="form-delete-{{ $mascota->PK_Mascota }}" 
+                                    action="{{ route('admin.Mascotas.destroy', $mascota->PK_Mascota) }}"
+                                    method="POST" style="display:none;">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
                             </td>
                         </tr>                        
                     @endforeach
@@ -125,31 +141,24 @@
     
     @push('js')
         <script>
-            document.querySelectorAll('.btn-finalizar').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const id = this.getAttribute('data-id');
-                    const nombre = this.getAttribute('data-nombre');
-                    const form = document.getElementById('form-delete');
-
-                    Swal.fire({
-                        title: '¿Estás seguro?',
-                        text: "Eliminar a la siguiente mascota: " + nombre,
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Sí, eliminar',
-                        cancelButtonText: 'Cancelar'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            form.action = `/admin/Mascotas/${id}`;
-                            form.submit();
-                        }
-                    });
+            function eliminarMascota(id) {
+                Swal.fire({
+                    title: "¿Seguro desea eliminar?",
+                    text: "Esta acción no se puede deshacer.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Sí, eliminar",
+                    cancelButtonText: "Cancelar"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('form-delete-' + id).submit();
+                    }
                 });
-            });
+            }
         </script>
+
         
     @endpush
     

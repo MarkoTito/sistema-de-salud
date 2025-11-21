@@ -132,23 +132,23 @@
                                         <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
                                     </div>
                                 </td> --}}
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
                                     {{$campaña->PK_Campaña}}
                                 </th>
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
                                     {{$campaña->Tnombre_Tipocampaña}}
                                 </th>
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
                                     {{$campaña->Tlugar_campaña}}
                                 </th>
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
                                     {{$campaña->DfechaIni_campaña}}
                                 </th>
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
                                     {{$campaña->ThoraIni_campaña}}
                                 </th>
                                 @if ($campaña->Nestado_campaña ==1)
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-blue-600" align="center" >
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-white-600" align="center" >
                                         Pendiente
                                     </th>
                                     
@@ -164,7 +164,7 @@
                                     </th>
                                 @endif
                                 
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
                                     <a href="{{route('admin.Asitentes.show',$campaña->PK_Campaña)}}"> 
                                         <i class="fa-solid fa-download"></i>   
                                     </a>

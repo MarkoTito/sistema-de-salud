@@ -14,7 +14,7 @@
     <form action="{{route('admin.Mascotas.update',$mascota->PK_Mascota)}}" method="POST" >
 
 
-        <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4 mb-4 ">
+        <div class="grid gap-6 mb-2 md:grid-cols-2 mt-4 mb-2 ">
     
             <div >
     
@@ -25,7 +25,7 @@
                         <br>
                         <img src="https://st2.depositphotos.com/2945617/6862/v/450/depositphotos_68621493-stock-illustration-cute-dog-cartoon.jpg" height="350px" width="350px" alt="imagen de la campaña">
                     @else
-                        <div class="mb-4">
+                        <div class="mb-2">
                             <br>
                             <br>
                             <br>    
@@ -47,9 +47,9 @@
                     @csrf
                     @method('PUT')
     
-                    <div class="p-6 rounded-lg border-2 border-blue-300 bg-blue-50 mb-4">
-                        <p class="text-lg font-semibold text-center mb-4">Mascota</p>
-                        <div class="grid gap-6 mb-4 md:grid-cols-3 mt-4 ">
+                    <div class="p-6 rounded-lg border-2 border-blue-300 bg-blue-50 mb-2">
+                        <p class="text-lg font-semibold text-center mb-2">Mascota</p>
+                        <div class="grid gap-6 mb-2 md:grid-cols-3 mt-4 ">
                             <div>
                                 <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Nombre:</label>    
                                 <input maxlength="33" name="masName" type="text" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 " required value="{{$mascota->Tnombre_mascota}}" >
@@ -141,9 +141,9 @@
         
                     <div class="p-6 rounded-lg border-2 border-blue-300 bg-blue-50">
             
-                        <p class="text-lg font-semibold text-center mb-4">Responsable</p>
+                        <p class="text-lg font-semibold text-center mb-2">Responsable</p>
         
-                        <div class="grid gap-6 mb-4 md:grid-cols-3 mt-4">
+                        <div class="grid gap-6 mb-2 md:grid-cols-3 mt-4">
                             <div>
                                 <label class="block mb-2 text-sm font-medium text-gray-900">Nombres:</label>    
                                 <input type="text" maxlength="55" name="resName" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 " value="{{$mascota->Tnombre_responsable}}"required>
@@ -176,10 +176,10 @@
                             
                             
                         </div>
-                        <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4">
+                        <div class="grid gap-6 mb-2 md:grid-cols-2 mt-4">
                             <div>
                                 <label class="block mb-2 text-sm font-medium text-gray-900">Correo:</label>    
-                                <input type="text" maxlength="70" name="resEmail" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 " value="{{$mascota->Tcorreo_responsable}}"required>
+                                <input type="email" maxlength="70" name="resEmail" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 " value="{{$mascota->Tcorreo_responsable}}"required>
                             </div>
         
                             <div>
