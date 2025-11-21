@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MascotasController extends Controller
 {
@@ -365,4 +367,66 @@ class MascotasController extends Controller
         return redirect()->route('admin.Mascotas.index');
           
     }
+
+    public function Found(Request $request)
+    {
+        $results=DB::select('EXEC dbo.MascotaFound ?,?,?',[
+            $request->founTipo,
+            $request->fehcIni,
+            $request->fehFin,
+        ]);
+        if (empty($results[0])) {
+
+            session()->flash('swal', [
+                    'icon' => 'error',
+                    'title' => '¡Ups!',
+                    'text' => 'no existe la relacion'
+                ]);
+            return redirect()->route('admin.Mascotas.index');                
+        } else {
+            $collection = collect($results);
+
+            $perPage = 5;   
+            $page = request()->get('page', 1); 
+
+            $items = $collection->slice(($page - 1) * $perPage, $perPage)->values();
+
+            $mascotas = new LengthAwarePaginator(
+                $items,
+                $collection->count(),
+                $perPage,
+                $page,
+                ['path' => request()->url(), 'query' => request()->query()]
+            );
+            session()->flash('swal', [
+                'icon' => 'success',
+                'text' => 'Se encontraron las charlas'
+            ]);
+
+
+            return view('admin/Veterinaria/MascotaFound', compact('mascotas','request'));
+            
+        }
+    }
+
+
+    public function dowloadExport(Request $request){
+        $informacion=DB::select('EXEC dbo.MascotaFound ?,?,?',[
+            $request->founTipo,
+            $request->fehcIni,
+            $request->fehFin,
+        ]);
+        if (empty($informacion[0])) {    
+            session()->flash('swal', [
+                'icon' => 'error',
+                'title' => '¡Ups!',
+                'text' => 'no existe las charlas'
+            ]);
+            return redirect()->route('admin.Charlas.index');                
+        }
+        $resultado = collect($informacion);
+        return Excel::download(new \App\Exports\MascotaExport($resultado),'E-Mascota.xlsx');
+    }
+
+
 }

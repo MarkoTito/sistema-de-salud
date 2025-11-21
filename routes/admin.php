@@ -47,6 +47,8 @@ Route::middleware('auth')->group(function () {
     
     //Mascotas
     Route::resource('Mascotas', MascotasController::class);
+    Route::post('Mascotas/Found', [MascotasController::class, 'Found'])->name('Mascotas.found');
+    Route::get('Mascotas/encontrado/excel',[MascotasController::class,'dowloadExport'])->name('Mascotas.excell');
 
 
 });

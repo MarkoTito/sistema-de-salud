@@ -392,5 +392,16 @@
 
         });
         </script>
+        <script>
+            $(document).ready(function() {
+                $('#miSelect-raza').select2({
+                placeholder: "---Seleccioné una raza---",
+                allowClear: true
+                });
+            });
+        </script>
+
+
+
     @endpush
 </x-admin-layout>

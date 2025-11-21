@@ -5,8 +5,13 @@
     ],
     [
         'name'=> 'Mascotas',
+        'href' => route('admin.Mascotas.index')
+    ],
+    [
+        'name'=> 'Busqueda de Mascotas',
     ]
     ]">
+
     <div class="flex justify-between items-center mb-4">
         <div>
             <form action="{{route('admin.Mascotas.found')}}" method="POST" >
@@ -25,15 +30,15 @@
 
 
                     <div>
-                        <input type="date"  required id="first_name" name="fehcIni" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                        <input type="date" value="{{$request->fehcIni}}" id="first_name" name="fehcIni" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </div>
 
                     <div>
-                        <input type="date" required id="first_name" name="fehFin" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                        <input type="date" value="{{$request->fehFin}}" id="first_name" name="fehFin" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </div>
                     
                     <div>
-                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"><i class="fa-solid fa-magnifying-glass"></i></button> 
+                        <button required type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"><i class="fa-solid fa-magnifying-glass"></i></button> 
                     </div>
                 </div>
             </form>
@@ -140,9 +145,6 @@
                                 {{$mascota->Tnombre_responsable}}
                             </td>
                             <td class="px-6 py-4" align="center" >
-                                {{-- <a href="">
-                                        <i class="fa-solid fa-download"></i>   
-                                </a> --}}
                                 <a href=" {{route('admin.Mascotas.show',$mascota->PK_Mascota)}} "> 
                                     <i class="fa-solid fa-eye"></i>   
                                 </a>
@@ -166,6 +168,15 @@
             </tbody>
         </table>
     </div>
+    <br>
+    <div class="flex justify-start mb-4">
+        <a href="{{ route('admin.Mascotas.excell',$request)}}">
+            <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                <i class="fa-solid fa-file-excel"></i>
+                Descargar
+            </button>
+        </a>
+    </div>
 
 
     
@@ -188,6 +199,9 @@
                 });
             }
         </script>
+
+
+
 
         
     @endpush
