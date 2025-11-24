@@ -19,23 +19,29 @@
     </div>
     
     <div class="flex justify-between items-center mb-4">
-        <div>
-            <a href="{{route('admin.charla.documento',$charla->PK_Charlas)}}">
-                <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" id="agregar-asistente" >
-                    <i class="fa-solid fa-file"></i>
-                    Agregar Asistente
-                </button>    
-            </a>
-        </div>
-        <div>
-            <a href="{{route('admin.charla.imagen',$charla->PK_Charlas)}}">
-                <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"  >
-                    <i class="fa-solid fa-camera"></i>
-                    Agregar Evidencia
-                </button>    
-            </a>
+        @can('update-charlas')
+            <div>
+                <a href="{{route('admin.charla.documento',$charla->PK_Charlas)}}">
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" id="agregar-asistente" >
+                        <i class="fa-solid fa-file"></i>
+                        Agregar Asistente
+                    </button>    
+                </a>
+            </div>            
+        @endcan
+        
+        @can('update-charlas')
+            <div>
+                <a href="{{route('admin.charla.imagen',$charla->PK_Charlas)}}">
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"  >
+                        <i class="fa-solid fa-camera"></i>
+                        Agregar Evidencia
+                    </button>    
+                </a>
+                
+            </div>
+        @endcan
             
-        </div>
     </div>
     
     <br>

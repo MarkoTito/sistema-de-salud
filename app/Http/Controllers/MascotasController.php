@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
 
 class MascotasController extends Controller
@@ -14,12 +15,14 @@ class MascotasController extends Controller
     //
     public function index()
     {
+        Gate::authorize('view-mascotas');  
         $mascotas=DB::select('EXEC dbo.viewMascotas');
         return view('admin/Veterinaria/Mascotas',compact('mascotas'));
     }
 
     public function create()
     {
+        Gate::authorize('create-mascotas');  
         $razas = DB::select('EXEC dbo.viewRazas');
         $identificadores = DB::select('EXEC dbo.viewIdentificaciones');
         return view('admin/Veterinaria/newMascota',compact('razas','identificadores'));
@@ -27,7 +30,7 @@ class MascotasController extends Controller
 
     public function store(Request $request)
     {
-        
+        Gate::authorize('create-mascotas');  
         $Idusuario = Auth::user()->id;
         $viewDueño=DB::select('EXEC dbo.FoundResponsable ?',[$request->dniRes]);
 
@@ -249,6 +252,7 @@ class MascotasController extends Controller
 
     public function show($id)
     {
+        Gate::authorize('read-mascotas');  
         $resultado=DB::select('EXEC dbo.OneMascota ? ',[$id]);
         $mascota= $resultado[0];
         $idresponsable= $mascota->PK_Responsable;
@@ -265,6 +269,7 @@ class MascotasController extends Controller
 
     public function edit($id)
     {
+        Gate::authorize('update-mascotas');  
         $resultado=DB::select('EXEC dbo.OneMascota ? ',[$id]);
         $mascota= $resultado[0];
         $documentos = collect(DB::select('EXEC dbo.ViewDocumentResponsable ?', [$id]));
@@ -279,6 +284,7 @@ class MascotasController extends Controller
 
     public function update(Request $request, $id)
     {
+        Gate::authorize('update-mascotas');  
         //return $request;
         $resultado=DB::select('EXEC dbo.OneMascota ? ',[$id]);
         $mascota= $resultado[0];
@@ -350,6 +356,7 @@ class MascotasController extends Controller
 
     public function destroy($id)
     {
+        Gate::authorize('delete-mascotas');  
         $resultado=DB::statement('EXEC dbo.EliminarMascota ? ',[$id]);
         if ($resultado === true) {
             session()->flash('swal', [
@@ -370,6 +377,7 @@ class MascotasController extends Controller
 
     public function Found(Request $request)
     {
+        Gate::authorize('view-mascotas');  
         $results=DB::select('EXEC dbo.MascotaFound ?,?,?',[
             $request->founTipo,
             $request->fehcIni,
@@ -411,6 +419,7 @@ class MascotasController extends Controller
 
 
     public function dowloadExport(Request $request){
+        Gate::authorize('view-mascotas');  
         $informacion=DB::select('EXEC dbo.MascotaFound ?,?,?',[
             $request->founTipo,
             $request->fehcIni,

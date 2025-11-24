@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'admin@gmail.com',
         //     'password' => 'liammateo01'
         // ]);
+        
         $this->call([
         RazasSeeder::class,
         ]);
@@ -43,11 +44,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
-        RasaSeeder::class,
+        IdentificacionesSeeder::class,
         ]);
 
         $this->call([
-        IdentificacionesSeeder::class,
+            RoleSeeder::class
         ]);
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Gate;
 
 class CharlasController extends Controller
 {
@@ -18,6 +18,7 @@ class CharlasController extends Controller
     public function index()
     {
         //
+        Gate::authorize('view-charlas');  
         $results = DB::select('EXEC dbo.viewCharlas');
         $Tiposcharlas=DB::select('EXEC dbo.ViewsTiposCharlas');
         // Convertir a colección
@@ -46,6 +47,7 @@ class CharlasController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create-charlas');  
         $Tiposcharlas=DB::select('EXEC dbo.ViewsTiposCharlas');
         $expositores=DB::select('EXEC dbo.ViewExpositores');
         return view('admin/charla/newCharla', compact('Tiposcharlas','expositores'));
@@ -56,6 +58,7 @@ class CharlasController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create-charlas');  
         $validated=$request->validate([
             'charlas' => 'required',
             'DfechaIni_charla' => 'required|date|after_or_equal:today',
@@ -125,6 +128,7 @@ class CharlasController extends Controller
     public function show(string $id)
     {
         //
+        Gate::authorize('read-charlas');  
         $charlaShow = DB::select('EXEC dbo.OneCHARLA ? ',[$id]);
         $expositores = DB::select('EXEC dbo.ViewsColaboradoresCharlas ? ',[$id]);
         $documentos = collect(DB::select('EXEC dbo.ViewDocumentCharla ?', [$id]));
@@ -139,6 +143,7 @@ class CharlasController extends Controller
     public function edit(string $id)
     {
         //
+        Gate::authorize('update-charlas');  
         $charlaShow = DB::select('EXEC dbo.OneCHARLA ? ',[$id]);
         $Tiposcharlas=DB::select('EXEC dbo.ViewsTiposCharlas');
         $charla = $charlaShow[0];
@@ -150,6 +155,7 @@ class CharlasController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        Gate::authorize('update-charlas');  
         $resultado=DB::statement('EXEC dbo.EditarCharla ?,?,?,?,?,?,?, ?',
             [
                 $id,
@@ -184,6 +190,7 @@ class CharlasController extends Controller
      */
     public function destroy(string $id)
     {
+        Gate::authorize('delete-charlas');  
         $resultado=DB::statement('EXEC dbo.EliminarCharla ? ',[$id]);
             if ($resultado === true) {
                 session()->flash('swal', [
@@ -203,6 +210,7 @@ class CharlasController extends Controller
 
     public function downloadOne(string $id)
     {
+        Gate::authorize('view-charlas');  
         $informacion=DB::select('EXEC dbo.OneCHARLA ?',[$id]);
         if (empty($informacion[0])) {
 
@@ -221,6 +229,7 @@ class CharlasController extends Controller
     }
     public function downloadFound(Request $request)
     {
+        Gate::authorize('view-charlas');  
         if (!$request->founCharla & !$request->fehcIni ) {
             session()->flash('swal', [
                     'icon' => 'error',
@@ -272,16 +281,19 @@ class CharlasController extends Controller
 
     public function documento(string $id)
     {
+        Gate::authorize('view-charlas');  
         return view('admin/charla/documenCharla', compact('id'));
     }
 
     public function imagen(string $id)
     {
+        Gate::authorize('view-charlas');  
         return view('admin/charla/imagenCharla', compact('id'));
     }
 
     public function     dowloadExport(Request $request){
         #este descarga la busuqeda de charlas
+        Gate::authorize('view-charlas');  
         $informacion=DB::select('EXEC dbo.CharlaFoundExport ?, ?',[
                 $request->founCharla,
                 $request->fehcIni
@@ -300,6 +312,7 @@ class CharlasController extends Controller
 
     public function dropzone(Request $request, $id)
     {
+        Gate::authorize('view-charlas');  
         #para agregar documentos
         $file = $request->file('file');
         $path = Storage::put('documentos', $file);
@@ -324,6 +337,7 @@ class CharlasController extends Controller
 
     public function documentosDelete($id)
     {
+        Gate::authorize('view-charlas');  
         $resultado = DB::statement('EXEC dbo.EliminarDocumentoCharla ?', [
                $id        
             ]);
@@ -338,6 +352,7 @@ class CharlasController extends Controller
 
     public function dropzoneImagen(Request $request, $id)
     {
+        Gate::authorize('view-charlas');  
         $file = $request->file('file');
         $path = Storage::put('imagenes', $file);
         $size = $file->getSize();
@@ -356,6 +371,7 @@ class CharlasController extends Controller
     }
     public function imagenDelete($id)
     {
+        Gate::authorize('view-charlas');  
         $resultado = DB::statement('EXEC dbo.EliminarImagenCharla ?', [
                $id        
             ]);

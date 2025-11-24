@@ -3,6 +3,9 @@
         <ul class="space-y-2 font-medium">
             
             <li>
+                @can('all-salud')
+                    
+                @endcan
                 <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
                     <i class="fa-solid fa-heart-pulse"></i>
                     <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Salud</span>
@@ -11,24 +14,31 @@
                     </svg>
                 </button>
                 <ul id="dropdown-example" class="hidden py-2 space-y-2">
-                    <li>
-                        <a href="{{route('admin.Campañas.index')}}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Campañas</a>
-                    </li>
-                    <li>
-                        <a href="{{route('admin.Charlas.index')}}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Charlas</a>
-                    </li>
+                    @can('view-campañas')
+                        <li>
+                            <a href="{{route('admin.Campañas.index')}}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Campañas</a>
+                        </li>
+                    @endcan
+                    @can('view-charlas')
+                        <li>
+                            <a href="{{route('admin.Charlas.index')}}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Charlas</a>
+                        </li>
+                    @endcan
                     
                     
                 </ul>
             </li>
             <li>
-                <a href="{{route('admin.Mascotas.index')}}" 
-                    class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                    <span class="w-6 h-6 inline-flex justefy-center intens-center" >
-                        <i class="fa-solid fa-paw"></i>
-                    </span>
-                    <span class="ms-3">Mascotas</span>
-                </a>
+                @can('view-mascotas')
+                    <a href="{{route('admin.Mascotas.index')}}" 
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <span class="w-6 h-6 inline-flex justefy-center intens-center" >
+                            <i class="fa-solid fa-paw"></i>
+                        </span>
+                        <span class="ms-3">Mascotas</span>
+                    </a>
+                    
+                @endcan
             </li>
             <li>
                 <a href="{{route('admin.Configuracion.index')}}" 

@@ -8,14 +8,17 @@
     ]
     ]">
     
-    <div class="flex justify-end mb-4 ">
-        <a href="{{route('admin.Campañas.create')}}">
-            <button  class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                <i class="fa-solid fa-plus"></i> Agregar Campaña
-            </button>
+    @can('create-campañas')
+        <div class="flex justify-end mb-4 ">
+            <a href="{{route('admin.Campañas.create')}}">
+                <button  class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    <i class="fa-solid fa-plus"></i> Agregar Campaña
+                </button>
 
-        </a>
-    </div>
+            </a>
+        </div>
+        
+    @endcan
 
     <br>
 
@@ -165,18 +168,26 @@
                                 @endif
                                 
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
-                                    <a href="{{route('admin.Asitentes.show',$campaña->PK_Campaña)}}"> 
-                                        <i class="fa-solid fa-download"></i>   
-                                    </a>
-                                    <a href="{{route('admin.Campañas.show',$campaña->PK_Campaña)}}">
-                                        <i class="fa-solid fa-eye"></i>   
-                                    </a>
-                                    <a href="{{route('admin.Campañas.edit',$campaña->PK_Campaña)}}">
-                                        <i class="fa-solid fa-pen-to-square"></i>   
-                                    </a>
-                                    <a href="{{route('admin.Configuracion.edit',$campaña->PK_Campaña)}}" class="btn-finalizar" data-nombre="{{ $campaña->Tnombre_Tipocampaña }}">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </a>
+                                    @can('view-campañas')
+                                        <a href="{{route('admin.Asitentes.show',$campaña->PK_Campaña)}}"> 
+                                            <i class="fa-solid fa-download"></i>   
+                                        </a>
+                                    @endcan
+                                    @can('view-campañas')
+                                        <a href="{{route('admin.Campañas.show',$campaña->PK_Campaña)}}">
+                                            <i class="fa-solid fa-eye"></i>   
+                                        </a>
+                                    @endcan
+                                    @can('update-campañas')
+                                        <a href="{{route('admin.Campañas.edit',$campaña->PK_Campaña)}}">
+                                            <i class="fa-solid fa-pen-to-square"></i>   
+                                        </a>
+                                    @endcan
+                                    @can('update-campañas')
+                                        <a href="{{route('admin.Configuracion.edit',$campaña->PK_Campaña)}}" class="btn-finalizar" data-nombre="{{ $campaña->Tnombre_Tipocampaña }}">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                    @endcan
                                 </th>
 
                                 

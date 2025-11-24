@@ -11,6 +11,7 @@
         'name'=> 'Campaña',
     ]
     ]">
+   
     <div class="flex justify-center mt-4">
         <h1 class="font-extrabold text-gray-900" style="font-size: 2rem;">
             {{ $campaña->Tnombre_Tipocampaña }}
@@ -22,25 +23,29 @@
             @if (!$colaboradores)
                 
             @else
+                @can('view-campañas')
+                    <div>
+                        <button id="mostrarColaboradores" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                            Ver Colaboradores
+                        </button>
+                    </div>
+                @endcan
+            @endif
+            
+            @can('update-campañas')
                 <div>
-                    <button id="mostrarColaboradores" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                        Ver Colaboradores
-                    </button>
+                    <form action="{{route('admin.Campañas.update',$campaña->PK_Campaña)}}" method="POST" class="finalizar-form" >
+                        @method('PUT')
+                        @csrf
+                        <input type="text" name="situacion" value="1" hidden>
+                        <button type="submit"  class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                            {{$estado}}
+                        </button>
+                    </form>
+
                 </div>
                 
-            @endif
-
-            <div>
-                <form action="{{route('admin.Campañas.update',$campaña->PK_Campaña)}}" method="POST" class="finalizar-form" >
-                    @method('PUT')
-                    @csrf
-                    <input type="text" name="situacion" value="1" hidden>
-                    <button type="submit"  class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-                        {{$estado}}
-                    </button>
-                </form>
-
-            </div>
+            @endcan
         </div>
     @endif
     @if ($estado == "Empesar antes de tiempo")
@@ -55,17 +60,19 @@
                 </div>
                 
             @endif
-            <div>
-                <form action="{{route('admin.Campañas.update',$campaña->PK_Campaña)}}" method="POST" class="adelantar-form" >
-                    @method('PUT')
-                    @csrf
-                    <input type="text" name="situacion" value="2" hidden >
-                    <button type="submit"  class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                        {{$estado}}
-                    </button>
-                </form>
+            @can('update-campañas')
+                <div>
+                    <form action="{{route('admin.Campañas.update',$campaña->PK_Campaña)}}" method="POST" class="adelantar-form" >
+                        @method('PUT')
+                        @csrf
+                        <input type="text" name="situacion" value="2" hidden >
+                        <button type="submit"  class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                            {{$estado}}
+                        </button>
+                    </form>
 
-            </div>
+                </div>
+            @endcan
         </div>
         
     @endif
@@ -82,18 +89,20 @@
                 </div>
                 
             @endif
+            
+            @can('update-campañas')
+                <div>
+                    <form action="{{route('admin.Campañas.update',$campaña->PK_Campaña)}}" method="POST" class="reabrir-form" >
+                        @method('PUT')
+                        @csrf
+                        <input type="text" name="situacion" value="3" hidden >
+                        <button type="submit"  class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
+                            {{$estado}}
+                        </button>
+                    </form>
 
-            <div>
-                <form action="{{route('admin.Campañas.update',$campaña->PK_Campaña)}}" method="POST" class="reabrir-form" >
-                    @method('PUT')
-                    @csrf
-                    <input type="text" name="situacion" value="3" hidden >
-                    <button type="submit"  class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
-                        {{$estado}}
-                    </button>
-                </form>
-
-            </div>
+                </div>
+            @endcan
         </div>
         
     @endif
@@ -167,13 +176,16 @@
 
                 </form>
             </div>
-            <div >
-                <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" id="agregar-asistente" >
-                    <i class="fa-solid fa-user"></i>
-                    Agregar Asistente
-    
-                </button>
-            </div>
+            @can('create-asitentes')
+                <div >
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" id="agregar-asistente" >
+                        <i class="fa-solid fa-user"></i>
+                        Agregar Asistente
+        
+                    </button>
+                </div>
+                
+            @endcan
 
         </div>
 
@@ -271,37 +283,33 @@
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
                                 <div class="grid gap-6 mb-4 md:grid-cols-2">
-                                    <div>
-                                        <button class="btnEditarAsistente bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                                            data-id="{{ $asistente->PK_Asistentes }}"
-                                            data-nombre="{{ $asistente->Tnombre_asistente }}"
-                                            data-apellidoP="{{ $asistente->TapellidoP_asistente }}"
-                                            data-apellidoM="{{ $asistente->TapellidoM_asistente }}"
-                                            data-dni="{{ $asistente->Tdni_asistente }}"
-                                            data-especialidad="{{ $asistente->PK_Especialidades }}">
-                                            Editar Asistente
-                                        </button>
-                                        
-                                    </div>
-    
-                                    <div>
-                                        <form action="{{route('admin.Asitentes.edit2',$asistente->PK_Asistentes)}}" class="edit-form" method="POST">
-                                            @csrf
-                                            <input  hidden type="text" name="idCampaña" value="{{$campaña->PK_Campaña}}" id="">
-                                            <button type="submit" 
-                                                class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-                                               Eliminar 
-                                           </button>
-
-                                        </form>
-                                        {{-- <a href="{{route('admin.Asitentes.edit',$asistente->PK_Asistentes)}}">
-                                            <button type="button" 
-                                                class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                                    @can('update-asitentes')
+                                        <div>
+                                            <button class="btnEditarAsistente bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                                                data-id="{{ $asistente->PK_Asistentes }}"
+                                                data-nombre="{{ $asistente->Tnombre_asistente }}"
+                                                data-apellidoP="{{ $asistente->TapellidoP_asistente }}"
+                                                data-apellidoM="{{ $asistente->TapellidoM_asistente }}"
+                                                data-dni="{{ $asistente->Tdni_asistente }}"
+                                                data-especialidad="{{ $asistente->PK_Especialidades }}">
+                                                Editar Asistente
+                                            </button>
+                                            
+                                        </div>
+                                    @endcan
+                                    @can('delete-asitentes')
+                                        <div>
+                                            <form action="{{route('admin.Asitentes.edit2',$asistente->PK_Asistentes)}}" class="edit-form" method="POST">
+                                                @csrf
+                                                <input  hidden type="text" name="idCampaña" value="{{$campaña->PK_Campaña}}" id="">
+                                                <button type="submit" 
+                                                    class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
                                                 Eliminar 
                                             </button>
 
-                                        </a> --}}
-                                    </div>
+                                            </form>
+                                        </div>
+                                    @endcan
                                     
                                 </div>
                                 

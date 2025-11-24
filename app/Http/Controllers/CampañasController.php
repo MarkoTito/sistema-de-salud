@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Gate;
 
 class CampañasController extends Controller
 {
@@ -15,6 +16,7 @@ class CampañasController extends Controller
     public function index()
     {
         // Ejecutas tus procedimientos
+        Gate::authorize('view-campañas');
         $results = DB::select('EXEC dbo.viewCampañas');
         $Tiposcampañas = DB::select('EXEC dbo.ViewsTiposCampañas');
         $Colaboradores = DB::select('EXEC dbo.ViewsColaboradores');
@@ -42,6 +44,7 @@ class CampañasController extends Controller
 
     public function create()
     {
+        Gate::authorize('create-campañas');
         $Tiposcampañas=DB::select('EXEC dbo.ViewsTiposCampañas');
         $Colaboradores=DB::select('EXEC dbo.ViewsColaboradores');
         
@@ -50,6 +53,7 @@ class CampañasController extends Controller
 
     public function store(Request $request)
     {
+        Gate::authorize('create-campañas');
         try {
             
             $validated = $request->validate([
@@ -112,6 +116,7 @@ class CampañasController extends Controller
 
     public function show($id)
     {
+        Gate::authorize('view-campañas');
         $campañaShow = DB::select('EXEC dbo.OneCAMPAÑA ? ',[$id]);
         //imagen
         $Tiposcampañas=DB::select('EXEC dbo.ViewsTiposCampañas');
@@ -161,6 +166,7 @@ class CampañasController extends Controller
 
     public function edit($id)
     {
+        Gate::authorize('update-campañas');
         $campañaShow = DB::select('EXEC dbo.OneCAMPAÑA ? ',[$id]);
         $Tiposcampañas=DB::select('EXEC dbo.ViewsTiposCampañas');
         $Colaboradores=DB::select('EXEC dbo.ViewsColaboradores');
@@ -182,6 +188,7 @@ class CampañasController extends Controller
 
     public function update(Request $request, $id)
     {        
+        Gate::authorize('update-campañas');
         if ($request->situacion ==1 ) {
             # para finalizarlo
             $resultado=DB::statement('EXEC dbo.FinalizarCampaña ? ',[$id]);

@@ -42,13 +42,16 @@
             </form>
         </div>
 
-        <div>
-            <a href="{{route('admin.Charlas.create')}}">
-                <button  class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                    <i class="fa-solid fa-plus"></i> Agregar charla
-                </button>    
-            </a>
-        </div>
+        @can('create-charlas')
+            <div>
+                <a href="{{route('admin.Charlas.create')}}">
+                    <button  class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                        <i class="fa-solid fa-plus"></i> Agregar charla
+                    </button>    
+                </a>
+            </div>
+            
+        @endcan
 
 
 
@@ -166,23 +169,34 @@
                                     {{$charla->ThoraIni_charla}}
                                 </th>
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
-                                    <a href="{{route('admin.charla.downloadOne',$charla->PK_Charlas)}}"> 
-                                        <i class="fa-solid fa-download"></i>   
-                                    </a>
-                                    <a href="{{route('admin.Charlas.show',$charla->PK_Charlas)}}">
-                                        <i class="fa-solid fa-eye"></i>   
-                                    </a>
-                                    <a href="{{route('admin.Charlas.edit',$charla->PK_Charlas)}}">
-                                        <i class="fa-solid fa-pen-to-square"></i>   
-                                    </a>
-                                    <a href="{{route('admin.Charlas.destroy',$charla->PK_Charlas)}}" class="btn-finalizar" data-id="{{$charla->PK_Charlas}}" data-nombre="{{$charla->Tnombre_charla}}">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </a>
+                                    @can('view-charlas')
+                                        <a href="{{route('admin.charla.downloadOne',$charla->PK_Charlas)}}"> 
+                                            <i class="fa-solid fa-download"></i>   
+                                        </a>
+                                    @endcan
+                                    @can('view-charlas')
+                                        <a href="{{route('admin.Charlas.show',$charla->PK_Charlas)}}">
+                                            <i class="fa-solid fa-eye"></i>   
+                                        </a>
+                                    @endcan
 
-                                    <form id="form-delete" method="POST" style="display:none;">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
+                                    @can('update-charlas')
+                                        <a href="{{route('admin.Charlas.edit',$charla->PK_Charlas)}}">
+                                            <i class="fa-solid fa-pen-to-square"></i>   
+                                        </a>                                        
+                                    @endcan
+
+                                    @can('delete-charlas')
+                                        <a href="{{route('admin.Charlas.destroy',$charla->PK_Charlas)}}" class="btn-finalizar" data-id="{{$charla->PK_Charlas}}" data-nombre="{{$charla->Tnombre_charla}}">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                        <form id="form-delete" method="POST" style="display:none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+                                        
+                                    @endcan
+
                                 </th>
                             </tr>
                             
