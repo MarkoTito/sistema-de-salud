@@ -56,50 +56,54 @@
                 <div class="grid gap-6 mb-4 md:grid-cols-3 mt-4">
                     <div class="mb-4">
                         <label class="text-sm">Nombre</label>
-                        <input name="nombreRes" maxlength="55" type="text" class="border w-full p-2 rounded-lg"   >
+                        <input name="nombreRes" maxlength="55" type="text" class="border w-full p-2 rounded-lg" required   >
                     </div>
             
                     <div class="mb-4">
                         <label class="text-sm">Apellido Paterno:</label>
-                        <input type="text" name="apePaRes" maxlength="30" class="border w-full p-2 rounded-lg"   >
+                        <input type="text" name="apePaRes" maxlength="30" class="border w-full p-2 rounded-lg" required  >
                     </div>
                     <div class="mb-4">
                         <label class="text-sm">Apellido Materno:</label>
-                        <input type="text" name="apeMaRes" maxlength="30" class="border w-full p-2 rounded-lg"  >
+                        <input type="text" name="apeMaRes" maxlength="30" class="border w-full p-2 rounded-lg" required  >
                     </div>
     
                     <div class="mb-4">
                         <label class="text-sm">DNI:</label>
-                        <input type="text" name="dniRes" maxlength="8" class="border w-full p-2 rounded-lg"  oninput="this.value = this.value.replace(/[^0-9]/g, '');"   />
+                        <input type="text" name="dniRes" maxlength="8" class="border w-full p-2 rounded-lg"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" required  />
                     </div>
             
                     <div class="mb-4">
                         <label class="text-sm">Celular:</label>
-                        <input type="text" name="numCelRes" maxlength="9" class="border w-full p-2 rounded-lg"  oninput="this.value = this.value.replace(/[^0-9]/g, '');"   />
+                        <input type="text" name="numCelRes" maxlength="9" class="border w-full p-2 rounded-lg"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" required  />
                     </div>
+                    
                     <div class="mb-4">
                         <label class="text-sm">Direccion:</label>
-                        <input type="text" name="direRes" maxlength="120" class="border w-full p-2 rounded-lg"   >
+                        <input type="text" name="direRes" maxlength="120" class="border w-full p-2 rounded-lg"  required >
                     </div>
                 </div>
     
                 <div class="grid gap-4 mb-4 md:grid-cols-2 mt-4">
+                    {{-- opcional --}}
                     <div class="mb-4">
                         <label class="text-sm">Numero de Telefono Fijo:</label>
                         <input type="text" name="telFijo" maxlength="15" class="border w-full p-2 rounded-lg"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
                     </div>
+                    {{-- opcional --}}
                     <div class="mb-4">
                         <label class="text-sm">Correo electronico:</label>
                         <input type="email" name="correo" class="border w-full p-2 rounded-lg" >
                     </div>
-    
+                    {{-- opcional --}}
                     <div class="mb-4">
                         <label class="text-sm">Foto de documento:</label>
-                        <input type="file" name="docuImagen" class="border w-full p-2 rounded-lg" >
+                        <input type="file" accept="application/pdf" name="docuImagen" class="border w-full p-2 rounded-lg" >
                     </div>
+                    {{-- opcional --}}
                     <div class="mb-4">
                         <label class="text-sm">Adjuntar Doc. - Residencia del Responsable (PDF):</label>
-                        <input type="file" name="residenciaDoc" class="border w-full p-2 rounded-lg" >
+                        <input type="file" accept="application/pdf" name="residenciaDoc" class="border w-full p-2 rounded-lg" >
                     </div>
                     
                 </div>
@@ -116,12 +120,12 @@
                 <div class="flex gap-4">
                     <div class="w-3/4">
                         <label class="text-sm">Nombre</label>
-                        <input name="nombreMas"  maxlength="55" type="text" class="border w-full p-2 rounded-lg"  >
+                        <input name="nombreMas"  maxlength="55" type="text" class="border w-full p-2 rounded-lg" required  >
                     </div>
             
                     <div class="w-3/4">
                         <label class="text-sm">Especie:</label>
-                        <select name="tipo" id="" style="width: 100%"  >
+                        <select required name="tipo" id="" style="width: 100%"  >
                             <option selected disabled  value="">Escoja una opción</option>
                             <option value="Canino">Canino</option>
                             <option value="Felino">Felino</option>
@@ -129,7 +133,7 @@
                     </div>
                     <div class="w-3/4">
                         <label class="text-sm">Raza:</label>
-                        <select name="raza" id="miSelect-raza" style="width: 100%"  >
+                        <select required name="raza" id="miSelect-raza" style="width: 100%"  >
                             <option selected disabled  value="">Escoja una opción</option>
                             @foreach ($razas as $raza)
                                 <option value="{{$raza->PK_Raza}}">{{$raza->Tdescripcion_raza}}</option>
@@ -138,7 +142,7 @@
                     </div>
                     <div class="w-3/4">
                         <label class="text-sm">Sexo:</label>
-                        <select name="sexo" id="miSelect-raza" style="width: 100%"  >
+                        <select required name="sexo" id="miSelect-raza" style="width: 100%"  >
                             <option selected disabled  value="">Escoja una opción</option>
                             <option value="MACHO">MACHO</option>
                             <option value="HEMBRA">HEMBRA</option>
@@ -149,7 +153,7 @@
     
     
                 <div class="grid gap-6 mb-4 md:grid-cols-3 mt-4">
-    
+                    {{-- opcional --}}
                     <div class="mb-4">
                         <label class="text-sm">Fecha de Nacimiento:</label>
                         <input  type="Date" name="fechaNaci" class="border w-full p-2 rounded-lg" max="{{ date('Y-m-d') }}" />
@@ -157,11 +161,11 @@
             
                     <div class="mb-4">
                         <label class="text-sm">Color:</label>
-                        <input type="text" name="color" maxlength="80"   class="border w-full p-2 rounded-lg"  />
+                        <input required type="text" name="color" maxlength="80"   class="border w-full p-2 rounded-lg"  />
                     </div>
                     <div class="mb-4">
                         <label class="text-sm">Antecedentes de Agresividad   :</label>
-                        <select  name="antecedentes" id="" style="width: 100%" >
+                        <select  required name="antecedentes" id="" style="width: 100%" >
                             <option selected disabled  value="">Escoja una opción</option>
                             <option value="Si">Si</option>
                             <option value="No">NO</option>
@@ -171,21 +175,22 @@
     
                     <div class="mb-4">
                     <label class="text-sm">Potencialmente Peligroso:</label>
-                        <select   name="peligrocidad" id="" style="width: 100%" >
+                        <select  required name="peligrocidad" id="" style="width: 100%" >
                             <option selected disabled  value="">Escoja una opción</option>
                             <option value="Si">Si</option>
                             <option value="NO">No</option>
                         </select>
                     </div>
-            
+                    {{-- opcional --}}
                     <div class="mb-4">
                         <label class="text-sm">Señas particulares:</label>
                         <input type="text" name="señales" maxlength="100" class="border w-full p-2 rounded-lg"  />
                     </div>
+                    {{-- opcional --}}
                     <div class="mb-4">
                     <label class="text-sm">Identificación :</label>
-                        <select name="identificacion" id="miSelect-identificacion" style="width: 100%" >
-                            <option selected disabled  value="">Escoja una opción</option>
+                        <select required name="identificacion" id="miSelect-identificacion" style="width: 100%" >
+                            <option  selected disabled  value="">Escoja una opción</option>
                             @foreach ($identificadores as $iden)
                                 <option value="{{$iden->PK_Identificacion}}">{{$iden->Tnombre_identificacion}}</option>
                             @endforeach
@@ -196,12 +201,12 @@
                 <div class="grid gap-4 mb-4 md:grid-cols-2 mt-4">
                     <div class="mb-4">
                         <label class="text-sm">Fotografía de la Mascota: </label>
-                        <input type="file" name="fotoMascota[]" multiple accept="image/*" class="border w-full p-2 rounded-lg" >
+                        <input type="file" name="fotoMascota[]" multiple accept="image/*" class="border w-full p-2 rounded-lg" required>
     
                     </div>
                     <div class="mb-4">
                         <label class="text-sm">Certificado de Vacunación:</label>
-                        <input type="file"name="certiMascota" class="border w-full p-2 rounded-lg"  >
+                        <input required type="file" accept="application/pdf" name="certiMascota" class="border w-full p-2 rounded-lg"  >
                     
                     </div>
                     

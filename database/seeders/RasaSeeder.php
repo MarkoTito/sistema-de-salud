@@ -16,6 +16,12 @@ class RasaSeeder extends Seeder
         DB::table('Razas')->insert(
             [
                 [
+                    'Tdescripcion_raza'=> 'No especifico',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
                     'Tdescripcion_raza'=> 'Labrador Retriever',
                     'Nestado_raza' => 1,
                     'created_at' => now(),
@@ -87,8 +93,84 @@ class RasaSeeder extends Seeder
                     'created_at' => now(),
                     'updated_at' => now(),
                 ],
-
-               
+                /*gatos */
+                [
+                    'Tdescripcion_raza'=> 'Siamés',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],[
+                    'Tdescripcion_raza'=> 'Persa',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],[
+                    'Tdescripcion_raza'=> 'Maine Coon',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],[
+                    'Tdescripcion_raza'=> 'Bengalí',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],[
+                    'Tdescripcion_raza'=> 'Sphynx',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],[
+                    'Tdescripcion_raza'=> 'Ragdoll',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],[
+                    'Tdescripcion_raza'=> 'British Shorthair',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],[
+                    'Tdescripcion_raza'=> 'Scottish Fold',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'Tdescripcion_raza'=> 'Angora Turco',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],[
+                    'Tdescripcion_raza'=> 'Abisinio',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],[
+                    'Tdescripcion_raza'=> 'Birmano',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],[
+                    'Tdescripcion_raza'=> 'Oriental Shorthair',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],[
+                    'Tdescripcion_raza'=> 'Devon Rex',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],[
+                    'Tdescripcion_raza'=> 'Siberiano',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],[
+                    'Tdescripcion_raza'=> 'American Shorthair',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]
             ]
         );
     }

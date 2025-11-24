@@ -11,13 +11,8 @@
         'name'=> 'Mascota',
     ]
     ]">
-    
-    
-    <br>
-    <br>
 
-    <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4 mb-4 ">
-    
+    <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4 ">
             <div >
     
                 <div class="flex justify-center" >
@@ -28,9 +23,7 @@
                         <br>
                         <img src="https://st2.depositphotos.com/2945617/6862/v/450/depositphotos_68621493-stock-illustration-cute-dog-cartoon.jpg" height="550px" width="550px" alt="imagen de la campaña">
                     @else
-                        <div class="swiper mySwiper w-full max-w-xl">
-                            <br>
-                            <br>
+                        <div class="swiper mySwiper w-full max-w-xl mb-4 ">
                             <br>
                             <br>
                             <br>    
@@ -51,14 +44,19 @@
                         
                         </div>
                     @endif
-                    
-                </div>
+                        
+                    </div>
+                    <div class="flex justify-center mb-4 " >
+                        <button id="mostrarDocumentos" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                            Mostrar Documentos
+                        </button>
+                    </div>
 
             </div>
     
             <div>
     
-                    <div class="p-6 rounded-lg border-2 border-blue-300 bg-blue-50 mb-4">
+                    <div class="px-6 py-1 rounded-lg border-2 border-blue-300 bg-blue-50 mb-4">
                         <p class="text-lg font-semibold text-center mb-4">Mascota</p>
                         <div class="grid gap-6 mb-2 md:grid-cols-3 mt-2 ">
                             <div>
@@ -131,7 +129,7 @@
                         </div>
                     </div>
         
-                    <div class="p-6 rounded-lg border-2 border-blue-300 bg-blue-50">
+                    <div class="px-6 py-2  rounded-lg border-2 border-blue-300 bg-blue-50">
             
                         <p class="text-lg font-semibold text-center mb-4">Responsable</p>
         
@@ -196,11 +194,13 @@
 
     <div>
 
+    
 
 
 
 
-        
+
+{{--     
     <h3>Documentos:</h3>
     <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
         <table class="w-full text-sm text-left rtl:text-right text-body">
@@ -235,9 +235,9 @@
                                     Ver
                                 </a>
                             </th>
-                            {{-- <th class="px-6 py-4 font-medium  whitespace-nowrap text-black" align="center" >
+                            <th class="px-6 py-4 font-medium  whitespace-nowrap text-black" align="center" >
                                 delete
-                            </th> --}}
+                            </th>
                         </tr>
                     @endforeach
                     
@@ -249,7 +249,7 @@
                 
             </tbody>
         </table>
-    </div>
+    </div> --}}
 
 
     </div>
@@ -268,8 +268,50 @@
                 },
             });
         </script>
-    @endpush
+        <script>
+            document.getElementById('mostrarDocumentos').addEventListener('click', function() {
+                const documentos = {!! json_encode($documentos) !!}; // tus documentos desde Laravel
+                const deleteBase = "{{ route('admin.charla.documentos.delete', ':id') }}";
 
+                let tablaHTML = `
+                    <table style="width:100%; border-collapse: collapse;">
+                        <tbody>
+                            ${documentos.map(c => `
+                                <tr>
+                                    <td style="padding:8px; border-bottom:1px solid #ddd; text-align:center;">
+                                        ${c.Tnombre_documentos}
+                                    </td>
+                                    <td style="padding:8px; border-bottom:1px solid #ddd; text-align:center;">
+                                        <a href="/storage/${c.Tpath_documentos}" target="_blank">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+                                    </td>
+                                    
+                                        
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+
+                Swal.fire({
+                    title: 'Documentos',
+                    html: tablaHTML,
+                    width: 400,
+                    confirmButtonText: 'Cerrar',
+                    confirmButtonColor: '#2563eb'
+                });
+            });
+        </script>
+
+
+
+    @endpush
+    {{-- <td style="padding:8px; border-bottom:1px solid #ddd; text-align:center;">
+                                        <a href="${deleteBase.replace(':id', c.PK_Documentos)}">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                    </td> --}}
 
 
 </x-admin-layout>

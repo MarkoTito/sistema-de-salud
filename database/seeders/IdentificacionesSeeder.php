@@ -17,6 +17,11 @@ class IdentificacionesSeeder extends Seeder
         DB::table('Identificaciones')->insert(
             [
                 [
+                    'Tnombre_identificacion'=> 'No contiene',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
                     'Tnombre_identificacion'=> 'Collar',
                     'created_at' => now(),
                     'updated_at' => now(),

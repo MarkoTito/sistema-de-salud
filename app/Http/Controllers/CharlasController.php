@@ -22,7 +22,7 @@ class CharlasController extends Controller
         $Tiposcharlas=DB::select('EXEC dbo.ViewsTiposCharlas');
         // Convertir a colección
         $collection = collect($results);
-
+        
         // Parámetros de paginación
         $perPage = 5; 
         $page = request()->get('page', 1); 
