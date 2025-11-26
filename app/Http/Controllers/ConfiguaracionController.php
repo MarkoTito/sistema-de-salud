@@ -23,73 +23,73 @@ class ConfiguaracionController extends Controller
     }
     public function nada()
     {
-         return view('admin/nada');
+        $Tiposcampañas=DB::select('EXEC dbo.ViewsTiposCampañas');
+        $TiposCharlas=DB::select('EXEC dbo.ViewsTiposCharlas');
+        $expositores=DB::select('EXEC dbo.ViewsExpositores');
+        return view('admin/nada',compact('Tiposcampañas','TiposCharlas','expositores'));
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        if ($request->tipo == 1) {
+            $validated = $request->validate([
                 'nombre' => 'required|string|max:255',
                 'mensaje' => 'required|string|max:250',
                 'tipo' => 'required|integer|in:1,2,3'
             ]);
 
-        if ($validated['tipo']==1) {
             $creacionCampaña = DB::select('EXEC dbo.InsertarTiposCampañas ?, ?', [
-                $validated['nombre'],   
-                $validated['mensaje'],  
+                $validated['nombre'],
+                $validated['mensaje'],
             ]);
-    
-            if (!empty($creacion)) {
-                return response()->json(['ok' => true, 'data' => $creacionCampaña[0]]);
-            }
 
-            return response()->json(['ok' => false, 'msg' => 'No se registró la campaña']);
-        }
-        if ($validated['tipo']==2) {
-            $creacionCharla = DB::select('EXEC dbo.InsertarTiposCharla ?, ?', [
-                $validated['nombre'],   
-                $validated['mensaje'],  
-            ]);
-    
-            if (!empty($creacionCharla)) {
-                return response()->json([
-                    'ok' => true,
-                    'data' => $creacionCharla[0]   
-                ]);
-            }
             return response()->json([
-                'ok' => false,
-                'msg' => 'No se registró el tipo de charla'
+                'ok' => !empty($creacionCampaña),
+                'data' => $creacionCampaña[0] ?? null,
+                'msg' => empty($creacionCampaña) ? 'No se registró la campaña' : null
             ]);
         }
-        if ($validated['tipo']==3) {
+
+        if ($request->tipo == 2) {
             $validated = $request->validate([
-                    'nombre' => 'required|string|max:255',
-                    'mensaje' => 'required|string|max:250',
-                    'tipo' => 'required|integer|in:1,2'
-                ]);
-            $creacionCharla = DB::select('EXEC dbo.InsertarTiposExpo ?, ?', [
-                $request->nombre,  
-                $request->apeP ,
-                $request->apeM,
-                $request->Numero,  
+                'nombre' => 'required|string|max:255',
+                'mensaje' => 'required|string|max:250',
+                'tipo' => 'required|integer|in:1,2,3'
             ]);
-    
-            if (!empty($creacionCharla)) {
-                return response()->json([
-                    'ok' => true,
-                    'data' => $creacionCharla[0]   
-                ]);
-            }
+
+            $creacionCharla = DB::select('EXEC dbo.InsertarTiposCharla ?, ?', [
+                $validated['nombre'],
+                $validated['mensaje'],
+            ]);
+
             return response()->json([
-                'ok' => false,
-                'msg' => 'No se registró el el expositor'
+                'ok' => !empty($creacionCharla),
+                'data' => $creacionCharla[0] ?? null,
+                'msg' => empty($creacionCharla) ? 'No se registró el tipo de charla' : null
             ]);
         }
 
-        
-    } 
+        if ($request->tipo == 3) {
+            $validated = $request->validate([
+                'nombre' => 'required|string|max:255',
+                'apeP' => 'required|string|max:255',
+                'apeM' => 'required|string|max:255',
+                'Numero' => 'required',
+            ]);
+
+            $creacionExpo = DB::select('EXEC dbo.InsertarTiposExpo ?,?,?,?', [
+                $validated['nombre'],
+                $validated['apeP'],
+                $validated['apeM'],
+                $validated['Numero'],
+            ]);
+
+            return response()->json([
+                'ok' => true,
+                'msg' => 'Registrado correctamente'
+            ]);
+        }
+    }
 
     public function show($id)
     {
