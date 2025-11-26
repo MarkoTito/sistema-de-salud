@@ -115,7 +115,8 @@ class AsistenteController extends Controller
     public function update(Request $request, $id)
     {
         
-        Log::info('Llega correctamente', ['id' => $id, 'data' => $request->all()]);
+        
+        Log::info('Llega correctamente', ['id' => $id, 'data' => $request->all()]); 
         $resultado = DB::statement('EXEC dbo.EditarAsistenteCampaña ?,?,?,?,?,?', [
             $id,
             $request->nombre,

@@ -26,7 +26,10 @@ class ConfiguaracionController extends Controller
         $Tiposcampañas=DB::select('EXEC dbo.ViewsTiposCampañas');
         $TiposCharlas=DB::select('EXEC dbo.ViewsTiposCharlas');
         $expositores=DB::select('EXEC dbo.ViewsExpositores');
-        return view('admin/nada',compact('Tiposcampañas','TiposCharlas','expositores'));
+        $users=DB::select('EXEC dbo.ViewUser');
+        $especialidadades=DB::select('EXEC dbo.ViewEspecialidades');
+        // return $especialidadades;
+        return view('admin/nada',compact('Tiposcampañas','TiposCharlas','expositores','users','especialidadades'));
     }
 
     public function store(Request $request)
@@ -89,11 +92,28 @@ class ConfiguaracionController extends Controller
                 'msg' => 'Registrado correctamente'
             ]);
         }
+        if ($request->tipo == 4) {
+            $validated = $request->validate([
+                'nombre' => 'required|string|max:255',
+                'tipo' => 'required|integer|in:1,2,3,4'
+            ]);
+
+            $creacionEspecialidad = DB::select('EXEC dbo.InsertarEspecialidad ?', [
+                $validated['nombre'],
+            ]);
+
+            return response()->json([
+                'ok' => !empty($creacionEspecialidad),
+                'data' => $creacionEspecialidad[0] ?? null,
+                'msg' => empty($creacionEspecialidad) ? 'No se registró la especialidad' : null
+            ]);
+        }
+        
     }
 
     public function show($id)
     {
-       
+       return $id;
     }
 
 

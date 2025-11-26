@@ -7,6 +7,7 @@ use App\Http\Controllers\ConfiguaracionController;
 use App\Http\Controllers\FormularioController;
 use App\Http\Controllers\MascotasController;
 use App\Http\Controllers\TipoCampañaController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // rutas protegidas (con auth)
@@ -42,9 +43,11 @@ Route::middleware('auth')->group(function () {
     // ruta de generar link (solo admin)
     Route::get('/generar-link', [FormularioController::class, 'generarLink'])->name('formulario.generar');
 
-    //pruebas
+    //Configuracion - pruebas
     Route::get('pruebas/nada',[ConfiguaracionController::class,'nada'])->name('prueba.nada');
-    
+    Route::resource('usuarios', UserController::class);
+
+
     //Mascotas
     Route::resource('Mascotas', MascotasController::class);
     Route::post('Mascotas/Found', [MascotasController::class, 'Found'])->name('Mascotas.found');

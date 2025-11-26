@@ -130,11 +130,13 @@ class RoleSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
+            'Tapellidos_user' => 'admin',
             'password' => 'liammateo01'
         ])->assignRole('admin');
 
         User::factory()->create([
-            'name' => 'marko tito',
+            'name' => 'marko ',
+            'Tapellidos_user' => 'tito',
             'email' => 'mtito@gmail.com',
             'password' => 'muni*2025'
         ])->assignRole('all-salud');

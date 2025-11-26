@@ -191,7 +191,7 @@ class CampañasController extends Controller
         Gate::authorize('update-campañas');
         if ($request->situacion ==1 ) {
             # para finalizarlo
-            $resultado=DB::statement('EXEC dbo.FinalizarCampaña ? ',[$id]);
+            $resultado=DB::statement('EXEC dbo.FinalizarCampaña ? ',$id);
             if ($resultado === true) {
                 session()->flash('swal', [
                     'icon' => 'success',
