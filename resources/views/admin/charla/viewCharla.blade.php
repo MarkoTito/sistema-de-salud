@@ -20,7 +20,11 @@
                                 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                             <option value="" selected disabled>---Seleccioné una charla---</option>
                             @foreach ($Tiposcharlas as $tipo)
-                                <option value="{{$tipo->PK_TiposCharla}}">{{$tipo->Tnombre_charla}}</option>
+                                @if ($tipo->Nestado_Tipocharla == 0)
+                                    
+                                @else
+                                    <option value="{{$tipo->PK_TiposCharla}}">{{$tipo->Tnombre_charla}}</option>
+                                @endif
                             @endforeach
                         </select>
 

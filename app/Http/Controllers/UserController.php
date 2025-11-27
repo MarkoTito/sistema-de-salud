@@ -35,7 +35,7 @@ class UserController extends Controller
                 'password' => 'required|string|min:8|confirmed',
                 'lastname' => 'required|string|max:50',
                 'permiso' => 'required',
-                
+            
             ]);
     
             $user = User::create([
@@ -44,18 +44,14 @@ class UserController extends Controller
                 'Tapellidos_user' => $request->lastname,
                 'password' => bcrypt($request->password),
             ]);
-            // $user->assignRole($request->permiso);
-            // session()->flash('swal',[
-            //             'icon'=> 'success',
-            //             'title'=> '!Exito¡',
-            //             'text'=>'El usuario fue creado correctamente'
+            $user->assignRole($request->permiso);
+            session()->flash('swal',[
+                        'icon'=> 'success',
+                        'title'=> '!Exito¡',
+                        'text'=>'El usuario fue creado correctamente'
                         
-            //         ]);
-            session()->flash('swal', [
-                'icon'=> 'success',
-                'title' => '!Exito¡!',
-                'text' => 'El usuario fue creado correctamente'
-            ]);
+                    ]);
+            
             return redirect()->route('admin.prueba.nada');
 
         } catch (ValidationException $e) {
@@ -118,7 +114,6 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
 
         if ($request->tipo == 1) {
             
@@ -129,7 +124,20 @@ class UserController extends Controller
                 $request->apellidos,
                 $request->email
             ]);
+            $user = User::find($id);
+            $user->syncRoles($request->permiso);
             return response()->json(['message' => 'Asistente actualizado correctamente']);
+        }
+        if ($request->tipo == 3) {
+            
+            Log::info('Llega correctamente', ['id' => $id, 'data' => $request->all()]);
+            $resultado = DB::statement('EXEC dbo.EditarTipoCampaña ?,?,?', [
+                $id,
+                $request->nombre,
+                $request->descripcion,
+
+            ]);
+            return response()->json(['message' => 'Campaña actualizado correctamente']);
         } else {
 
             $request->validate([

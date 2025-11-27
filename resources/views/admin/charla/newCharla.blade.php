@@ -25,7 +25,12 @@
                         dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     <option value="" selected disabled>---Seleccioné una charla---</option>
                     @foreach ($Tiposcharlas as $tipo)
-                        <option value="{{$tipo->PK_TiposCharla}}">{{$tipo->Tnombre_charla}}</option>
+                        @if ($tipo->Nestado_Tipocharla==0)
+                            
+                        @else
+                            <option value="{{$tipo->PK_TiposCharla}}">{{$tipo->Tnombre_charla}}</option>
+                            
+                        @endif
                     @endforeach
                 </select>
             </div>
@@ -109,7 +114,11 @@
                     <select required name="opciones[]" id="miSelect-expositor" >
                     <option value="">-- Seleccione --</option>
                     @foreach ($expositores as $expo)
-                            <option value="{{$expo->PK_Expositores}}" >{{$expo->Tnombre_expositor}}</option>
+                            @if ($expo->Nestado_expositor ==0)
+                                
+                            @else
+                                <option value="{{$expo->PK_Expositores}}" >{{$expo->Tnombre_expositor}}</option>
+                            @endif
                     @endforeach
                     </select>
                     <label>

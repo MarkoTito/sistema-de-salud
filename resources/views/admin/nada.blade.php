@@ -51,6 +51,9 @@
                             Descripción
                         </th>
                         <th scope="col" class="px-6 py-3" align="center" >
+                            Estado
+                        </th>
+                        <th scope="col" class="px-6 py-3" align="center" >
                             Accion
                         </th>
                     </tr>
@@ -67,37 +70,78 @@
                             <td class="px-6 py-4" align="center" >
                                  No existe ninguna campaña
                             </td>
+                            <td class="px-6 py-4" align="center" >
+                                 No existe ninguna campaña
+                            </td>
                         </tr>                
                     @else
-                        @foreach ($Tiposcampañas as $charla)
+                        @foreach ($Tiposcampañas as $camp)
                             <tr class="bg-brand border-b border-brand-light">
                                 <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap"align="center" >
-                                    {{$charla->Tnombre_Tipocampaña}}
+                                    {{$camp->Tnombre_Tipocampaña}}
                                 </th>
                                 <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap"align="center" >
-                                    {{$charla->Tdescripcion_Tipocampaña}}
+                                    {{$camp->Tdescripcion_Tipocampaña}}
                                 </th>
-                                <td class="px-6 py-4" align="center" >
-                                    <a href="{{route('admin.Tipocampaña.show',$charla->PK_TiposCampañas)}}">
-                                            <i class="fa-solid fa-camera"></i>
-                                    </a>
-                                    <a href="">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </a>
-                                </td>
-                                    
-                                <td class="px-6 py-4" align="center" >
-                                        {{-- <a href="">
-                                                <i class="fa-solid fa-download"></i>   
-                                        </a> --}}
-                                        {{-- <a href=" {{route('admin.Mascotas.show',$mascota->PK_Mascota)}} "> 
-                                            <i class="fa-solid fa-eye"></i>   
-                                        </a>
-                                        <a href=" {{route('admin.Mascotas.edit',$mascota->PK_Mascota)}} "> 
-                                            <i class="fa-solid fa-pen-to-square"></i>   
-                                        </a> --}}
-    
-                                </td>
+                                @if ($camp->Nestado_Tipocampaña == 1)
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-blue-500" align="center" >
+                                        Habilitado
+                                    </th>
+                                @else
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-red-500" align="center" >
+                                        Desabilitado
+                                    </th>
+                                @endif
+                                
+                                @if ($camp->Nestado_Tipocampaña == 1)
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                        <div class="grid gap-1 mb-4 md:grid-cols-3 mt-1">
+                                            <div>
+                                                <form action="{{route('admin.Configuracion.update',$camp->PK_TiposCampañas)}}" method="POST" class="delete-form-campa">
+                                                    @method('PUT')
+                                                    @csrf
+                                                    <input type="text" name="tipo" value="down" hidden >
+                                                    <input type="text" name="confi" value="campa" hidden >
+                                                    <button class="text-red-500" >
+                                                        <span class="w-6 h-6 inline-flex justify-center items-center">
+                                                            <i class="fa-solid fa-circle-down"></i>
+                                                        </span>
+                                                    </button>            
+                                                </form>
+                                            </div>
+                                            <div class="text-green-500" >
+                                                <a class="btnEditarCampa  text-green"
+                                                    data-id="{{ $camp->PK_TiposCampañas }}"
+                                                    data-nombre="{{ $camp->Tnombre_Tipocampaña }}"
+                                                    data-descripcion="{{$camp->Tdescripcion_Tipocampaña}}"
+                                                    >
+                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                </a>
+                                            </div>
+                                            <div>
+                                                <a href="{{route('admin.Tipocampaña.show',$camp->PK_TiposCampañas)}}">
+                                                    <i class="fa-solid fa-camera"></i>
+                                                </a>
+                                            </div>
+                                        <div>
+                                    </th>
+                                @else
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                        <div class="justify-center">
+                                            <form action="{{route('admin.Configuracion.update',$camp->PK_TiposCampañas)}}" method="POST" class="up-form-campa">
+                                                @method('PUT')
+                                                @csrf
+                                                <input type="text" name="tipo" value="up" hidden >
+                                                <input type="text" name="confi" value="campa" hidden >
+                                                <button class="text-blue-500" >
+                                                    <span class="w-6 h-6 inline-flex justify-center items-center">
+                                                        <i class="fa-solid fa-circle-up"></i>
+                                                    </span>
+                                                </button>            
+                                            </form>
+                                        </div>                                                    
+                                    </th>                                             
+                                @endif
                             </tr>                        
                         @endforeach
                     @endif
@@ -129,6 +173,9 @@
                                     Descripción
                                 </th>
                                 <th scope="col" class="px-6 py-3" align="center" >
+                                    Estado
+                                </th>
+                                <th scope="col" class="px-6 py-3" align="center" >
                                     Accion
                                 </th>
                             </tr>
@@ -136,6 +183,9 @@
                         <tbody>
                             @if (!$TiposCharlas)
                                 <tr class="bg-brand border-b border-brand-light">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                        No existe ninguna campaña
+                                    </th>
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
                                         No existe ninguna campaña
                                     </th>
@@ -156,14 +206,55 @@
                                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
                                             {{$charla->Tdescripcion_Tipocharla}}
                                         </th>
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
-                                            <a href="{{route('admin.Tipocampaña.show',$charla->PK_TiposCharla)}}">
-                                                <i class="fa-solid fa-camera"></i>
-                                            </a>
-                                            <a href="">
-                                                <i class="fa-solid fa-pen-to-square"></i>
-                                            </a>
-                                        </th>
+                                        @if ($charla->Nestado_Tipocharla == 1)
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-blue-500" align="center" >
+                                                Habilitado
+                                            </th>
+                                        @else
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-red-500" align="center" >
+                                                Desabilitado
+                                            </th>
+                                        @endif
+                                        @if ($charla->Nestado_Tipocharla == 1)
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                                <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4">
+                                                    <div>
+                                                        <form action="{{route('admin.Configuracion.update',$charla->PK_TiposCharla)}}" method="POST" class="delete-form-charla">
+                                                            @method('PUT')
+                                                            @csrf
+                                                            <input type="text" name="tipo" value="down" hidden >
+                                                            <input type="text" name="confi" value="charla" hidden >
+                                                            <button class="text-red-500" >
+                                                                <span class="w-6 h-6 inline-flex justify-center items-center">
+                                                                    <i class="fa-solid fa-circle-down"></i>
+                                                                </span>
+                                                            </button>            
+                                                        </form>
+                                                    </div>
+                                                    <div>
+                                                        <a href="">
+                                                            <i class="fa-solid fa-pen-to-square"></i>
+                                                        </a>
+                                                    </div>
+
+                                            </th>
+                                        @else
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                                <div class="justify-center">
+                                                    <form action="{{route('admin.Configuracion.update',$charla->PK_TiposCharla)}}" method="POST" class="up-form-charla">
+                                                        @method('PUT')
+                                                        @csrf
+                                                        <input type="text" name="tipo" value="up" hidden >
+                                                        <input type="text" name="confi" value="charla" hidden >
+                                                        <button class="text-blue-500" >
+                                                            <span class="w-6 h-6 inline-flex justify-center items-center">
+                                                                <i class="fa-solid fa-circle-up"></i>
+                                                            </span>
+                                                        </button>            
+                                                    </form>                                                    
+                                            </th>   
+                                            
+                                        @endif
                             
                                     </tr>
                                     
@@ -210,6 +301,9 @@
                                     Numero de contacto
                                 </th>
                                 <th scope="col" class="px-6 py-3" align="center" >
+                                    Estado
+                                </th>
+                                <th scope="col" class="px-6 py-3" align="center" >
                                     Acción
                                 </th>
                             </tr>
@@ -217,6 +311,9 @@
                         <tbody>
                             @if (!$Tiposcampañas)
                                 <tr class="bg-brand border-b border-brand-light">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                        No existe ningun expositor
+                                    </th>
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
                                         No existe ningun expositor
                                     </th>
@@ -249,14 +346,55 @@
                                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
                                             {{$expo->Tnumero_expositor}}
                                         </th>
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
-                                            <a href="{{route('admin.Tipocampaña.show',$expo->PK_Expositores)}}">
-                                                <i class="fa-solid fa-camera"></i>
-                                            </a>
-                                            <a href="">
-                                                <i class="fa-solid fa-pen-to-square"></i>
-                                            </a>
-                                        </th>
+                                        @if ($expo->Nestado_expositor == 1)
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-blue-500" align="center" >
+                                                Habilitado
+                                            </th>
+                                        @else
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-red-500" align="center" >
+                                                Desabilitado
+                                            </th>
+                                        @endif
+                                        @if ($expo->Nestado_expositor == 1)
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                                <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4">
+                                                    <div>
+                                                        <form action="{{route('admin.Configuracion.update',$expo->PK_Expositores)}}" method="POST" class="delete-form-expo">
+                                                            @method('PUT')
+                                                            @csrf
+                                                            <input type="text" name="tipo" value="down" hidden >
+                                                            <input type="text" name="confi" value="expo" hidden >
+                                                            <button class="text-red-500" >
+                                                                <span class="w-6 h-6 inline-flex justify-center items-center">
+                                                                    <i class="fa-solid fa-circle-down"></i>
+                                                                </span>
+                                                            </button>            
+                                                        </form>
+                                                    </div>
+                                                    <div>
+                                                        <a href="">
+                                                            <i class="fa-solid fa-pen-to-square"></i>
+                                                        </a>
+                                                    </div>
+
+                                            </th>
+                                        @else
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                                <div class="justify-center">
+                                                    <form action="{{route('admin.Configuracion.update',$expo->PK_Expositores)}}" method="POST" class="up-form-expo">
+                                                        @method('PUT')
+                                                        @csrf
+                                                        <input type="text" name="tipo" value="up" hidden >
+                                                        <input type="text" name="confi" value="expo" hidden >
+                                                        <button class="text-blue-500" >
+                                                            <span class="w-6 h-6 inline-flex justify-center items-center">
+                                                                <i class="fa-solid fa-circle-up"></i>
+                                                            </span>
+                                                        </button>            
+                                                    </form>                                                    
+                                            </th>   
+                                            
+                                        @endif
                             
                                     </tr>
                                     
@@ -296,6 +434,9 @@
                                     Fecha de creación
                                 </th>
                                 <th scope="col" class="px-6 py-3" align="center" >
+                                    Estado
+                                </th>
+                                <th scope="col" class="px-6 py-3" align="center" >
                                     Acción
                                 </th>
                             </tr>
@@ -303,6 +444,9 @@
                         <tbody>
                             @if (!$especialidadades)
                                 <tr class="bg-brand border-b border-brand-light">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                        No existe ninguna especialidad
+                                    </th>
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
                                         No existe ninguna especialidad
                                     </th>
@@ -329,15 +473,56 @@
                                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
                                             {{$especialidad->created_at}}
                                         </th>
+                                        @if ($especialidad->Nestado_especialidad == 1)
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-blue-500" align="center" >
+                                                Habilitado
+                                            </th>
+                                        @else
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-red-500" align="center" >
+                                                Desabilitado
+                                            </th>
+                                        @endif
                                         
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
-                                            <a href="{{route('admin.Tipocampaña.show',$especialidad->PK_Especialidades)}}">
-                                                <i class="fa-solid fa-camera"></i>
-                                            </a>
-                                            <a href="">
-                                                <i class="fa-solid fa-pen-to-square"></i>
-                                            </a>
-                                        </th>
+                                        @if ($especialidad->Nestado_especialidad == 1)
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                                <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4">
+                                                    <div>
+                                                        <form action="{{route('admin.Configuracion.update',$especialidad->PK_Especialidades)}}" method="POST" class="delete-form-especi">
+                                                            @method('PUT')
+                                                            @csrf
+                                                            <input type="text" name="tipo" value="down" hidden >
+                                                            <input type="text" name="confi" value="espe" hidden >
+                                                            <button class="text-red-500" >
+                                                                <span class="w-6 h-6 inline-flex justify-center items-center">
+                                                                    <i class="fa-solid fa-circle-down"></i>
+                                                                </span>
+                                                            </button>            
+                                                        </form>
+                                                    </div>
+                                                    <div>
+                                                        <a href="">
+                                                            <i class="fa-solid fa-pen-to-square"></i>
+                                                        </a>
+                                                    </div>
+
+                                            </th>
+                                        @else
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                                <div class="justify-center">
+                                                    <form action="{{route('admin.Configuracion.update',$especialidad->PK_Especialidades)}}" method="POST" class="delete-form-especi">
+                                                        @method('PUT')
+                                                        @csrf
+                                                        <input type="text" name="tipo" value="up" hidden >
+                                                        <input type="text" name="confi" value="espe" hidden >
+                                                        <button class="text-blue-500" >
+                                                            <span class="w-6 h-6 inline-flex justify-center items-center">
+                                                                <i class="fa-solid fa-circle-up"></i>
+                                                            </span>
+                                                        </button>            
+                                                    </form>                                                    
+                                            </th>   
+                                            
+                                        @endif
                             
                                     </tr>
                                     
@@ -394,22 +579,16 @@
                         </div>
                         {{-- permisos --}}
                         <div class="grid gap-6 mb-4 md:grid-cols-3" id="radios">
-                            <div class="flex items-center">
-                                <input id="default-radio-1" type="radio" value="nivel1" name="permiso" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                <label for="default-radio-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-black">Nivel 1</label> 
-                            </div>
-                            <div class="flex items-center">
-                                <input  id="default-radio-2" type="radio" value="nivel2" name="permiso" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                <label  for="default-radio-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-black">Nivel 2</label>
-                            </div>
-                            <div class="flex items-center">
-                                <input  id="default-radio-2" type="radio" value="nivel3" name="permiso" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                <label  for="default-radio-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-black">Nivel 3</label>
-                            </div>
-                            @error('permiso')
-                                <div class="text-red-500 text-sm">{{ $message }}</div>
-                            @enderror
-                            
+                            <select required  style="width: 450%" name="permiso" id="permiso">
+                                <option selected  disabled value="nada">Seleccione una opción</option>
+                                <option value="admin">Cordinador-Todos los accessos</option>
+                                <option value="all-salud">Salud - Todos los accessos</option>
+                                <option value="nivel1-campaña">Campañas - Nivel 1</option>
+                                <option value="nivel2-campaña">Campañas - Nivel 2</option>
+                                <option value="nivel1-charla">Charla - Nivel 1</option>
+                                <option value="nivel2-charla">Charla - Nivel 2</option>
+                                <option value="admin-mascotas">Mascota - Todos los accesos</option>
+                            </select>
                         </div>
                         
                     </div>
@@ -584,8 +763,6 @@
                                                                 
                                                             </div>
                                                         </div>
-                                                        
-
                                                     </div>
                                                 </th>                                                
                                             @else
@@ -595,7 +772,7 @@
                                                             @csrf
                                                             <button>
                                                                 <span class="w-6 h-6 inline-flex justify-center items-center">
-                                                                    <i class="fa-solid fa-circle-check"></i>
+                                                                    <i class="fa-solid fa-circle-up"></i>
                                                                 </span>
                                                             </button>
         
@@ -626,6 +803,88 @@
 
     @push('js')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+
+                document.querySelectorAll('.btnEditarCampa').forEach(button => {
+                    button.addEventListener('click', function () {
+
+                        const id = this.getAttribute('data-id');
+                        const nombre = this.getAttribute('data-nombre');
+                        const descripcion = this.getAttribute('data-descripcion');
+
+                        Swal.fire({
+                            title: 'Editar Asistente',
+                            html: `
+                                <form id="formEditarAsistente">
+                                    @csrf
+                                    <input type="hidden" id="tipo" name="tipo" value="3">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-900">Nombre de la campaña:</label>
+                                        <input maxlength="100" type="text" id="nombre" value="${nombre}" class="swal2-input" style="width:75%;" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-900">Descripción:</label>
+                                        <textarea maxlength="200" style="width: 90%" id="descripcion" maxlength="200" class="swal2-textarea">${descripcion}</textarea>
+
+                                    </div>
+
+                                   
+                                </form>
+                            `,
+                            showCancelButton: true,
+                            confirmButtonText: 'Guardar cambios',
+                            cancelButtonText: 'Cancelar',
+                            focusConfirm: false,
+
+                            preConfirm: () => {
+
+                                const nombre = Swal.getPopup().querySelector('#nombre').value;
+                                const descripcion = Swal.getPopup().querySelector('#descripcion').value;
+                                const tipo = Swal.getPopup().querySelector('#tipo').value;
+            
+
+                                if (!nombre || !descripcion || !tipo) {
+                                    Swal.showValidationMessage(`Completa todos los campos`);
+                                    return false;
+                                }
+
+                                return { id, nombre, descripcion, tipo};
+                            }
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+
+                                const datos = result.value;
+                                const formData = new FormData();
+                                formData.append('_method', 'PUT');
+                                formData.append('nombre', datos.nombre);
+                                formData.append('descripcion', datos.descripcion);
+                                formData.append('tipo', datos.tipo);
+
+                                fetch(`/admin/usuarios/${datos.id}`, {
+                                    method: 'POST',
+                                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                                    body: formData
+                                })
+                                .then(res => res.json())
+                                .then(data => {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Actualizado',
+                                        text: 'la campañafue editado correctamente'
+                                    }).then(() => location.reload());
+                                })
+                                .catch(err => {
+                                    console.error(err);
+                                    Swal.fire('Error', 'No se pudo actualizar', 'error');
+                                });
+                            }
+                        });
+
+                    });
+                });
+            });
+        </script>
 
        <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -721,7 +980,7 @@
                 });
             });
             </script>
-
+        
         
 
         <script>
@@ -732,7 +991,7 @@
 
                         const id = this.getAttribute('data-id');
                         const nombre = this.getAttribute('data-nombre');
-                        const apellidos = this.getAttribute('data-apellidos');
+                        const apellidos = this.getAttribute('data-descripcion');
                         const email = this.getAttribute('data-email');
 
                         Swal.fire({
@@ -758,6 +1017,19 @@
                                         <label class="block text-sm font-medium text-gray-900">Email:</label>
                                         <input type="text" id="email" value="${email}" class="swal2-input" style="width:90%;" required>
                                     </div>
+                                    <div class="just flex-center mb-4 ">
+                                        <label class="block text-sm font-medium text-gray-900">Permisos</label>
+                                        <select required  style="width: 100%" name="permiso" id="permiso">
+                                            <option selected  disabled value="nada">Seleccione una opción</option>
+                                            <option value="admin">Cordinador-Todos los accessos</option>
+                                            <option value="all-salud">Salud - Todos los accessos</option>
+                                            <option value="nivel1-campaña">Campañas - Nivel 1</option>
+                                            <option value="nivel2-campaña">Campañas - Nivel 2</option>
+                                            <option value="nivel1-charla">Charla - Nivel 1</option>
+                                            <option value="nivel2-charla">Charla - Nivel 2</option>
+                                            <option value="admin-mascotas">Mascota - Todos los accesos</option>
+                                        </select>
+                                    </div>
                                 </form>
                             `,
                             showCancelButton: true,
@@ -771,13 +1043,14 @@
                                 const apellidos = Swal.getPopup().querySelector('#apellidos').value;
                                 const email = Swal.getPopup().querySelector('#email').value;
                                 const tipo = Swal.getPopup().querySelector('#tipo').value;
+                                const permiso = Swal.getPopup().querySelector('#permiso').value;
 
-                                if (!nombre || !apellidos || !email) {
+                                if (!nombre || !apellidos || !email || !permiso) {
                                     Swal.showValidationMessage(`Completa todos los campos`);
                                     return false;
                                 }
 
-                                return { id, nombre, apellidos, email, tipo };
+                                return { id, nombre, apellidos, email, tipo ,permiso };
                             }
                         }).then((result) => {
                             if (result.isConfirmed) {
@@ -789,6 +1062,7 @@
                                 formData.append('apellidos', datos.apellidos);
                                 formData.append('email', datos.email);
                                 formData.append('tipo', datos.tipo);
+                                formData.append('permiso', datos.permiso);
 
                                 fetch(`/admin/usuarios/${datos.id}`, {
                                     method: 'POST',
@@ -813,14 +1087,14 @@
                     });
                 });
             });
-            </script>
+        </script>
 
 
 
 
         <script>
         //que seleciona todos esos formularios que tengan ese nombre de delete-form-area 
-            forms = document.querySelectorAll('.up-form-user')
+            forms = document.querySelectorAll('.delete-form-user')
             //que recorra todos los formularios
             forms.forEach(form => {
                 //que se ponga al escucha de ese formulario con el evento submit
@@ -834,6 +1108,56 @@
                             confirmButtonColor: "#3085d6",
                             cancelButtonColor: "#d33",
                             confirmButtonText: "Si, Deshabilitar usuario",
+                            cancelButtonText: "No cancelar"
+                            }).then((result) => {
+                            if (result.isConfirmed) {
+                                form.submit();
+                            }
+                        });    
+                });
+            });
+        </script>
+        <script>
+        //ELIMINAR ESPECIALIDAD
+            forms = document.querySelectorAll('.delete-form-especi')
+            //que recorra todos los formularios
+            forms.forEach(form => {
+                //que se ponga al escucha de ese formulario con el evento submit
+                form.addEventListener('submit',function(e){ //e es el evento en si
+                    //previne el evento 
+                    e.preventDefault('');
+                        Swal.fire({
+                            title: "Deshabilitar esta especialidad?",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Si, Deshabilitar especialidad",
+                            cancelButtonText: "No cancelar"
+                            }).then((result) => {
+                            if (result.isConfirmed) {
+                                form.submit();
+                            }
+                        });    
+                });
+            });
+        </script>
+        <script>
+        //ELIMINAR ESPECIALIDAD
+            forms = document.querySelectorAll('.up-form-especi')
+            //que recorra todos los formularios
+            forms.forEach(form => {
+                //que se ponga al escucha de ese formulario con el evento submit
+                form.addEventListener('submit',function(e){ //e es el evento en si
+                    //previne el evento 
+                    e.preventDefault('');
+                        Swal.fire({
+                            title: "Deshabilitar esta especialidad?",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Si, Deshabilitar especialidad",
                             cancelButtonText: "No cancelar"
                             }).then((result) => {
                             if (result.isConfirmed) {
@@ -859,6 +1183,158 @@
                             confirmButtonColor: "#3085d6",
                             cancelButtonColor: "#d33",
                             confirmButtonText: "Si, Habilitar usuario",
+                            cancelButtonText: "No cancelar"
+                            }).then((result) => {
+                            if (result.isConfirmed) {
+                                form.submit();
+                            }
+                        });    
+                });
+            });
+        </script>
+        <script>
+        //que seleciona todos esos formularios que tengan ese nombre de delete-form-area 
+            forms = document.querySelectorAll('.delete-form-expo')
+            //que recorra todos los formularios
+            forms.forEach(form => {
+                //que se ponga al escucha de ese formulario con el evento submit
+                form.addEventListener('submit',function(e){ //e es el evento en si
+                    //previne el evento 
+                    e.preventDefault('');
+                        Swal.fire({
+                            title: "Deshabilitar esta expositor?",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Si, Deshabilitar expositor",
+                            cancelButtonText: "No cancelar"
+                            }).then((result) => {
+                            if (result.isConfirmed) {
+                                form.submit();
+                            }
+                        });    
+                });
+            });
+        </script>
+        <script>
+        //que seleciona todos esos formularios que tengan ese nombre de delete-form-area 
+            forms = document.querySelectorAll('.delete-form-charla')
+            //que recorra todos los formularios
+            forms.forEach(form => {
+                //que se ponga al escucha de ese formulario con el evento submit
+                form.addEventListener('submit',function(e){ //e es el evento en si
+                    //previne el evento 
+                    e.preventDefault('');
+                        Swal.fire({
+                            title: "Deshabilitar este tipo de charla?",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Si, Deshabilitar",
+                            cancelButtonText: "No cancelar"
+                            }).then((result) => {
+                            if (result.isConfirmed) {
+                                form.submit();
+                            }
+                        });    
+                });
+            });
+        </script>
+        <script>
+        //que seleciona todos esos formularios que tengan ese nombre de delete-form-area 
+            forms = document.querySelectorAll('.delete-form-campa')
+            //que recorra todos los formularios
+            forms.forEach(form => {
+                //que se ponga al escucha de ese formulario con el evento submit
+                form.addEventListener('submit',function(e){ //e es el evento en si
+                    //previne el evento 
+                    e.preventDefault('');
+                        Swal.fire({
+                            title: "Deshabilitar este tipo de campaña?",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Si, Deshabilitar",
+                            cancelButtonText: "No cancelar"
+                            }).then((result) => {
+                            if (result.isConfirmed) {
+                                form.submit();
+                            }
+                        });    
+                });
+            });
+        </script>
+        <script>
+        //que seleciona todos esos formularios que tengan ese nombre de delete-form-area 
+            forms = document.querySelectorAll('.up-form-expo')
+            //que recorra todos los formularios
+            forms.forEach(form => {
+                //que se ponga al escucha de ese formulario con el evento submit
+                form.addEventListener('submit',function(e){ //e es el evento en si
+                    //previne el evento 
+                    e.preventDefault('');
+                        Swal.fire({
+                            title: "Habilitar esta expositor?",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Si, habilitar expositor",
+                            cancelButtonText: "No cancelar"
+                            }).then((result) => {
+                            if (result.isConfirmed) {
+                                form.submit();
+                            }
+                        });    
+                });
+            });
+        </script>
+
+        <script>
+        //que seleciona todos esos formularios que tengan ese nombre de delete-form-area 
+            forms = document.querySelectorAll('.up-form-charla')
+            //que recorra todos los formularios
+            forms.forEach(form => {
+                //que se ponga al escucha de ese formulario con el evento submit
+                form.addEventListener('submit',function(e){ //e es el evento en si
+                    //previne el evento 
+                    e.preventDefault('');
+                        Swal.fire({
+                            title: "Habilitar esta charla?",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Si, habilitar charla",
+                            cancelButtonText: "No cancelar"
+                            }).then((result) => {
+                            if (result.isConfirmed) {
+                                form.submit();
+                            }
+                        });    
+                });
+            });
+        </script>
+
+        <script>
+        //que seleciona todos esos formularios que tengan ese nombre de delete-form-area 
+            forms = document.querySelectorAll('.up-form-campa')
+            //que recorra todos los formularios
+            forms.forEach(form => {
+                //que se ponga al escucha de ese formulario con el evento submit
+                form.addEventListener('submit',function(e){ //e es el evento en si
+                    //previne el evento 
+                    e.preventDefault('');
+                        Swal.fire({
+                            title: "Habilitar esta tipo de campaña?",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Si, habilitar",
                             cancelButtonText: "No cancelar"
                             }).then((result) => {
                             if (result.isConfirmed) {

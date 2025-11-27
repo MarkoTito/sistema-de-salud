@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 
-class TipoCharlaSeeder extends Seeder
+    class TipoCharlaSeeder extends Seeder
 {
     /**
      * Run the database seeds.

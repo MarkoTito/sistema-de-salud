@@ -25,9 +25,9 @@ class ConfiguaracionController extends Controller
     {
         $Tiposcampañas=DB::select('EXEC dbo.ViewsTiposCampañas');
         $TiposCharlas=DB::select('EXEC dbo.ViewsTiposCharlas');
-        $expositores=DB::select('EXEC dbo.ViewsExpositores');
+        $expositores=DB::select('EXEC dbo.ViewExpositores2');
         $users=DB::select('EXEC dbo.ViewUser');
-        $especialidadades=DB::select('EXEC dbo.ViewEspecialidades');
+        $especialidadades=DB::select('EXEC dbo.ViewEspecialidades2');
         // return $especialidadades;
         return view('admin/nada',compact('Tiposcampañas','TiposCharlas','expositores','users','especialidadades'));
     }
@@ -141,7 +141,75 @@ class ConfiguaracionController extends Controller
 
     public function update(Request $request, $id)
     {
-       
+       if ($request->tipo == 'down') {
+            if ($request->confi == 'espe') {
+                DB::select(' EXEC dbo.EliminarEspeci ? ',[$id]);
+                    session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => '¡Buen trabajo!',
+                    'text' => 'Se elimino la especialidad correctamente'
+                ]);
+            }
+            if ($request->confi == 'expo') {
+                DB::select(' EXEC dbo.EliminarExpo ? ',[$id]);
+                    session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => '¡Buen trabajo!',
+                    'text' => 'Se elimino la especialidad correctamente'
+                ]);
+            }
+            if ($request->confi == 'charla') {
+                DB::select(' EXEC dbo.EliminarTipocharla ? ',[$id]);
+                    session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => '¡Buen trabajo!',
+                    'text' => 'Se elimino el tipo de charla correctamente'
+                ]);
+            }
+            if ($request->confi == 'campa') {
+                DB::select(' EXEC dbo.EliminarTipoCampaña ? ',[$id]);
+                    session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => '¡Buen trabajo!',
+                    'text' => 'Se elimino el tipo de campaña correctamente'
+                ]);
+            }
+       }
+       if ($request->tipo == 'up') {
+            if ($request->confi == 'espe') { 
+                DB::select(' EXEC dbo.habilitarEspeci ? ',[$id]);
+                    session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => '¡Buen trabajo!',
+                    'text' => 'Se habilito la especialidad correctamente'
+                ]);
+            }
+            if ($request->confi == 'expo') {
+                DB::select(' EXEC dbo.habilitarExpo ? ',[$id]);
+                    session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => '¡Buen trabajo!',
+                    'text' => 'Se habilito el expositor correctamente'
+                ]);
+            }
+            if ($request->confi == 'charla') {
+                DB::select(' EXEC dbo.habilitarTipocharla ? ',[$id]);
+                    session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => '¡Buen trabajo!',
+                    'text' => 'Se habilito el tipo de charla correctamente'
+                ]);
+            }
+            if ($request->confi == 'campa') {
+                DB::select(' EXEC dbo.habilitarTipoCampaña ? ',[$id]);
+                    session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => '¡Buen trabajo!',
+                    'text' => 'Se habilito el tipo de campaña correctamente'
+                ]);
+            }
+       }
+       return redirect()->route('admin.prueba.nada');
     }
     
    

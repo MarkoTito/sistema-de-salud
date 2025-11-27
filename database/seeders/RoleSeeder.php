@@ -61,6 +61,7 @@ class RoleSeeder extends Seeder
         //ve todo salud
         Role::create(['name' => 'all-salud'])
             ->givePermissionTo([
+                'all-salud',
                 'view-campañas',
                 'create-campañas',
                 'update-campañas',
@@ -81,6 +82,7 @@ class RoleSeeder extends Seeder
         //admin campaña
         Role::create(['name' => 'nivel1-campaña'])
             ->givePermissionTo([
+                'all-salud',
                 'view-campañas',
                 'create-campañas',
                 'update-campañas',
@@ -95,6 +97,7 @@ class RoleSeeder extends Seeder
         //solo registra campañas
         Role::create(['name' => 'nivel2-campaña'])
             ->givePermissionTo([
+                'all-salud',
                 'view-asitentes',
                 'create-asitentes',
                 'read-asitentes',
@@ -103,6 +106,7 @@ class RoleSeeder extends Seeder
         //admin de charlas
         Role::create(['name' => 'nivel1-charla'])
             ->givePermissionTo([
+                'all-salud',
                 'view-charlas',
                 'create-charlas',
                 'update-charlas',
@@ -112,6 +116,7 @@ class RoleSeeder extends Seeder
         //solo edita
         Role::create(['name' => 'nivel2-charla'])
             ->givePermissionTo([
+                'all-salud',
                 'view-charlas',
                 'read-charlas',
                 'delete-charlas',
@@ -119,6 +124,7 @@ class RoleSeeder extends Seeder
         //admin mascotas
         Role::create(['name' => 'admin-mascotas'])
             ->givePermissionTo([
+                'all-mascota',
                 'view-mascotas',
                 'create-mascotas',
                 'update-mascotas',
