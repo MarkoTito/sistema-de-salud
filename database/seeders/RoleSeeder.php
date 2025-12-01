@@ -21,7 +21,7 @@ class RoleSeeder extends Seeder
             //permisos de administrador
             'all-salud',
             'all-mascota',
-
+            'all-user',
             'view-historial',
             'all-configuracion',
 

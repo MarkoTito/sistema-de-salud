@@ -16,6 +16,8 @@ class UserController extends Controller
     public function index()
     {
         //
+        $users=DB::select('EXEC dbo.ViewUser');
+        return view('admin/configuracion/usuerconfiguracion',compact('users'));
     }
 
     /**
@@ -128,6 +130,40 @@ class UserController extends Controller
             $user->syncRoles($request->permiso);
             return response()->json(['message' => 'Asistente actualizado correctamente']);
         }
+        if ($request->tipo == 4) {
+            #para charla
+            Log::info('Llega correctamente', ['id' => $id, 'data' => $request->all()]);
+            $resultado = DB::statement('EXEC dbo.EditarTipoCharla ?,?,?', [
+                $id,
+                $request->nombre,
+                $request->descripcion,
+
+            ]);
+            return response()->json(['message' => 'Charla actualizado correctamente']);
+        }
+        if ($request->tipo == 5) {
+            #para expositor
+            Log::info('Llega correctamente', ['id' => $id, 'data' => $request->all()]);
+            $resultado = DB::statement('EXEC dbo.EditarExpositor ?,?,?,?,?', [
+                $id,
+                $request->nombre,
+                $request->apP,
+                $request->apM,
+                $request->celular
+
+            ]);
+            return response()->json(['message' => 'Expositor actualizado correctamente']);
+        }
+        if ($request->tipo == 6) {
+            #para especialidades
+            Log::info('Llega correctamente', ['id' => $id, 'data' => $request->all()]);
+            $resultado = DB::statement('EXEC dbo.EditarTipoEspecie ?,?', [
+                $id,
+                $request->nombre,
+
+            ]);
+            return response()->json(['message' => 'Expositor actualizado correctamente']);
+        }
         if ($request->tipo == 3) {
             
             Log::info('Llega correctamente', ['id' => $id, 'data' => $request->all()]);
@@ -156,6 +192,10 @@ class UserController extends Controller
         
     }
 
+
+
+
+
     /**
      * Remove the specified resource from storage.
      */
@@ -176,6 +216,6 @@ class UserController extends Controller
                 'text' => 'No elimino el usuario correctamente'
             ]);
         }  
-        return redirect()->route('admin.prueba.nada');
+        return redirect()->route('admin.usuarios.index');
     }
 }

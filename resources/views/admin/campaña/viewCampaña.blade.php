@@ -189,9 +189,7 @@
                                             data-nombre="{{ $campaña->Tnombre_Tipocampaña }}">
                                                 <i class="fa-solid fa-file-export"></i>
                                         </a>
-                                        {{-- <a>
-                                            <i class="fa-solid fa-file-export"></i>
-                                        </a> --}}
+                                        
                                     @endcan
                                 </th>
 
