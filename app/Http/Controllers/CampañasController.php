@@ -91,11 +91,15 @@ class CampañasController extends Controller
     public function store(Request $request)
     {
         Gate::authorize('create-campañas');
+        // $colaborador = explode(',', $request->colaborador);
+        // $cant= count($colaborador);
+        // $idColaborador = intval(trim($colaborador[2]));
+
         try {
             
             $validated = $request->validate([
                 'Campañas' => 'required|integer',
-                'opciones' => 'required',
+                'colaborador' => 'required',
                 'DfechaIni_campaña' => 'required|date',
                 'hora_inicio' => 'required',
                 'Tlugar_campaña' => 'required|string|max:30',
@@ -114,14 +118,15 @@ class CampañasController extends Controller
             ]);
 
             $idInsertado = $resultado[0]->id_insertado;
-
-            $cant= count($request->opciones);
+            $colaborador = explode(',', $request->colaborador);
+            $cant= count($colaborador);
             
             
             for ($i=0; $i <$cant ; $i++) { 
+                $idColaborador = intval(trim($colaborador[$i]));
                 $colCampa = DB::select('EXEC dbo.InserCampaña_colaborador ?, ?', [
                     $idInsertado,
-                    $request->opciones[$i]
+                    $idColaborador
                 ]);
             }
             // insersion en la talba de modificacion
