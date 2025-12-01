@@ -69,28 +69,10 @@
             
         </div>
         <br>
-        {{-- <div class="flex justify-center mb-4">
-            <div id="contenedor-selects">
-                <div class="select-group">
-                    <label>Seleccione a un colaborador:</label>
-                    <select required name="opciones[]" id="miSelect-colaborador" >
-                    <option value="">-- Seleccione --</option>
-                    @foreach ($Colaboradores as $colaborador)
-                            <option value="{{$colaborador->PK_Colaborador}}" >{{$colaborador->Tnombre_colaborador}}</option>
-                    @endforeach
-                    </select>
-                    <label>
-                    <input type="checkbox" class="agregarOtro"> ¿Agregar otro colaborador?
-                    </label>
-                </div>
-            </div>
-
-        </div> --}}
-
         <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4">
             <div class="mb-4">
-                <label>Seleccione a un colaborador:</label>
-                <select id="selectCategorias" class="w-full border rounded px-3 py-2">
+                <label>Seleccione a a los colaboradores:</label>
+                <select id="selectColaboradores" class="w-full border rounded px-3 py-2">
                     <option value="" disabled selected>Seleccione a un colaborador</option>
                     @foreach ($Colaboradores as $colaborador)
                             <option value="{{$colaborador->PK_Colaborador}}" >{{$colaborador->Tnombre_colaborador}}</option>
@@ -101,6 +83,24 @@
     
                 <!-- hidden para enviar al backend -->
                 <input type="hidden" name="colaborador" id="categoriasHidden">
+            </div>
+
+            <div class="mb-4">
+                <label>Seleccione las especialidades:</label>
+                <select id="selectCategorias2" class="w-full border rounded px-3 py-2">
+                    <option value="" disabled selected>Seleccione una especialidad</option>
+                    @foreach ($especialidadades as $espe)
+                        @if ($espe->Nestado_especialidad == 0)
+                        @else
+                            <option value="{{$espe->PK_Especialidades}}" >{{$espe->Tdescripcion_especialidad}}</option>
+                        @endif
+                    @endforeach
+                </select>
+                <!-- Contenedor de chips -->
+                <div id="contenedorTags2" class="flex flex-wrap gap-2 mt-3"></div>
+    
+                <!-- hidden para enviar al backend -->
+                <input type="hidden" name="especialidad" id="categoriasHidden2">
             </div>
 
 
@@ -125,54 +125,102 @@
 
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-            const select = document.getElementById("selectCategorias");
-            const contenedor = document.getElementById("contenedorTags");
-            const hidden = document.getElementById("categoriasHidden");
+                const select = document.getElementById("selectColaboradores");
+                const contenedor = document.getElementById("contenedorTags");
+                const hidden = document.getElementById("categoriasHidden");
 
-            select.addEventListener("change", function () {
-                const id = this.value;                     // PK del colaborador
-                const texto = this.options[this.selectedIndex].text; // Nombre del colaborador
+                select.addEventListener("change", function () {
+                    const id = this.value;                     // PK del colaborador
+                    const texto = this.options[this.selectedIndex].text; // Nombre del colaborador
 
-                // Evitar duplicados (revisando IDs)
-                const actuales = hidden.value ? hidden.value.split(",") : [];
-                if (actuales.includes(id)) return;
+                    // Evitar duplicados (revisando IDs)
+                    const actuales = hidden.value ? hidden.value.split(",") : [];
+                    if (actuales.includes(id)) return;
 
-                // Crear chip
-                const chip = document.createElement("span");
-                chip.className = "bg-teal-600 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2";
+                    // Crear chip
+                    const chip = document.createElement("span");
+                    chip.className = "bg-teal-600 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2";
 
-                chip.innerHTML = `
-                    ${texto}
-                    <button type="button" class="text-white font-bold">&times;</button>
-                `;
+                    chip.innerHTML = `
+                        ${texto}
+                        <button type="button" class="text-white font-bold">&times;</button>
+                    `;
 
-                // Al eliminar
-                chip.querySelector("button").addEventListener("click", () => {
-                    chip.remove();
+                    // Al eliminar
+                    chip.querySelector("button").addEventListener("click", () => {
+                        chip.remove();
+                        actualizarHidden();
+                    });
+
+                    contenedor.appendChild(chip);
                     actualizarHidden();
                 });
 
-                contenedor.appendChild(chip);
-                actualizarHidden();
+                function actualizarHidden() {
+                    const chipsIDs = [];
+
+                    // Para cada chip, busco su texto y lo convierto al ID otra vez
+                    const opciones = Array.from(select.options);
+
+                    contenedor.querySelectorAll("span").forEach(chip => {
+                        const textoChip = chip.childNodes[0].textContent.trim();
+                        const opcion = opciones.find(op => op.text === textoChip);
+                        if (opcion) chipsIDs.push(opcion.value);
+                    });
+
+                    hidden.value = chipsIDs.join(",");
+                }
             });
+        </script>
 
-            function actualizarHidden() {
-                const chipsIDs = [];
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const select = document.getElementById("selectCategorias2");
+                const contenedor = document.getElementById("contenedorTags2");
+                const hidden = document.getElementById("categoriasHidden2");
 
-                // Para cada chip, busco su texto y lo convierto al ID otra vez
-                const opciones = Array.from(select.options);
+                select.addEventListener("change", function () {
+                    const id = this.value;                     // PK del colaborador
+                    const texto = this.options[this.selectedIndex].text; // Nombre del colaborador
 
-                contenedor.querySelectorAll("span").forEach(chip => {
-                    const textoChip = chip.childNodes[0].textContent.trim();
-                    const opcion = opciones.find(op => op.text === textoChip);
-                    if (opcion) chipsIDs.push(opcion.value);
+                    // Evitar duplicados (revisando IDs)
+                    const actuales = hidden.value ? hidden.value.split(",") : [];
+                    if (actuales.includes(id)) return;
+
+                    // Crear chip
+                    const chip = document.createElement("span");
+                    chip.className = "bg-teal-600 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2";
+
+                    chip.innerHTML = `
+                        ${texto}
+                        <button type="button" class="text-white font-bold">&times;</button>
+                    `;
+
+                    // Al eliminar
+                    chip.querySelector("button").addEventListener("click", () => {
+                        chip.remove();
+                        actualizarHidden();
+                    });
+
+                    contenedor.appendChild(chip);
+                    actualizarHidden();
                 });
 
-                hidden.value = chipsIDs.join(",");
-            }
-        });
+                function actualizarHidden() {
+                    const chipsIDs = [];
 
+                    // Para cada chip, busco su texto y lo convierto al ID otra vez
+                    const opciones = Array.from(select.options);
 
+                    contenedor.querySelectorAll("span").forEach(chip => {
+                        const textoChip = chip.childNodes[0].textContent.trim();
+                        const opcion = opciones.find(op => op.text === textoChip);
+                        if (opcion) chipsIDs.push(opcion.value);
+                    });
+
+                    hidden.value = chipsIDs.join(",");
+                }
+            });
         </script>
 
         <script>

@@ -24,10 +24,19 @@
                 
             @else
                 @can('view-campañas')
-                    <div>
-                        <button id="mostrarColaboradores" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                            Ver Colaboradores
-                        </button>
+                    <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4">
+                        <div>
+                            <button id="mostrarColaboradores" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                Ver Colaboradores
+                            </button>
+                        </div>
+
+                        <div>
+                            <button id="mostrarEspecilidades" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                Especialidades
+                            </button>
+                        </div>
+
                     </div>
                 @endcan
             @endif
@@ -53,11 +62,20 @@
             @if (!$colaboradores)
                 
             @else
-                <div>
-                    <button id="mostrarColaboradores" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                        Ver Colaboradores
-                    </button>
-                </div>
+                <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4">
+                        <div>
+                            <button id="mostrarColaboradores" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                Ver Colaboradores
+                            </button>
+                        </div>
+
+                        <div>
+                            <button id="mostrarEspecilidades" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                Especialidades
+                            </button>
+                        </div>
+
+                    </div>
                 
             @endif
             @can('update-campañas')
@@ -82,11 +100,20 @@
             @if (!$colaboradores)
                 
             @else
-                <div>
-                    <button id="mostrarColaboradores" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                        Ver Colaboradores
-                    </button>
-                </div>
+                <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4">
+                        <div>
+                            <button id="mostrarColaboradores" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                Ver Colaboradores
+                            </button>
+                        </div>
+
+                        <div>
+                            <button id="mostrarEspecilidades" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                Especialidades
+                            </button>
+                        </div>
+
+                    </div>
                 
             @endif
             
@@ -361,7 +388,36 @@
                     confirmButtonColor: '#2563eb'
                 });
             });
-            </script>
+        </script>
+
+        <script>
+            document.getElementById('mostrarEspecilidades').addEventListener('click', function() {
+                const OnEspecialidadades = {!! json_encode($OnEspecialidadades) !!} || []; 
+
+                let tablaHTML = `
+                    <table style="width:100%; border-collapse: collapse;">
+                        <tbody>
+                            ${OnEspecialidadades.map(c => `
+                                <tr>
+                                    <td style="padding:8px; border-bottom:1px solid #ddd; text-align:center;">
+                                        ${c.Tdescripcion_especialidad ?? '(sin nombre)'}
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+
+                Swal.fire({
+                    title: 'Especialidades',
+                    html: tablaHTML,
+                    width: 400,
+                    confirmButtonText: 'Cerrar',
+                    confirmButtonColor: '#2563eb'
+                });
+            });
+        </script>
+
         
         <script>
             //para agregar usuario

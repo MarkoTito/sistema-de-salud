@@ -47,9 +47,11 @@ class CampañasController extends Controller
     {
         Gate::authorize('create-campañas');
         $Tiposcampañas=DB::select('EXEC dbo.ViewsTiposCampañas');
+        $Tiposcampañas=DB::select('EXEC dbo.ViewsTiposCampañas');
         $Colaboradores=DB::select('EXEC dbo.ViewsColaboradores');
+        $especialidadades=DB::select('EXEC dbo.ViewEspecialidades2');
         
-        return view('admin/campaña/newCampaña',compact('Tiposcampañas','Colaboradores'));
+        return view('admin/campaña/newCampaña',compact('Tiposcampañas','Colaboradores','especialidadades'));
     }
 
     public function viewImportar($id)
@@ -66,19 +68,7 @@ class CampañasController extends Controller
         ]);
 
         Excel::import(new \App\Imports\UserImport($id), $request->file('excel'));
-        // if ($resultado === true) {
-        //     session()->flash('swal', [
-        //         'icon' => 'success',
-        //         'title' => '¡Buen trabajo!',
-        //         'text' => 'Se actualizo la campaña correctamente '
-        //     ]);
-        // } else {
-        //     session()->flash('swal', [
-        //         'icon' => 'error',
-        //         'title' => '¡Ups!',
-        //         'text' => 'No se actualizo la campaña correctamente'
-        //     ]);
-        // } 
+    
         session()->flash('swal', [
                 'icon' => 'success',
                 'title' => '¡Buen trabajo!',
@@ -91,9 +81,10 @@ class CampañasController extends Controller
     public function store(Request $request)
     {
         Gate::authorize('create-campañas');
-        // $colaborador = explode(',', $request->colaborador);
-        // $cant= count($colaborador);
-        // $idColaborador = intval(trim($colaborador[2]));
+        // $especialidadades = explode(',', $request->especialidad);
+        // $cant= count($especialidadades);
+        // $idColaborador = intval(trim($especialidadades[1]));
+        // return $cant;
 
         try {
             
@@ -118,15 +109,28 @@ class CampañasController extends Controller
             ]);
 
             $idInsertado = $resultado[0]->id_insertado;
+
+            #insercion en la talba relacion de colaborador y campaña
             $colaborador = explode(',', $request->colaborador);
             $cant= count($colaborador);
-            
             
             for ($i=0; $i <$cant ; $i++) { 
                 $idColaborador = intval(trim($colaborador[$i]));
                 $colCampa = DB::select('EXEC dbo.InserCampaña_colaborador ?, ?', [
                     $idInsertado,
                     $idColaborador
+                ]);
+            }
+
+            #insercion en la talba relacion de especialidad y campaña
+            $especialidad = explode(',', $request->especialidad);
+            $cant= count($especialidad);
+            
+            for ($i=0; $i <$cant ; $i++) { 
+                $idEspecialidad = intval(trim($especialidad[$i]));
+                $colCampa = DB::select('EXEC dbo.InserCampaña_Especie ?, ?', [
+                    $idInsertado,
+                    $idEspecialidad
                 ]);
             }
             // insersion en la talba de modificacion
@@ -176,11 +180,11 @@ class CampañasController extends Controller
         $especialidades= DB::select('EXEC dbo.ViewEspecialidades2');
         //te muestre todos los colaboradores de la campaña
         $colaboradores= DB::select('EXEC dbo.ViewColaboradoresCamp ?',[$id]);
+        $OnEspecialidadades= DB::select('EXEC dbo.ViewCruseEspecialidades ?',[$id]);
         $cantidad= count($resulAsistentes);
 
 
-
-
+        // return $OnEspecialidadades;
         $fechaHora = Carbon::parse($campañaShow[0]->DfechaIni_campaña . ' ' . $campañaShow[0]->ThoraIni_campaña);
         if ($fechaHora->lessThan(Carbon::now())) {
             if ($campañaShow[0]->Nestado_campaña ==3) {
@@ -219,7 +223,7 @@ class CampañasController extends Controller
             );
 
            
-            return view('admin.campaña.oneCampaña', compact('campaña','especialidades','asistentes','cantidad','estado','imagen','colaboradores'));
+            return view('admin.campaña.oneCampaña', compact('campaña','OnEspecialidadades','especialidades','asistentes','cantidad','estado','imagen','colaboradores'));
         } else {
             return redirect()->back()->with('error', 'No se encontró la campaña.');
         }
