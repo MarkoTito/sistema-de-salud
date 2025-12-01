@@ -17,7 +17,7 @@
             {{ $campaña->Tnombre_Tipocampaña }}
         </h1>
     </div>
-
+    
     @if ($estado == "Finalizar")
         <div class="flex justify-between items-center mb-4">
             @if (!$colaboradores)
@@ -319,6 +319,9 @@
                     @endforeach
                 @endif
         </table>
+    </div>
+    <div class="mt-4">
+        {{ $asistentes->links() }}
     </div>
     
 

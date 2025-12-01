@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
     
         
         $this->call([
-        RazasSeeder::class,
+        RasaSeeder::class,
         ]);
         $this->call([
         TipoCharlaSeeder::class,

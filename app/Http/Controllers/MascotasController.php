@@ -35,6 +35,7 @@ class MascotasController extends Controller
         $viewDueño=DB::select('EXEC dbo.FoundResponsable ?',[$request->dniRes]);
 
         if (!empty($viewDueño)) {
+            // aca el dueño ya fue registrado
             $idResponsable= $viewDueño[0]->PK_Responsable;
             
             $mascota=DB::select('EXEC dbo.InserMascota  ?,?,?,?,?,?,?,?,?,?,?',
@@ -52,7 +53,7 @@ class MascotasController extends Controller
                         $request->antecedentes,
             
                     ]);
-            $idMascota = $mascota[0]->id_insertado;
+                    $idMascota = $mascota[0]->id_insertado;
 
                     if ($request->hasFile('docuImagen')) {
                             $file = $request->file('docuImagen');
@@ -113,9 +114,15 @@ class MascotasController extends Controller
                             }
                         }
                     }
-
-
-
+                    // insersion en la talba de modificacion
+                    $tipoInser="masco";
+                    $tipoModi=1;
+                    DB::statement('EXEC dbo.InsertarModificacion ?,?,?,?', [
+                            $idMascota,
+                            $tipoInser,
+                            $tipoModi,
+                            $Idusuario
+                    ]);
 
                     if ($mascota && $mascota[0]->estado === 'OK') {
                         return response()->json([
@@ -231,6 +238,15 @@ class MascotasController extends Controller
 
 
                         if ($mascota && $mascota[0]->estado === 'OK') {
+                            // insersion en la talba de modificacion
+                            $tipoInser="masco";
+                            $tipoModi=1;
+                            DB::statement('EXEC dbo.InsertarModificacion ?,?,?,?', [
+                                    $idMascota,
+                                    $tipoInser,
+                                    $tipoModi,
+                                    $Idusuario
+                            ]);
                             return response()->json([
                                 'success' => true,
                                 ]);
@@ -326,6 +342,18 @@ class MascotasController extends Controller
 
             ]);
             if ($Mascota === true) {
+                // insersion en la talba de modificacion
+                $tipoInser="masco";
+                $tipoModi=3;
+                $Idusuario = Auth::user()->id;
+                DB::statement('EXEC dbo.InsertarModificacion ?,?,?,?', [
+                        $id,
+                        $tipoInser,
+                        $tipoModi,
+                        $Idusuario
+                ]);
+
+
                 session()->flash('swal', [
                     'icon' => 'success',
                     'title' => '¡Buen trabajo!',
@@ -359,6 +387,17 @@ class MascotasController extends Controller
         Gate::authorize('delete-mascotas');  
         $resultado=DB::statement('EXEC dbo.EliminarMascota ? ',[$id]);
         if ($resultado === true) {
+            
+            $tipoInser="masco";
+            $tipoModi=2;
+            $Idusuario = Auth::user()->id;
+            DB::statement('EXEC dbo.InsertarModificacion ?,?,?,?', [
+                $id,
+                $tipoInser,
+                $tipoModi,
+                $Idusuario
+            ]);
+
             session()->flash('swal', [
                 'icon' => 'success',
                 'title' => '¡Buen trabajo!',

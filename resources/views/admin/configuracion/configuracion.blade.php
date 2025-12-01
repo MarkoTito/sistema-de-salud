@@ -12,7 +12,7 @@
             <a @click="activeTab = 'Expositores'" :class="activeTab === 'Expositores' ? 'text-blue-600 border-blue-600 border-b-2' : 'border-transparent hover:text-gray-600 hover:border-gray-300'" class="inline-block p-4 rounded-t-lg">Expositores</a>
             </li>
         </ul>
-
+        
         <!-- Contenido de cada tab -->
         <div class="p-4">
             <div x-show="activeTab === 'Campañas'">

@@ -205,7 +205,7 @@
     
                     </div>
                     <div class="mb-4">
-                        <label class="text-sm">Certificado de Vacunación:</label>
+                        <label class="text-sm">Cartilla o Certificado de Vacunación:</label>
                         <input required type="file" accept="application/pdf" name="certiMascota" class="border w-full p-2 rounded-lg"  >
                     
                     </div>

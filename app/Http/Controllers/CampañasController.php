@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CampañasController extends Controller
 {
@@ -51,6 +52,42 @@ class CampañasController extends Controller
         return view('admin/campaña/newCampaña',compact('Tiposcampañas','Colaboradores'));
     }
 
+    public function viewImportar($id)
+    {
+        
+        return view('admin/campaña/viewImportar',compact('id'));
+    }
+
+    public function dropzoneImpor(Request $request, $id)
+    {
+        #paara la importacion de asistentes a cmapañas
+        $request->validate([
+            'excel' => 'required|mimes:xlsx,xls|max:2048',
+        ]);
+
+        Excel::import(new \App\Imports\UserImport($id), $request->file('excel'));
+        // if ($resultado === true) {
+        //     session()->flash('swal', [
+        //         'icon' => 'success',
+        //         'title' => '¡Buen trabajo!',
+        //         'text' => 'Se actualizo la campaña correctamente '
+        //     ]);
+        // } else {
+        //     session()->flash('swal', [
+        //         'icon' => 'error',
+        //         'title' => '¡Ups!',
+        //         'text' => 'No se actualizo la campaña correctamente'
+        //     ]);
+        // } 
+        session()->flash('swal', [
+                'icon' => 'success',
+                'title' => '¡Buen trabajo!',
+                'text' => 'Se agrego asistentes a la campaña correctamente '
+            ]);
+        return redirect()->route('admin.Campañas.show',$id);
+    }
+
+
     public function store(Request $request)
     {
         Gate::authorize('create-campañas');
@@ -87,6 +124,16 @@ class CampañasController extends Controller
                     $request->opciones[$i]
                 ]);
             }
+            // insersion en la talba de modificacion
+            $tipoInser="camp";
+            $tipoModi=1;
+            DB::statement('EXEC dbo.InsertarModificacion ?,?,?,?', [
+                    $idInsertado,
+                    $tipoInser,
+                    $tipoModi,
+                    $Idusuario
+                ]);
+
 
             if ($colCampa === true) {
                 session()->flash('swal', [
@@ -120,11 +167,11 @@ class CampañasController extends Controller
         $campañaShow = DB::select('EXEC dbo.OneCAMPAÑA ? ',[$id]);
         //imagen
         $Tiposcampañas=DB::select('EXEC dbo.ViewsTiposCampañas');
-        $asistentes= DB::select('EXEC dbo.ViewsAsistentesCampañas ? ',[$id]);
-        $especialidades= DB::select('EXEC dbo.ViewsEspecialidad');
+        $resulAsistentes= DB::select('EXEC dbo.ViewsAsistentesCampañas ? ',[$id]);
+        $especialidades= DB::select('EXEC dbo.ViewEspecialidades2');
         //te muestre todos los colaboradores de la campaña
         $colaboradores= DB::select('EXEC dbo.ViewColaboradoresCamp ?',[$id]);
-        $cantidad= count($asistentes);
+        $cantidad= count($resulAsistentes);
 
 
 
@@ -148,12 +195,23 @@ class CampañasController extends Controller
             $campaña = $campañaShow[0];
             $imagen = collect(DB::select('EXEC dbo.ViewImagenCampanias ?', [$campaña->PK_TiposCampañas]))->last();
             $colaboradores= DB::select('EXEC dbo.ViewColaboradoresCamp ?',[$id]);
-            // $texto="";
 
-            // foreach ($colaboradores as $col) {
-            //     $texto = $col->Tnombre_colaborador . "," .$texto;
-            // }
+            // aca
+            $collection = collect($resulAsistentes);
 
+            // Parámetros de paginación
+            $perPage = 2; 
+            $page = request()->get('page', 1); 
+
+            $items = $collection->slice(($page - 1) * $perPage, $perPage)->values();
+
+            $asistentes = new LengthAwarePaginator(
+                $items,
+                $collection->count(),
+                $perPage,
+                $page,
+                ['path' => request()->url(), 'query' => request()->query()]
+            );
 
            
             return view('admin.campaña.oneCampaña', compact('campaña','especialidades','asistentes','cantidad','estado','imagen','colaboradores'));
@@ -189,9 +247,20 @@ class CampañasController extends Controller
     public function update(Request $request, $id)
     {        
         Gate::authorize('update-campañas');
+        $Idusuario = Auth::user()->id;
+            $tipoInser="camp";
+            $tipoModi=3;
+
         if ($request->situacion ==1 ) {
             # para finalizarlo
-            $resultado=DB::statement('EXEC dbo.FinalizarCampaña ? ',$id);
+            $resultado=DB::statement('EXEC dbo.FinalizarCampaña ? ',[$id]);
+            // insersion en la talba de modificacion
+            DB::statement('EXEC dbo.InsertarModificacion ?,?,?,?', [
+                    $id,
+                    $tipoInser,
+                    $tipoModi,
+                    $Idusuario
+            ]);
             if ($resultado === true) {
                 session()->flash('swal', [
                     'icon' => 'success',
@@ -208,7 +277,17 @@ class CampañasController extends Controller
         } 
         if ($request->situacion ==2 ) {
             #para adelnatarlo
+            
             $resultado=DB::statement('EXEC dbo.AdelantarCampaña ? ',[$id]);
+            // insersion en la talba de modificacion
+            DB::statement('EXEC dbo.InsertarModificacion ?,?,?,?', [
+                    $id,
+                    $tipoInser,
+                    $tipoModi,
+                    $Idusuario
+            ]);
+
+
             if ($resultado === true) {
                 session()->flash('swal', [
                     'icon' => 'success',
@@ -226,6 +305,13 @@ class CampañasController extends Controller
         if ($request->situacion ==3 ) {
             #para adelnatarlo
             $resultado=DB::statement('EXEC dbo.ReabirCampaña ? ',[$id]);
+            // insersion en la talba de modificacion
+            DB::statement('EXEC dbo.InsertarModificacion ?,?,?,?', [
+                    $id,
+                    $tipoInser,
+                    $tipoModi,
+                    $Idusuario
+            ]);
             if ($resultado === true) {
                 session()->flash('swal', [
                     'icon' => 'success',
@@ -249,7 +335,15 @@ class CampañasController extends Controller
                 $request->newHora ,
                 $request->newLugar
             ]);
-            
+            // insersion en la talba de modificacion
+            DB::statement('EXEC dbo.InsertarModificacion ?,?,?,?', [
+                    $id,
+                    $tipoInser,
+                    $tipoModi,
+                    $Idusuario
+            ]);
+
+
             if ($resultado === true) {
                 session()->flash('swal', [
                     'icon' => 'success',

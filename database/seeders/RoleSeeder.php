@@ -18,9 +18,12 @@ class RoleSeeder extends Seeder
         //
 
         $permisos=[
-
+            //permisos de administrador
             'all-salud',
             'all-mascota',
+
+            'view-historial',
+            'all-configuracion',
 
             //Campañas
             'view-campañas',
@@ -28,6 +31,8 @@ class RoleSeeder extends Seeder
             'read-campañas',
             'update-campañas',
             'delete-campñas',
+            'admin-campañas',
+
             //asitestes
             'view-asitentes',
             'create-asitentes',
@@ -39,7 +44,9 @@ class RoleSeeder extends Seeder
             'create-charlas',
             'update-charlas',
             'read-charlas',
+            'agregar-evidencia',
             'delete-charlas',
+            'admin-charlas',
             //Mascotas
             'view-mascotas',
             'create-mascotas',
@@ -83,11 +90,15 @@ class RoleSeeder extends Seeder
         Role::create(['name' => 'nivel1-campaña'])
             ->givePermissionTo([
                 'all-salud',
+                'all-configuracion',
+                'admin-campañas',
+
                 'view-campañas',
                 'create-campañas',
                 'update-campañas',
                 'read-campañas',
                 'delete-campñas',
+                'update-asitentes',
                 'view-asitentes',
                 'create-asitentes',
                 'read-asitentes',
@@ -98,8 +109,10 @@ class RoleSeeder extends Seeder
         Role::create(['name' => 'nivel2-campaña'])
             ->givePermissionTo([
                 'all-salud',
+                'view-campañas',
                 'view-asitentes',
                 'create-asitentes',
+                'update-asitentes',
                 'read-asitentes',
                 'delete-asitentes',
             ]);
@@ -107,11 +120,14 @@ class RoleSeeder extends Seeder
         Role::create(['name' => 'nivel1-charla'])
             ->givePermissionTo([
                 'all-salud',
+                'all-configuracion',
                 'view-charlas',
                 'create-charlas',
                 'update-charlas',
                 'read-charlas',
+                'agregar-evidencia',
                 'delete-charlas',
+                'admin-charlas',
             ]);
         //solo edita
         Role::create(['name' => 'nivel2-charla'])
@@ -119,6 +135,7 @@ class RoleSeeder extends Seeder
                 'all-salud',
                 'view-charlas',
                 'read-charlas',
+                'agregar-evidencia',
                 'delete-charlas',
             ]);
         //admin mascotas

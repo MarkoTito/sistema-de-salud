@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ConfiguaracionController extends Controller
 {
@@ -121,6 +122,16 @@ class ConfiguaracionController extends Controller
     {
         #se elimino la campaña , nose  xq aca si funciona?
         $campañaShow = DB::select('EXEC dbo.EliminarCampaña ? ',[$id]);
+        $Idusuario = Auth::user()->id;
+        $tipoInser="camp";
+            $tipoModi=2;
+            DB::statement('EXEC dbo.InsertarModificacion ?,?,?,?', [
+                    $id,
+                    $tipoInser,
+                    $tipoModi,
+                    $Idusuario
+                ]);
+
         if ($campañaShow === true) {
             session()->flash('swal', [
                 'icon' => 'error',

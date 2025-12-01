@@ -152,7 +152,7 @@ class AsistenteController extends Controller
             $Tiposcampañas=DB::select('EXEC dbo.ViewsTiposCampañas');
             //$asistentes= DB::select('EXEC dbo.ViewsAsistentesCampañas ? ',[$id]); == $resultado
 
-            $especialidades= DB::select('EXEC dbo.ViewsEspecialidad');
+            $especialidades= DB::select('EXEC dbo.ViewEspecialidades');
 
             $fechaHora = Carbon::parse($campañaShow[0]->DfechaIni_campaña . ' ' . $campañaShow[0]->ThoraIni_campaña);
             if ($fechaHora->lessThan(Carbon::now())) {

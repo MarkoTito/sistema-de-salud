@@ -39,24 +39,31 @@
                     
                 @endcan
             </li>
-            {{-- <li>
-                <a href="{{route('admin.Configuracion.index')}}" 
-                    class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                    <span class="w-6 h-6 inline-flex justify-center items-center">
-                        <i class="fa-solid fa-plus"></i>
-                    </span>
-                    <span class="ms-3">Configuración</span>
-                </a>
-            </li> --}}
-             <li>
-                <a href="{{route('admin.prueba.nada')}}" 
-                    class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                    <span class="w-6 h-6 inline-flex justify-center items-center">
-                        <i class="fa-solid fa-plus"></i>
-                    </span>
-                    <span class="ms-3">Configuración</span>
-                </a>
-            </li>
+            @can('view-historial')
+                <li>
+                    <a href="{{route('admin.Historial.index')}}" 
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <span class="w-6 h-6 inline-flex justify-center items-center">
+                            <i class="fa-solid fa-users"></i>
+                        </span>
+                        <span class="ms-3">Historial de Actividades</span>
+                    </a>
+                </li>
+                
+            @endcan
+            
+            @can('all-configuracion')
+                <li>
+                    <a href="{{route('admin.prueba.nada')}}" 
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <span class="w-6 h-6 inline-flex justify-center items-center">
+                            <i class="fa-solid fa-plus"></i>
+                        </span>
+                        <span class="ms-3">Configuración</span>
+                    </a>
+                </li>
+                
+            @endcan
             
         </ul>
     </div>

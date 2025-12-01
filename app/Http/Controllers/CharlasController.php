@@ -103,6 +103,17 @@ class CharlasController extends Controller
                     $request->opciones[$i]
                 ]);
             }
+            
+            // insersion en la talba de modificacion
+            $tipoInser="charl";
+            $tipoModi=1;
+            DB::statement('EXEC dbo.InsertarModificacion ?,?,?,?', [
+                    $idInsertado,
+                    $tipoInser,
+                    $tipoModi,
+                    $Idusuario
+                ]);
+
 
             if ($colCampa === true) {
                 session()->flash('swal', [
@@ -157,7 +168,7 @@ class CharlasController extends Controller
     {
         Gate::authorize('update-charlas');  
         $resultado=DB::statement('EXEC dbo.EditarCharla ?,?,?,?,?,?,?, ?',
-            [
+        [
                 $id,
                 $request->newtipo,
                 $request->fecha ,
@@ -167,21 +178,32 @@ class CharlasController extends Controller
                 $request->lugarEspe,
                 $request->canti
 
-            ]);
+        ]);
+        // insersion en la talba de modificacion
+        $Idusuario = Auth::user()->id;
+        $tipoInser="charl";
+        $tipoModi=3;
+        DB::statement('EXEC dbo.InsertarModificacion ?,?,?,?', [
+                $id,
+                $tipoInser,
+                $tipoModi,
+                $Idusuario
+        ]);
             
-            if ($resultado === true) {
-                session()->flash('swal', [
-                    'icon' => 'success',
-                    'title' => '¡Buen trabajo!',
-                    'text' => 'Se actualizo la campaña correctamente '
-                ]);
-            } else {
-                session()->flash('swal', [
-                    'icon' => 'error',
-                    'title' => '¡Ups!',
-                    'text' => 'No se actualizo la campaña correctamente'
-                ]);
-            } 
+            
+        if ($resultado === true) {
+            session()->flash('swal', [
+                'icon' => 'success',
+                'title' => '¡Buen trabajo!',
+                'text' => 'Se actualizo la campaña correctamente '
+            ]);
+        } else {
+            session()->flash('swal', [
+                'icon' => 'error',
+                'title' => '¡Ups!',
+                'text' => 'No se actualizo la campaña correctamente'
+            ]);
+        } 
         return redirect()->route('admin.Charlas.show',$id);
     }
 
@@ -193,6 +215,16 @@ class CharlasController extends Controller
         Gate::authorize('delete-charlas');  
         $resultado=DB::statement('EXEC dbo.EliminarCharla ? ',[$id]);
             if ($resultado === true) {
+                // insersion en la talba de modificacion
+                $Idusuario = Auth::user()->id;
+                $tipoInser="charl";
+                $tipoModi=2;
+                DB::statement('EXEC dbo.InsertarModificacion ?,?,?,?', [
+                        $id,
+                        $tipoInser,
+                        $tipoModi,
+                        $Idusuario
+                ]);
                 session()->flash('swal', [
                     'icon' => 'success',
                     'title' => '¡Buen trabajo!',
@@ -205,7 +237,7 @@ class CharlasController extends Controller
                     'text' => 'No se elimino la charla correctamente'
                 ]);
             }   
-        return redirect()->route('admin.Chamrlas.index');
+        return redirect()->route('admin.Charlas.index');
     }
 
     public function downloadOne(string $id)

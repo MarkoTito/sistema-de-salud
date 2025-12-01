@@ -15,162 +15,190 @@ class RasaSeeder extends Seeder
         //
         DB::table('Razas')->insert(
             [
+                /* PERROS (15) */
                 [
-                    'Tdescripcion_raza'=> 'No especifico',
+                    'Tdescripcion_raza'=> 'Border Collie',
                     'Nestado_raza' => 1,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ],
                 [
-                    'Tdescripcion_raza'=> 'Labrador Retriever',
+                    'Tdescripcion_raza'=> 'Boxer',
                     'Nestado_raza' => 1,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ],
                 [
-                    'Tdescripcion_raza'=> 'Golden Retriever',
+                    'Tdescripcion_raza'=> 'Cocker Spaniel',
                     'Nestado_raza' => 1,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ],
                 [
-                    'Tdescripcion_raza'=> 'Pastor Alemán',
+                    'Tdescripcion_raza'=> 'Dálmata',
                     'Nestado_raza' => 1,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ],
                 [
-                    'Tdescripcion_raza'=> 'Poodle',
+                    'Tdescripcion_raza'=> 'Akita Inu',
                     'Nestado_raza' => 1,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ],
                 [
-                    'Tdescripcion_raza'=> 'Bulldog Francés',
+                    'Tdescripcion_raza'=> 'San Bernardo',
                     'Nestado_raza' => 1,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ],
                 [
-                    'Tdescripcion_raza'=> 'Chihuahua',
+                    'Tdescripcion_raza'=> 'Shar Pei',
                     'Nestado_raza' => 1,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ],
                 [
-                    'Tdescripcion_raza'=> 'Pug',
+                    'Tdescripcion_raza'=> 'Weimaraner',
                     'Nestado_raza' => 1,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ],
                 [
-                    'Tdescripcion_raza'=> 'Shih Tzu',
+                    'Tdescripcion_raza'=> 'Corgi Galés',
                     'Nestado_raza' => 1,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ],
                 [
-                    'Tdescripcion_raza'=> 'Rottweiler',
+                    'Tdescripcion_raza'=> 'Pastor Belga Malinois',
                     'Nestado_raza' => 1,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ],
                 [
-                    'Tdescripcion_raza'=> 'Beagle',
+                    'Tdescripcion_raza'=> 'Pastor Australiano',
                     'Nestado_raza' => 1,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ],
                 [
-                    'Tdescripcion_raza'=> 'Doberman',
+                    'Tdescripcion_raza'=> 'Bóxer Alemán',
                     'Nestado_raza' => 1,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ],
                 [
-                    'Tdescripcion_raza'=> 'Husky Siberiano',
-                    'Nestado_raza' => 1,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ],
-                /*gatos */
-                [
-                    'Tdescripcion_raza'=> 'Siamés',
-                    'Nestado_raza' => 1,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ],[
-                    'Tdescripcion_raza'=> 'Persa',
-                    'Nestado_raza' => 1,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ],[
-                    'Tdescripcion_raza'=> 'Maine Coon',
-                    'Nestado_raza' => 1,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ],[
-                    'Tdescripcion_raza'=> 'Bengalí',
-                    'Nestado_raza' => 1,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ],[
-                    'Tdescripcion_raza'=> 'Sphynx',
-                    'Nestado_raza' => 1,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ],[
-                    'Tdescripcion_raza'=> 'Ragdoll',
-                    'Nestado_raza' => 1,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ],[
-                    'Tdescripcion_raza'=> 'British Shorthair',
-                    'Nestado_raza' => 1,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ],[
-                    'Tdescripcion_raza'=> 'Scottish Fold',
+                    'Tdescripcion_raza'=> 'Mastín Inglés',
                     'Nestado_raza' => 1,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ],
                 [
-                    'Tdescripcion_raza'=> 'Angora Turco',
+                    'Tdescripcion_raza'=> 'Bull Terrier',
                     'Nestado_raza' => 1,
                     'created_at' => now(),
                     'updated_at' => now(),
-                ],[
-                    'Tdescripcion_raza'=> 'Abisinio',
+                ],
+                [
+                    'Tdescripcion_raza'=> 'Galgo Español',
                     'Nestado_raza' => 1,
                     'created_at' => now(),
                     'updated_at' => now(),
-                ],[
-                    'Tdescripcion_raza'=> 'Birmano',
+                ],
+
+                /* GATOS (15) */
+                [
+                    'Tdescripcion_raza'=> 'Manx',
                     'Nestado_raza' => 1,
                     'created_at' => now(),
                     'updated_at' => now(),
-                ],[
-                    'Tdescripcion_raza'=> 'Oriental Shorthair',
+                ],
+                [
+                    'Tdescripcion_raza'=> 'Bombay',
                     'Nestado_raza' => 1,
                     'created_at' => now(),
                     'updated_at' => now(),
-                ],[
-                    'Tdescripcion_raza'=> 'Devon Rex',
+                ],
+                [
+                    'Tdescripcion_raza'=> 'Ocicat',
                     'Nestado_raza' => 1,
                     'created_at' => now(),
                     'updated_at' => now(),
-                ],[
-                    'Tdescripcion_raza'=> 'Siberiano',
+                ],
+                [
+                    'Tdescripcion_raza'=> 'Cornish Rex',
                     'Nestado_raza' => 1,
                     'created_at' => now(),
                     'updated_at' => now(),
-                ],[
-                    'Tdescripcion_raza'=> 'American Shorthair',
+                ],
+                [
+                    'Tdescripcion_raza'=> 'Himalayo',
                     'Nestado_raza' => 1,
                     'created_at' => now(),
                     'updated_at' => now(),
-                ]
+                ],
+                [
+                    'Tdescripcion_raza'=> 'Noruego del Bosque',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'Tdescripcion_raza'=> 'Korat',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'Tdescripcion_raza'=> 'Toyger',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'Tdescripcion_raza'=> 'Van Turco',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'Tdescripcion_raza'=> 'Savannah',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'Tdescripcion_raza'=> 'LaPerm',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'Tdescripcion_raza'=> 'Munchkin',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'Tdescripcion_raza'=> 'Peterbald',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'Tdescripcion_raza'=> 'Selkirk Rex',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'Tdescripcion_raza'=> 'Chartreux',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+
             ]
         );
     }

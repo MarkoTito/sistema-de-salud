@@ -70,10 +70,10 @@
                 <input type="text" id="table-search" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items">
             </div> --}}
         </div>
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
+        <div class="">
+            <table class="w-full text-sm text-left rtl:text-right text-fg-brand-subtle">
+            <thead class="text-sm text-black bg-brand-strong">
+                    <tr class="bg-brand border-b border-brand-light">
                         {{-- <th scope="col" class="p-4">
                             <div class="flex items-center">
                                 <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
@@ -107,51 +107,46 @@
                     @if (!$campañas)
                         <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
                             
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                            <tr class="bg-brand border-b border-brand-light">
                                 No existe campaña
                             </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                            <tr class="bg-brand border-b border-brand-light">
                                 No existe campaña
                             </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                            <tr class="bg-brand border-b border-brand-light">
                                 No existe campaña
                             </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                            <tr class="bg-brand border-b border-brand-light">
                                 No existe campaña
                             </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                            <tr class="bg-brand border-b border-brand-light">
                                 No existe campaña
                             </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                            <tr class="bg-brand border-b border-brand-light">
                                 No existe campaña
                             </th>
                         </tr>    
                     @else
                         @foreach ($campañas as $campaña)
-                            <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
-                                {{-- <td class="w-4 p-4">
-                                    <div class="flex items-center">
-                                        <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                                    </div>
-                                </td> --}}
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
+                            <tr class="bg-brand border-b border-brand-light">
+
+                                <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap"align="center" >
                                     {{$campaña->PK_Campaña}}
                                 </th>
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
+                                <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap"align="center" >
                                     {{$campaña->Tnombre_Tipocampaña}}
                                 </th>
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
+                                <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap"align="center" >
                                     {{$campaña->Tlugar_campaña}}
                                 </th>
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
+                                <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap"align="center" >
                                     {{$campaña->DfechaIni_campaña}}
                                 </th>
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
+                                <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap"align="center" >
                                     {{$campaña->ThoraIni_campaña}}
                                 </th>
                                 @if ($campaña->Nestado_campaña ==1)
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-white-600" align="center" >
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-orange" align="center" >
                                         Pendiente
                                     </th>
                                     
@@ -167,7 +162,7 @@
                                     </th>
                                 @endif
                                 
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
+                                <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap"align="center" >
                                     @can('view-campañas')
                                         <a href="{{route('admin.Asitentes.show',$campaña->PK_Campaña)}}"> 
                                             <i class="fa-solid fa-download"></i>   
@@ -183,10 +178,20 @@
                                             <i class="fa-solid fa-pen-to-square"></i>   
                                         </a>
                                     @endcan
-                                    @can('update-campañas')
+                                    @can('view-campañas')
                                         <a href="{{route('admin.Configuracion.edit',$campaña->PK_Campaña)}}" class="btn-finalizar" data-nombre="{{ $campaña->Tnombre_Tipocampaña }}">
                                             <i class="fa-solid fa-trash"></i>
                                         </a>
+                                    @endcan
+                                    @can('view-campañas')
+                                        <a class="btnImportar" 
+                                            data-id="{{ $campaña->PK_Campaña }}"
+                                            data-nombre="{{ $campaña->Tnombre_Tipocampaña }}">
+                                                <i class="fa-solid fa-file-export"></i>
+                                        </a>
+                                        {{-- <a>
+                                            <i class="fa-solid fa-file-export"></i>
+                                        </a> --}}
                                     @endcan
                                 </th>
 
@@ -207,6 +212,46 @@
 
     @push('js')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script> 
+            document.addEventListener('DOMContentLoaded', function () {
+
+                document.querySelectorAll('.btnImportar').forEach(btn => {
+                    btn.addEventListener('click', function () {
+
+                        const id       = this.getAttribute('data-id');
+                        const nombre   = this.getAttribute('data-nombre');
+
+                        Swal.fire({
+                            title: 'Importar Asistentes - ' + nombre,
+                            html: ` 
+                                <form id="formImport" action="/admin/Campañas/${id}/dropzone/importacion" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <p class="mb-3">Seleccione un archivo Excel</p>
+
+                                    <input 
+                                        type="file" 
+                                        id="excel" 
+                                        name="excel" 
+                                        accept=".xlsx, .xls" 
+                                        required
+                                        class="swal2-input"
+                                        style="width: 80%;"
+                                    >
+
+                                    <button type="submit"
+                                        class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mt-4">
+                                        Subir
+                                    </button>
+                                </form>
+                            `,
+                            showConfirmButton: false,
+                            width: '450px',
+                        });
+                    });
+                });
+
+            });
+            </script>
 
         <script>
             document.getElementById('btnAgregarCampania').addEventListener('click', function() {

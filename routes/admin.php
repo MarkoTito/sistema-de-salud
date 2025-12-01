@@ -5,6 +5,7 @@ use App\Http\Controllers\CampañasController;
 use App\Http\Controllers\CharlasController;
 use App\Http\Controllers\ConfiguaracionController;
 use App\Http\Controllers\FormularioController;
+use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\MascotasController;
 use App\Http\Controllers\TipoCampañaController;
 use App\Http\Controllers\UserController;
@@ -38,6 +39,9 @@ Route::middleware('auth')->group(function () {
     Route::post('Charlas/{charla}/dropzone/documento', [CharlasController::class, 'dropzone'])->name('charla.documento.dropzone');
     Route::post('Charlas/{charla}/dropzone', [CharlasController::class, 'dropzoneImagen'])->name('charla.imagen.dropzone');
     Route::get('Charlas/{charla}/eleminar/imagen', [CharlasController::class, 'imagenDelete'])->name('charla.imagen.delete');
+    //para exportacion de datos unitarios en excel a la BD
+    Route::get('Campañas/{charla}/impotar', [CampañasController::class, 'viewImportar'])->name('Campañas.excell.import');
+    Route::post('Campañas/{campaña}/dropzone/importacion', [CampañasController::class, 'dropzoneImpor'])->name('campañas.excell.import.dropzone');
 
 
     // ruta de generar link (solo admin)
@@ -52,6 +56,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('Mascotas', MascotasController::class);
     Route::post('Mascotas/Found', [MascotasController::class, 'Found'])->name('Mascotas.found');
     Route::get('Mascotas/encontrado/excel',[MascotasController::class,'dowloadExport'])->name('Mascotas.excell');
+
+    //Historial
+    Route::resource('Historial', HistorialController::class);
 
 
 });

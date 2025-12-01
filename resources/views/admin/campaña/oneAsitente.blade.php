@@ -1,48 +1,25 @@
-<x-admin-layout>
+<x-admin-layout :breadcrumbs="[
+    [
+        'name'=>'Menu',
+        'href' => '/',
+    ],
+    [
+        'name'=>'Campañas',
+        'href' => route('admin.Campañas.index')
+    ],
+    [
+        'name'=> 'Campaña',
+    ]
+    ]">
+
+
+
     <div class="flex justify-center mt-4">
         <h1 class="font-extrabold text-gray-900" style="font-size: 2rem;">
             {{ $campaña->Tnombre_Tipocampaña }}
         </h1>
     </div>
 
-    @if ($estado == "Finalizar")
-        <div class="flex justify-end">
-            <form action="{{route('admin.Campañas.update',$campaña->PK_Campaña)}}" method="POST" class="finalizar-form" >
-                @method('PUT')
-                @csrf
-                <input type="text" name="situacion" value="1" hidden>
-                <button type="submit"  class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-                    {{$estado}}
-                </button>
-            </form>
-        </div>
-    @endif
-    @if ($estado == "Empesar antes de tiempo")
-        <div class="flex justify-end">
-            <form action="{{route('admin.Campañas.update',$campaña->PK_Campaña)}}" method="POST" class="adelantar-form" >
-                @method('PUT')
-                @csrf
-                <input type="text" name="situacion" value="2" hidden >
-                <button type="submit"  class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                    {{$estado}}
-                </button>
-            </form>
-        </div>
-        
-    @endif
-    @if ($estado == "reabrir campaña?")
-        <div class="flex justify-end">
-            <form action="{{route('admin.Campañas.update',$campaña->PK_Campaña)}}" method="POST" class="reabrir-form" >
-                @method('PUT')
-                @csrf
-                <input type="text" name="situacion" value="3" hidden >
-                <button type="submit"  class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
-                    {{$estado}}
-                </button>
-            </form>
-        </div>
-        
-    @endif
 
 
     <br>
@@ -65,25 +42,26 @@
                 <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Fecha de Inicio:</label>    
                 <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$campaña->DfechaIni_campaña}}" disabled>                
             </div>
+            
             <div>
                 <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Hora:</label>    
                 <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$campaña->ThoraIni_campaña}}" disabled>                
             </div>
-
             
             {{-- <div>
                 <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Entidad colaborativa:</label>    
                 <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$campaña->Tnombre_colaborador}}" disabled>                
             </div> --}}
-            @if ($estado == "reabrir campaña?")
-                <div>
+            {{-- @if ($estado == "reabrir campaña?")
+            <div>
                     <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Fecha de Inicio:</label>    
                     <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$campaña->DfechaFin_campaña}}" disabled>                
                 </div>
                 
             @else
                 
-            @endif
+            @endif --}}
+            
         </div>
 
     </div>
@@ -181,52 +159,58 @@
                                 {{$asistente->PK_Asistentes}}
                             </th> --}}
                             
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
                                 {{$numero}}
                             </th>
                             @php
                                 $numero=1+$numero;
                             @endphp
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
                                 {{$resul->Tnombre_asistente}}
                             </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
                                 {{$resul->TapellidoP_asistente}}
                             </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
                                 {{$resul->TapellidoM_asistente}}
                             </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
                                 {{$resul->Tdni_asistente}}
                             </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
                                 {{$resul->Tdescripcion_especialidad}}
                             </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
                                 <div class="grid gap-6 mb-4 md:grid-cols-2">
                                     <div>
-                                        <button class="btnEditarAsistente bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                                            data-id="{{ $resul->PK_Asistentes }}"
-                                            data-nombre="{{ $resul->Tnombre_asistente }}"
-                                            data-apellidoP="{{ $resul->TapellidoP_asistente }}"
-                                            data-apellidoM="{{ $resul->TapellidoM_asistente }}"
-                                            data-dni="{{ $resul->Tdni_asistente }}"
-                                            data-especialidad="{{ $resul->PK_Especialidades }}">
-                                            Editar Asistente
-                                        </button>
+                                        @can('update-asitentes')
+                                            <button class="btnEditarAsistente bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                                                data-id="{{ $resul->PK_Asistentes }}"
+                                                data-nombre="{{ $resul->Tnombre_asistente }}"
+                                                data-apellidoP="{{ $resul->TapellidoP_asistente }}"
+                                                data-apellidoM="{{ $resul->TapellidoM_asistente }}"
+                                                data-dni="{{ $resul->Tdni_asistente }}"
+                                                data-especialidad="{{ $resul->PK_Especialidades }}">
+                                                Editar Asistente
+                                            </button>
+                                            
+                                        @endcan
                                         
                                     </div>
     
                                     <div>
-                                        <form action="{{route('admin.Asitentes.edit2',$resul->PK_Asistentes)}}" class="edit-form" method="POST">
-                                            @csrf
-                                            <input  hidden type="text" name="idCampaña" value="{{$campaña->PK_Campaña}}" id="">
-                                            <button type="submit" 
-                                                class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-                                               Eliminar 
-                                           </button>
+                                        @can('delete-asitentes')
+                                            <form action="{{route('admin.Asitentes.edit2',$resul->PK_Asistentes)}}" class="edit-form" method="POST">
+                                                @csrf
+                                                <input  hidden type="text" name="idCampaña" value="{{$campaña->PK_Campaña}}" id="">
+                                                <button type="submit" 
+                                                    class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                                                Eliminar 
+                                            </button>
 
-                                        </form>
+                                            </form>
+                                            
+                                        @endcan
                                         
                                     </div>
                                     
