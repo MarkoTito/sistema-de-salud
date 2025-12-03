@@ -16,7 +16,7 @@
         @csrf
         <div class="flex justify-center mt-4">
             <select name="newtipo" id="miSelect-tipoCharla" style="width: 200%;" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <option  value=""selected disabled >---Seleccioné una charla---</option>
+                <option  value=""selected  >---Seleccioné una charla---</option>
                 @foreach ($Tiposcharlas as $charlas)
                     <option value="{{$charlas->PK_TiposCharla}}" {{$charlas->PK_TiposCharla == $charla->PK_TiposCharla  ? 'selected' : ''}}  >{{$charlas->Tnombre_charla}}</option>
                 @endforeach
@@ -31,7 +31,7 @@
             
             <div>
                 <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Fecha:</label>    
-                <input type="date" name="fecha" id="-input" aria-label=" input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$charla->DfechaIni_charla}}" >                
+                <input type="date" name="fecha" id="-input" aria-label=" input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$charla->DfechaIni_charla}}" >                
             </div>
             <div>
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">
@@ -57,25 +57,66 @@
                     * La hora de fin debe ser mayor que la hora de inicio.
                 </p>
             </div>
-            @if (!$charla->Ncantidad_charla)
-                <div>
-                    <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Cantidad:</label>    
-                    <input type="number" name="canti" id="-input" aria-label=" input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="0"  >                
+
+
+
+            @if ($charla->PK_TiposCharla ==1 )
+                <div class="grid gap-6 mb-4 md:grid-cols-3 mb-4 ">
+                    @if (!$charla->Ncantidad_felinos)
+                        <div>
+                            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Cantidad de Gatos beneficiados:</label>    
+                            <input maxlength="5"  style="width: 100%" name="canti_gato"   type="text" id="-input" aria-label=" input" class=" flex justify-centers mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="0" required oninput="this.value = this.value.replace(/[^0-9]/g, '');" />               
+                        </div>
+                        
+                    @else
+                        <div>
+                            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Cantidad de Gatos beneficiados:</label>    
+                            <input maxlength="5" type="text" name="canti_gato" id="-input" aria-label=" input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$charla->Ncantidad_felinos}}" required oninput="this.value = this.value.replace(/[^0-9]/g, '');" />              
+                        </div>
+                    @endif
+
+                    @if (!$charla->Ncantidad_caninos)
+                        <div  >
+                            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Cantidad de Perros beneficiados:</label>    
+                            <input maxlength="5" style="width: 100%" name="canti_perro" type="text" id="-input" aria-label=" input" class=" flex justify-centers mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="0" required oninput="this.value = this.value.replace(/[^0-9]/g, '');" />              
+                        </div>
+                        
+                    @else
+                        <div>
+                            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Cantidad de Perros beneficiados:</label>    
+                            <input maxlength="5" type="text" id="-input" name="canti_perro" aria-label=" input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$charla->Ncantidad_caninos}}" required oninput="this.value = this.value.replace(/[^0-9]/g, '');" />                
+                        </div>
+                        
+                    @endif
+
                 </div>
-            @else
-                <div>
-                    <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Cantidad:</label>    
-                    <input type="number" name="canti" id="-input" aria-label=" input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$charla->Ncantidad_charla}}"  >                
-                </div>
-                
+
+            @else   
+                @if (!$charla->Ncantidad_charla )
+                    <div>
+                        <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Cantidad:</label>    
+                        <input maxlength="5" type="text" name="canti"  id="-input" aria-label=" input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="0" required oninput="this.value = this.value.replace(/[^0-9]/g, '');" />               
+                    </div>
+                    
+                @else
+                    <div>
+                        <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Cantidad:</label>    
+                        <input maxlength="5" type="text" name="canti" id="-input" aria-label=" input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$charla->Ncantidad_charla}}" required oninput="this.value = this.value.replace(/[^0-9]/g, '');" />               
+                    </div>
+                    
+                @endif
+
             @endif
+
+
+
             <div>
                 <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Lugar:</label>    
-                <input name="lugar" type="text" id="-input" aria-label=" input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$charla->Tlugar_charla}}" >                
+                <input name="lugar" type="text" id="-input" aria-label=" input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$charla->Tlugar_charla}}" >                
             </div>
             <div>
                 <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Lugar especifico:</label>    
-                <input name="lugarEspe" type="text" id="-input" aria-label=" input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$charla->TdescripcionLugar_charla}}" >                
+                <input name="lugarEspe" type="text" id="-input" aria-label=" input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$charla->TdescripcionLugar_charla}}" >                
             </div>
         </div>
         

@@ -58,6 +58,11 @@ class CharlasController extends Controller
      */
     public function store(Request $request)
     {
+        // $expositores1 = explode(',', $request->expositores);
+        // $cant= count($expositores1);
+        // $idColaborador = intval(trim($expositores1[2]));
+        // return $idColaborador;
+
         Gate::authorize('create-charlas');  
         $validated=$request->validate([
             'charlas' => 'required',
@@ -92,15 +97,19 @@ class CharlasController extends Controller
                 $validated['TdescripcionLugar_charla'],
             ]);
 
+            #insercion a la talba realcion
             $idInsertado = $resultado[0]->id_insertado;
 
-            $cant= count($request->opciones);
+
+            $expositores1 = explode(',', $request->expositores);
+            $cant= count($expositores1);
             
             
             for ($i=0; $i <$cant ; $i++) { 
+                $expositor = intval(trim($expositores1[$i]));
                 $colCampa = DB::select('EXEC dbo.InserCharla_expositor ?, ?', [
                     $idInsertado,
-                    $request->opciones[$i]
+                    $expositor
                 ]);
             }
             
@@ -167,18 +176,44 @@ class CharlasController extends Controller
     public function update(Request $request, string $id)
     {
         Gate::authorize('update-charlas');  
-        $resultado=DB::statement('EXEC dbo.EditarCharla ?,?,?,?,?,?,?, ?',
-        [
-                $id,
-                $request->newtipo,
-                $request->fecha ,
-                $request->hora ,
-                $request->horafIN ,
-                $request->lugar,
-                $request->lugarEspe,
-                $request->canti
 
-        ]);
+        //return  $request;
+        
+        if ($request->newtipo ==1) {
+            $resultado=DB::statement('EXEC dbo.EditarCharlaCam ?,?,?, ?,?,?, ?,?,?',
+            [
+                    $id,
+                    $request->newtipo,
+                    $request->fecha ,
+    
+                    $request->hora ,
+                    $request->horafIN ,
+                    $request->lugar,
+                    
+                    $request->lugarEspe,
+                    $request->canti_perro,
+                    $request->canti_gato,
+    
+            ]);
+        } else {
+            # code...
+            $resultado=DB::statement('EXEC dbo.EditarCharla ?,?,?,?,?,?,?,?',
+            [
+                    $id,
+                    $request->newtipo,
+                    $request->fecha ,
+    
+                    $request->hora ,
+                    $request->horafIN ,
+                    $request->lugar,
+                    
+                    $request->lugarEspe,    
+                    $request->canti,
+    
+            ]);
+        }
+        
+
         // insersion en la talba de modificacion
         $Idusuario = Auth::user()->id;
         $tipoInser="charl";

@@ -18,6 +18,13 @@ use Illuminate\Support\Facades\DB;
         DB::table('TiposCharla')->insert(
             [
                 [
+                    'Tnombre_charla' => 'Canina',
+                    'Tdescripcion_Tipocharla'=> 'charla sobre el cuidado de mascotas',
+                    'Nestado_Tipocharla' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
                     'Tnombre_charla' => 'Metaxenica',
                     'Tdescripcion_Tipocharla'=> 'charla de meta',
                     'Nestado_Tipocharla' => 1,

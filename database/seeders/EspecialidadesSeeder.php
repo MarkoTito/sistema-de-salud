@@ -34,6 +34,24 @@ class EspecialidadesSeeder extends Seeder
                     'created_at' => now(),
                     'updated_at' => now(),
                 ],
+                [
+                    'Tdescripcion_especialidad'=> 'desparasitacion interna',
+                    'Nestado_especialidad' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'Tdescripcion_especialidad'=> 'desparasitacion externa',
+                    'Nestado_especialidad' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'Tdescripcion_especialidad'=> ' limpieza de oídos y corte de uñas',
+                    'Nestado_especialidad' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
             ]
         );
     }
