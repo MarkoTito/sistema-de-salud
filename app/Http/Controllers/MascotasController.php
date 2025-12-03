@@ -306,6 +306,20 @@ class MascotasController extends Controller
         $mascota= $resultado[0];
         $idResponsable = $mascota->PK_Responsable;
         
+
+        $correo="";
+        $telefono="";
+        if (!$request->resEmail) {
+            $correo="";
+        }else {
+            $correo=$request->resEmail;
+        }
+        if (!$request->resTel) {
+            $telefono="";
+        }else {
+            $telefono=$request->resTel;
+        }
+
         $resultado=DB::statement('EXEC dbo.EditarResponsable ?,?,?,?,?,?,?,?,?',
             [
                 $idResponsable,
@@ -315,13 +329,28 @@ class MascotasController extends Controller
                 $request->resDNI,
                 $request->resCel,
                 $request->resDire,
-                $request->resTel,
-                $request->resEmail
+                $telefono,
+                $correo
 
             ]);
 
         if ($resultado === true) {
+            $seña="";
+            $fechaNacimiento=null;
+            
 
+
+            if (!$request->masSeñas) {
+                $seña="";
+            }else {
+                $seña=$request->masSeñas;
+            }
+            if (!$request->fecha) {
+                $fechaNacimiento=null;
+            }else {
+                $fechaNacimiento=$request->fecha;
+            }
+            
             
             $Mascota=DB::statement('EXEC dbo.EditarMascota ?,?,?,?,?,?,?,?,?,?,?',
             [
@@ -334,8 +363,8 @@ class MascotasController extends Controller
                 $request->masColor,
 
                 $request->peligrosidad,
-                $request->masSeñas,
-                $request->fecha,
+                $seña,
+                $fechaNacimiento,
 
                 $request->sexo,
                 $request->antecedentes

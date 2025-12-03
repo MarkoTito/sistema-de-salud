@@ -113,13 +113,13 @@
             
                             <div>
                                 <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Contiene señas:</label>    
-                                <input maxlength="85" name="masSeñas" type="text" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 " value="{{$mascota->Tseñas_mascota}}" required >
+                                <input maxlength="85" name="masSeñas" type="text" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 " value="{{$mascota->Tseñas_mascota}}"  >
                             </div>
             
             
                             <div>
                                 <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Fecha de nacimiento:</label>    
-                                <input type="date" name="fecha" max="{{date('Y-m-d')}}"  class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 "required  value="{{$mascota->DfechaNac_mascota}}" >
+                                <input type="date" name="fecha" max="{{date('Y-m-d')}}"  class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 "  value="{{$mascota->DfechaNac_mascota}}" >
                             </div>
                             
                             
@@ -179,12 +179,12 @@
                         <div class="grid gap-6 mb-2 md:grid-cols-2 mt-4">
                             <div>
                                 <label class="block mb-2 text-sm font-medium text-gray-900">Correo:</label>    
-                                <input type="email" maxlength="70" name="resEmail" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 " value="{{$mascota->Tcorreo_responsable}}"required>
+                                <input type="email" maxlength="70" name="resEmail" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 " value="{{$mascota->Tcorreo_responsable}}">
                             </div>
         
                             <div>
                                 <label class="block mb-2 text-sm font-medium text-gray-900">Telefono Fijo:</label>    
-                                <input type="text" maxlength="25" name="resTel" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 " value="{{$mascota->Ttelefono_responsable}}"required>
+                                <input type="text" maxlength="25" name="resTel" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 " value="{{$mascota->Ttelefono_responsable}}">
                             </div>
                         </div>
                     </div>

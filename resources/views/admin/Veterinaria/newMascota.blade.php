@@ -142,7 +142,7 @@
                     </div>
                     <div class="w-3/4">
                         <label class="text-sm">Sexo:</label>
-                        <select required name="sexo" id="miSelect-raza" style="width: 100%"  >
+                        <select required name="sexo"  style="width: 100%"  >
                             <option selected disabled  value="">Escoja una opción</option>
                             <option value="MACHO">MACHO</option>
                             <option value="HEMBRA">HEMBRA</option>
