@@ -81,11 +81,6 @@ class CampañasController extends Controller
     public function store(Request $request)
     {
         Gate::authorize('create-campañas');
-        // $especialidadades = explode(',', $request->especialidad);
-        // $cant= count($especialidadades);
-        // $idColaborador = intval(trim($especialidadades[1]));
-        // return $cant;
-
         try {
             
             $validated = $request->validate([
@@ -221,9 +216,23 @@ class CampañasController extends Controller
                 $page,
                 ['path' => request()->url(), 'query' => request()->query()]
             );
+            //ACA PROCEDEROMOS HACER EL CONTEO DE LAS MASCOTAS , SI ES QUE FUERA CAMPAÑA MASCOTAS
+            //perros
+            $cantiPerros =0 ;
+            $cantiGatos =0 ;
 
+            foreach ($resulAsistentes as $asisPerro) {
+                if ($asisPerro->NTipoMascota_asistente==1) {
+                    $cantiGatos = 1+ $cantiGatos;
+                }
+            }
+            foreach ($resulAsistentes as $asisGato) {
+                if ($asisGato->NTipoMascota_asistente==2) {
+                    $cantiPerros = 1+ $cantiPerros;
+                }
+            }
            
-            return view('admin.campaña.oneCampaña', compact('campaña','OnEspecialidadades','especialidades','asistentes','cantidad','estado','imagen','colaboradores'));
+            return view('admin.campaña.oneCampaña', compact('cantiPerros','cantiGatos','campaña','OnEspecialidadades','especialidades','asistentes','cantidad','estado','imagen','colaboradores'));
         } else {
             return redirect()->back()->with('error', 'No se encontró la campaña.');
         }

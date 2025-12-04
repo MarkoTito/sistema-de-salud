@@ -40,13 +40,7 @@ class IdentificacionesSeeder extends Seeder
                     'Tnombre_identificacion'=> 'Microchip',
                     'created_at' => now(),
                     'updated_at' => now(),
-                ],
-                [
-                    'Tnombre_identificacion'=> 'Ninguno',
-                    'created_at' => now(),
-                    'updated_at' => now(),
                 ]
-               
             ]
         );
     }

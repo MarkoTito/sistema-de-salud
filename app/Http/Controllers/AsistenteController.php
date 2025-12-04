@@ -26,36 +26,43 @@ class AsistenteController extends Controller
 
     public function store(Request $request)
     {
-
         try {
-            $Idusuario=Auth::user()->id;
-            $resultado=DB::statement('EXEC dbo.InserAsistenteCampaña ?,?,?,?,?,?,?',[
-                $request->idCampaña,
-                $request->especialidad,
-                $Idusuario,
-                $request->nombre,
-                $request->apeP,
-                $request->apeM,
-                $request->DNI,
-            ]);
-            if ($resultado === true) {
-                session()->flash('swal', [
-                    'icon' => 'success',
-                    'title' => '¡Buen trabajo!',
-                    'text' => 'Se registró el asistente correctamente'
+            $Idusuario = Auth::user()->id;
+
+            if ($request->TipoCampa == 1) {
+                $resultado = DB::statement('EXEC dbo.InserAsistenteCampañaMascota ?,?,?,?,?,?,?,?', [
+                    $request->idCampaña,
+                    $request->especialidad,
+                    $Idusuario,
+                    $request->nombre,
+                    $request->apeP,
+                    $request->apeM,
+                    $request->DNI,
+                    $request->tiMascota,
                 ]);
             } else {
-                session()->flash('swal', [
-                    'icon' => 'error',
-                    'title' => '¡Ups!',
-                    'text' => 'No se registró el asistente correctamente'
+                $resultado = DB::statement('EXEC dbo.InserAsistenteCampaña2 ?,?,?,?,?,?,?', [
+                    $request->idCampaña,
+                    $request->especialidad,
+                    $Idusuario,
+                    $request->nombre,
+                    $request->apeP,
+                    $request->apeM,
+                    $request->DNI,
                 ]);
             }
-            return response()->json(['ok' => true, 'msg' => 'Asistente registrado correctamente']);
+            if ($resultado) {
+                return response()->json(['ok' => true, 'msg' => 'Asistente registrado correctamente']);
+            }
 
         } catch (\Exception $e) {
-            return response()->json(['ok' => false, 'msg' => 'Error al registrar asitente']);
-        }        
+            return response()->json([
+                'ok' => false,
+                'msg' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile(),
+            ]);
+        }       
     } 
 
     public function show($id)

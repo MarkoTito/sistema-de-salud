@@ -164,27 +164,27 @@
                                 
                                 <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap"align="center" >
                                     @can('view-campañas')
-                                        <a href="{{route('admin.Asitentes.show',$campaña->PK_Campaña)}}"> 
+                                        <a class="text-black-700" href="{{route('admin.Asitentes.show',$campaña->PK_Campaña)}}"> 
                                             <i class="fa-solid fa-download"></i>   
                                         </a>
                                     @endcan
                                     @can('view-campañas')
-                                        <a href="{{route('admin.Campañas.show',$campaña->PK_Campaña)}}">
+                                        <a class="text-blue-700" href="{{route('admin.Campañas.show',$campaña->PK_Campaña)}}">
                                             <i class="fa-solid fa-eye"></i>   
                                         </a>
                                     @endcan
                                     @can('update-campañas')
-                                        <a href="{{route('admin.Campañas.edit',$campaña->PK_Campaña)}}">
+                                        <a class="text-green-700" href="{{route('admin.Campañas.edit',$campaña->PK_Campaña)}}">
                                             <i class="fa-solid fa-pen-to-square"></i>   
                                         </a>
                                     @endcan
                                     @can('view-campañas')
-                                        <a href="{{route('admin.Configuracion.edit',$campaña->PK_Campaña)}}" class="btn-finalizar" data-nombre="{{ $campaña->Tnombre_Tipocampaña }}">
+                                        <a class="text-red-700" href="{{route('admin.Configuracion.edit',$campaña->PK_Campaña)}}" class="btn-finalizar" data-nombre="{{ $campaña->Tnombre_Tipocampaña }}">
                                             <i class="fa-solid fa-trash"></i>
                                         </a>
                                     @endcan
                                     @can('view-campañas')
-                                        <a class="btnImportar" 
+                                        <a class="text-black-700" class="btnImportar" 
                                             data-id="{{ $campaña->PK_Campaña }}"
                                             data-nombre="{{ $campaña->Tnombre_Tipocampaña }}">
                                                 <i class="fa-solid fa-file-export"></i>
