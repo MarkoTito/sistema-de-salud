@@ -12,6 +12,10 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // rutas protegidas (con auth)
+
+
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('admin.dashboard');
@@ -59,7 +63,8 @@ Route::middleware('auth')->group(function () {
 
     //Historial
     Route::resource('Historial', HistorialController::class);
-
+    //qr de mascotas
+    Route::get('/perro/{id}/qr', [MascotasController::class, 'QR'])->name('perro.qr');
 
 });
 
@@ -68,6 +73,9 @@ Route::middleware('auth')->group(function () {
 
 // rutas públicas (sin auth)
 Route::middleware([])->group(function () {
+    
+
+
     Route::get('/formulario/{token}', [FormularioController::class, 'mostrar'])->name('formulario.mostrar');
     Route::post('/formulario/guardar', [FormularioController::class, 'guardar'])->name('formulario.guardar');
 });

@@ -152,6 +152,7 @@
                                <button type="button" onclick="eliminarMascota({{ $mascota->PK_Mascota }})" class="text-red-600">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
+                                
 
                                 <form id="form-delete-{{ $mascota->PK_Mascota }}" 
                                     action="{{ route('admin.Mascotas.destroy', $mascota->PK_Mascota) }}"
@@ -159,6 +160,9 @@
                                     @csrf
                                     @method('DELETE')
                                 </form>
+                                <a href=" {{route('admin.perro.qr',$mascota->PK_Mascota)}} "> 
+                                    QR  
+                                </a>
                             </td>
                         </tr>                        
                     @endforeach
