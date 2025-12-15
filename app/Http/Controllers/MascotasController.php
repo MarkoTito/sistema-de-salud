@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
+use Illuminate\Support\Facades\Crypt; //seguridad osea cifrado
 
 class MascotasController extends Controller
 {
@@ -268,9 +269,10 @@ class MascotasController extends Controller
         return response()->json(['success' => false]);
     } 
 
-    public function show($id)
+    public function show ($idCifrado)
     {
         Gate::authorize('read-mascotas');  
+        $id = Crypt::decryptString($idCifrado);
         $resultado=DB::select('EXEC dbo.OneMascota ? ',[$id]);
         $mascota= $resultado[0];
         $idresponsable= $mascota->PK_Responsable;
@@ -279,13 +281,13 @@ class MascotasController extends Controller
         $imagen = collect(DB::select('EXEC dbo.ViewImagenMascota ?', [$id]));
         $razas = DB::select('EXEC dbo.viewRazas');
         $identificadores = DB::select('EXEC dbo.viewIdentificaciones');
-        // return $mascota;
+        // return $imagen;
         return view('admin/Veterinaria/oneMascota',compact('mascota','documentos','imagen','razas','identificadores'));
         
     }
-    public function carnet($id)
+    public function carnet($idCifrado)
     {
-        
+        $id = Crypt::decryptString($idCifrado);
         $resultado=DB::select('EXEC dbo.OneMascota ? ',[$id]);
         $mascota= $resultado[0];
         $idresponsable= $mascota->PK_Responsable;
@@ -426,9 +428,10 @@ class MascotasController extends Controller
         return redirect()->route('admin.Mascotas.edit', [$id]);
     }
     
-    public function QR($id)
+    public function QR($idCifrado)
     {
-        $url = route('perro.carnet', $id);
+        //$id = Crypt::decryptString($idCifrado);
+        $url = route('perro.carnet', $idCifrado);
 
         $options = new QROptions([
             'outputType' => QRCode::OUTPUT_MARKUP_SVG,

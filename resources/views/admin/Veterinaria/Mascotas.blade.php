@@ -23,7 +23,7 @@
                         </select>
                     </div>
 
-
+                    
                     <div>
                         <input type="date"  required id="first_name" name="fehcIni" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </div>
@@ -139,11 +139,14 @@
                             <td class="px-6 py-4" align="center" >
                                 {{$mascota->Tnombre_responsable}}
                             </td>
+                            @php
+                                $idCifrado = Crypt::encryptString($mascota->PK_Mascota);
+                            @endphp
                             <td class="px-6 py-4" align="center" >
                                 {{-- <a href="">
                                         <i class="fa-solid fa-download"></i>   
                                 </a> --}}
-                                <a href=" {{route('admin.Mascotas.show',$mascota->PK_Mascota)}} "> 
+                                <a href="{{ route('admin.Mascotas.show', $idCifrado) }}">
                                     <i class="fa-solid fa-eye"></i>   
                                 </a>
                                 <a href=" {{route('admin.Mascotas.edit',$mascota->PK_Mascota)}} "> 
@@ -160,7 +163,7 @@
                                     @csrf
                                     @method('DELETE')
                                 </form>
-                                <a href=" {{route('admin.perro.qr',$mascota->PK_Mascota)}} "> 
+                                <a href=" {{route('admin.perro.qr',$idCifrado)}} "> 
                                     QR  
                                 </a>
                             </td>

@@ -11,7 +11,10 @@
         'name'=> 'Mascota',
     ]
     ]">
-
+    
+    @php
+        $idCifrado = Crypt::encryptString($mascota->PK_Mascota);
+    @endphp
     <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4 ">
             <div >
     
@@ -32,9 +35,10 @@
                             <div class="swiper-wrapper">
                                 @foreach ($imagen as $img)
                                     <div class="swiper-slide relative flex justify-center">
-                                        
-                                        <img src="/storage/{{$img->Tpath_imagenes}}" 
-                            class="rounded-lg shadow-lg w-full h-auto">
+                                    <img src="{{ asset('storage/'.$img->Tpath_imagenes) }}" class="rounded-lg shadow-lg w-full h-auto">
+
+                                        <!-- <img src="/storage/{{$img->Tpath_imagenes}}" 
+                            class="rounded-lg shadow-lg w-full h-auto"> -->
                                     </div>
                                 @endforeach
                             </div>
