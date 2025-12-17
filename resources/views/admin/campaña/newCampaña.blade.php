@@ -35,7 +35,7 @@
                 <div>
                 {{-- Lugar de campaña --}}
                 <label for="Tlugar_campaña" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Lugar:</label>
-                <input name="Tlugar_campaña" type="text" id="Tlugar_campaña" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" maxlength="30"  required  placeholder="Ingrese el lugar" required value="{{old('Tlugar_campaña')}}"/>
+                <input name="Tlugar_campaña" type="text" id="Tlugar_campaña" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" maxlength="150"  required  placeholder="Ingrese el lugar" required value="{{old('Tlugar_campaña')}}"/>
                 @error('Tlugar_campaña')
                         <p class="text-red-600">*{{$message}}</p>
                 @enderror

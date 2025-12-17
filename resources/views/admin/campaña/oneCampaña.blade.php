@@ -19,8 +19,9 @@
     </div>
     
     @if ($estado == "Finalizar")
+
         <div class="flex justify-between items-center mb-4">
-            @if (!$colaboradores)
+            {{-- @if (!$colaboradores)
                 
             @else
                 @can('view-campañas')
@@ -39,7 +40,7 @@
 
                     </div>
                 @endcan
-            @endif
+            @endif --}}
             
             @can('update-campañas')
                 <div>
@@ -146,54 +147,111 @@
             </div>
         @endif
         </div>
-        <div class="grid gap-6 mb-4 md:grid-cols-2">
-            <div>
-                <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Lugar:</label>    
-                <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$campaña->Tlugar_campaña}}" disabled>                
-            </div>
-            <div>
-                <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Fecha de Inicio:</label>    
-                <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$campaña->DfechaIni_campaña}}" disabled>                
-            </div>
-            <div>
-                <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Hora:</label>    
-                <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$campaña->ThoraIni_campaña}}" disabled>                
-            </div>
-
-            @if ($campaña->PK_TiposCampañas==1)
-                <div class="grid gap-6 mb-4 md:grid-cols-2 mb-4 ">
-                    <div>
-                        <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Cantidad de gatos:</label>    
-                        <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$cantiGatos}}" disabled>                
-                    </div>
-                    <div>
-                        <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Cantidad de perros:</label>    
-                        <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$cantiPerros}}" disabled>                
-                    </div>
-
-
-                </div>
-            @else
+        <div >
+            <div class="grid gap-6 mb-4 md:grid-cols-2">
                 <div>
-                    <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Cantidad de asistentes:</label>    
-                    <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$cantidad}}" disabled>                
+                    <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Lugar:</label>    
+                    <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$campaña->Tlugar_campaña}}" disabled>                
                 </div>
-            @endif
+                <div>
+                    <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Fecha de Inicio:</label>    
+                    <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$campaña->DfechaIni_campaña}}" disabled>                
+                </div>
+                <div>
+                    <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Hora:</label>    
+                    <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$campaña->ThoraIni_campaña}}" disabled>                
+                </div>
     
-            
+                @if ($campaña->PK_TiposCampañas==1)
+                    <div class="grid gap-6 mb-4 md:grid-cols-2 mb-4 ">
+                        <div>
+                            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Cantidad de gatos:</label>    
+                            <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$cantiGatos}}" disabled>                
+                        </div>
+                        <div>
+                            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Cantidad de perros:</label>    
+                            <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$cantiPerros}}" disabled>                
+                        </div>
+    
+    
+                    </div>
+                @else
+                    <div>
+                        <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Cantidad de asistentes:</label>    
+                        <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$cantidad}}" disabled>                
+                    </div>
+                @endif
+        
                 
-
-            @if ($estado == "reabrir campaña?")
-                <div>
-                    <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha de Inicio:</label>    
-                    <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$campaña->DfechaFin_campaña}}" disabled>                
-                </div>
-                
-            @else
-                
-            @endif
+                    
+    
+                @if ($estado == "reabrir campaña?")
+                    <div>
+                        <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha de Inicio:</label>    
+                        <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{$campaña->DfechaFin_campaña}}" disabled>                
+                    </div>
+                    
+                @else
+                    
+                @endif
+            </div>
+            <div class="grid gap-6 mb-4 md:grid-cols-3">
+                {{-- aca van los botones --}}
+                @if ($estado == "Finalizar")            
+                    @if (!$colaboradores)
+                    @else
+                        @can('view-campañas')
+                            <div>
+                                <button id="mostrarColaboradores" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                    Ver Colaboradores
+                                </button>
+                            </div>            
+                            <div>
+                                <button id="mostrarEspecilidades"
+                                        class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
+                                    Especialidades
+                                </button>
+                            </div>
+                        @endcan
+                        @can('create-asitentes')
+                            @if ($campaña->PK_TiposCampañas==1)
+                                <div >
+                                    <button
+                                        id="agregar-asistente-mascota"
+                                        class="swal2-confirm swal2-styled"
+                                        style="
+                                            background:#22c55e;
+                                            color:white;
+                                            padding:12px 24px;
+                                            font-size:16px;
+                                            line-height:1.2;
+                                            height:auto;
+                                        ">
+                                        <i class="fa-solid fa-user"></i>
+                                        Agregar Asistente
+                                    </button>
+                                </div>
+                            @else
+                                <div >
+                                    <button  class="swal2-confirm swal2-styled"
+                                    style="
+                                        background:#22c55e;
+                                        color:white;
+                                        padding:12px 24px;
+                                        font-size:16px;
+                                        line-height:1.2;
+                                        height:auto;
+                                    " id="agregar-asistente" >
+                                        <i class="fa-solid fa-user"></i>
+                                        Agregar Asistente                        
+                                    </button>
+                                </div>
+                            @endif
+                        @endcan
+                    @endif
+                @endif
+            </div>
         </div>
-
     </div>
 
     @if ($estado == "Finalizar")
@@ -214,26 +272,6 @@
 
                 </form>
             </div>
-            @can('create-asitentes')
-                @if ($campaña->PK_TiposCampañas==1)
-                    <div >
-                        <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" id="agregar-asistente-mascota" >
-                            <i class="fa-solid fa-user"></i>
-                            Agregar Asistente
-            
-                        </button>
-                    </div>
-                @else
-                    <div >
-                        <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" id="agregar-asistente" >
-                            <i class="fa-solid fa-user"></i>
-                            Agregar Asistente
-            
-                        </button>
-                    </div>
-                @endif
-                
-            @endcan
 
         </div>
 
@@ -264,7 +302,10 @@
                         Numero DNI
                     </th>
                     <th scope="col" class="px-6 py-3" align="center" >
-                        Especialidad
+                        Numero de celular
+                    </th>
+                    <th scope="col" class="px-6 py-3" align="center" >
+                        Edad
                     </th>
                     <th scope="col" class="px-6 py-3" align="center" >
                         Action
@@ -327,8 +368,12 @@
                                 {{$asistente->Tdni_asistente}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
-                                {{$asistente->Tdescripcion_especialidad}}
+                                {{$asistente->Tcelular_asistente}}
                             </th>
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
+                                {{$asistente->Nedad_asistente}}
+                            </th>
+                            
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
                                 <div class="grid gap-6 mb-4 md:grid-cols-2">
                                     @can('update-asitentes')
@@ -338,8 +383,9 @@
                                                 data-nombre="{{ $asistente->Tnombre_asistente }}"
                                                 data-apellidoP="{{ $asistente->TapellidoP_asistente }}"
                                                 data-apellidoM="{{ $asistente->TapellidoM_asistente }}"
-                                                data-dni="{{ $asistente->Tdni_asistente }}"
-                                                data-especialidad="{{ $asistente->PK_Especialidades }}">
+                                                data-edad="{{ $asistente->Nedad_asistente }}"
+                                                data-celular="{{ $asistente->Tcelular_asistente }}"
+                                                data-dni="{{ $asistente->Tdni_asistente }}">
                                                 Editar Asistente
                                             </button>
                                             
@@ -452,38 +498,48 @@
                                 
                                 <input type="text" name="idCampaña" id=""  hidden value="{{$campaña->PK_Campaña}}" class="swal2-input" required>
                                 <input type="number" name="TipoCampa" id="TipoCampa" hidden  value="{{$campaña->PK_TiposCampañas}}" class="swal2-input" required>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-900">Nombre:</label>
-                                    <input type="text" name="nombre" id=""
-                                        class="swal2-input" style="width: 90%;"
-                                        placeholder="Ingrese el nombre completo"
-                                        maxlength="70" required>
-                                </div>
                                 <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4">
                                     <div>
+                                        <label class="block text-sm font-medium text-gray-900">Nombre:</label>
+                                        <input type="text" name="nombre" id=""
+                                            class="swal2-input" style="width: 90%;"
+                                            placeholder="Ingrese el nombre completo"
+                                            maxlength="30" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-900">Edad:</label>
+                                        <input type="text" name="edad"
+                                        class="swal2-input"
+                                        maxlength="3"
+                                        inputmode="numeric"
+                                        pattern="[0-9]{1,2,3}"
+                                        oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                                        required>
+                                    </div>
+
+                                    <div>
                                         <label class="block text-sm font-medium text-gray-900">Apellido Paterno:</label>
-                                        <input type="text" name="apeP" id="" class="swal2-input" maxlength="50" required>
+                                        <input type="text" name="apeP" id="" class="swal2-input" maxlength="25" required>
                                     </div>
 
                                     <div>
                                         <label class="block text-sm font-medium text-gray-900">Apellido Materno:</label>
-                                        <input type="text" name="apeM" id="" class="swal2-input" maxlength="50" required>
+                                        <input type="text" name="apeM" id="" class="swal2-input" maxlength="25" required>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="block text-sm font-medium text-gray-900">DNI:</label>
+                                        <input type="text" name="DNI" id="" class="swal2-input" maxlength="8" required oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
+                                    </div>
+    
+                                    <div class="mb-4">
+                                        <label class="block text-sm font-medium text-gray-900">Numero de celular:</label>
+                                        <input type="text" name="celular" id="" class="swal2-input" maxlength="9" required oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
                                     </div>
                                 </div>    
+
+
                             </div>
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-900">DNI:</label>
-                                <input type="text" name="DNI" id="" class="swal2-input" maxlength="8" required oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
-                            </div>
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-900">Especialidad:</label>
-                                <select name="especialidad" id="especialidad" class="swal2-input" style="width:100%;" required>
-                                    <option value="" selected disabled>---Selecciona una especialidad---</option>
-                                    @foreach ($especialidades as $especie)
-                                        <option value="{{$especie->PK_Especialidades}}">{{$especie->Tdescripcion_especialidad}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            
                         </form>
                         `,
                         focusConfirm: false,
@@ -522,8 +578,159 @@
                 });
         </script>
 
-        <script>
-            //para agregar usuario
+
+    <script>
+        document.getElementById('agregar-asistente-mascota').addEventListener('click', function () {
+        
+            let maxMascotas = 5;
+            let contadorMascotas = 1;
+        
+            Swal.fire({
+                title: 'Agregar Asistente',
+                width: '650px',
+                showCancelButton: true,
+                confirmButtonText: 'Registrar',
+                cancelButtonText: 'Cancelar',
+                focusConfirm: false,
+        
+                html: `
+                <form id="formAsistente">
+                    @csrf
+        
+                    <input type="hidden" name="idCampaña" value="{{ $campaña->PK_Campaña }}">
+                    <input type="hidden" name="TipoCampa" value="{{ $campaña->PK_TiposCampañas }}">
+        
+                    <div class="grid gap-6 md:grid-cols-2 mt-4 mb-4">
+                        <div>
+                            <label>Nombre:</label>
+                            <input type="text" name="nombre" class="swal2-input" maxlength="70" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-900">Edad:</label>
+                            <input type="text" name="edad" class="swal2-input"
+                                maxlength="2"
+                                inputmode="numeric"
+                                pattern="[0-9]{1,2}"
+                                oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                                required>
+                        </div>
+                        <div>
+                            <label>Apellido Paterno:</label>
+                            <input type="text" name="apeP" class="swal2-input" maxlength="50" required>
+                        </div>
+                        <div>
+                            <label>Apellido Materno:</label>
+                            <input type="text" name="apeM" class="swal2-input" maxlength="50" required>
+                        </div>
+                        <div>
+                            <label>DNI:</label>
+                            <input type="text" name="DNI" class="swal2-input" maxlength="8"
+                                oninput="this.value=this.value.replace(/[^0-9]/g,'')" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-900">Numero de celular:</label>
+                            <input type="text" name="celular" id="" class="swal2-input" maxlength="9" required oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
+                        </div>
+                    </div>
+
+                    <div class="mb-4" >
+                        <h2>Registro de mascota<h2>
+                    </div>
+                    <div id="contenedorMascotas">
+                        <div class="mascota mb-4">
+                            <div class="mb-4" >
+                                <label>Mascota #1:</label>
+                                <input type="text" name="mascotas[0][nombre]"
+                                    class="swal2-input" maxlength="20" required>
+                            </div>
+                            <div class="mb-4" >
+                                <label>Especie:</label>
+                                <select name="mascotas[0][especie]" class="swal2-input" required>
+                                    <option value="" disabled selected>-Seleccione-</option>
+                                    <option value="1">Canino</option>
+                                    <option value="2">Felino</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <button type="button" id="btnAgregarMascota"
+                        class="swal2-confirm swal2-styled"
+                        style="background:#3085d6;margin-top:10px;">
+                        + Agregar otra mascota
+                    </button>
+        
+                </form>
+                `,
+        
+                didOpen: () => {
+                    document.getElementById('btnAgregarMascota').addEventListener('click', () => {
+        
+                        if (contadorMascotas >= maxMascotas) {
+                            Swal.showValidationMessage('Máximo 5 mascotas');
+                            return;
+                        }
+                        contadorMascotas++;
+
+                        document.getElementById('contenedorMascotas')
+                            .insertAdjacentHTML('beforeend', `
+                                <div class="mascota">
+                                    <div class="mb-4" >
+                                        <label>Mascota #${contadorMascotas}:</label>
+                                        <input type="text"
+                                            name="mascotas[${contadorMascotas-1}][nombre]"
+                                            class="swal2-input" maxlength="30" required>
+                                    </div>
+                                    
+                                    <div class="mb-4" >
+                                        <label>Especie:</label>
+                                        <select name="mascotas[${contadorMascotas-1}][especie]"
+                                                class="swal2-input" required>
+                                            <option value="" disabled selected>-Seleccione-</option>
+                                            <option value="1">Canino</option>
+                                            <option value="2">Felino</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            `);
+                    });
+                },
+        
+                preConfirm: () => {
+                    const form = document.getElementById('formAsistente');
+                    const formData = new FormData(form);
+        
+                    return fetch("{{ route('admin.Asitentes.store') }}", {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        }
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (!data.ok) {
+                            Swal.showValidationMessage(data.msg || 'Error al registrar');
+                        }
+                        return data;
+                    })
+                    .catch(() => {
+                        Swal.showValidationMessage('Error de servidor');
+                    });
+                }
+            }).then(result => {
+                if (result.isConfirmed && result.value.ok) {
+                    Swal.fire('Éxito', 'Asistente registrado correctamente', 'success')
+                        .then(() => location.reload());
+                }
+            });
+        
+        });
+    </script>
+    
+
+        {{-- <script>
+            //para agregar usuario con mascota
                 document.getElementById('agregar-asistente-mascota').addEventListener('click', function() {
                     Swal.fire({
                         title: 'Agregar Asistente',
@@ -534,49 +741,46 @@
                                 
                                 <input type="text" name="idCampaña" id=""  hidden value="{{$campaña->PK_Campaña}}" class="swal2-input" required>
                                 <input type="number" name="TipoCampa" id="TipoCampa" hidden  value="{{$campaña->PK_TiposCampañas}}" class="swal2-input" required>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-900">Nombre:</label>
-                                    <input type="text" name="nombre" id=""
-                                        class="swal2-input" style="width: 90%;"
-                                        placeholder="Ingrese el nombre completo"
-                                        maxlength="70" required>
-                                </div>
-                                <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4">
+                                
+                                <div class="grid gap-6 mb-4 md:grid-cols-2 flex justify-between mt-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-900">Nombre:</label>
+                                        <input type="text" name="nombre" id=""
+                                            class="swal2-input" style="width: 90%;"
+                                            placeholder="Ingrese el nombre completo"
+                                            maxlength="70" required>
+                                    </div>
                                     <div>
                                         <label class="block text-sm font-medium text-gray-900">Apellido Paterno:</label>
                                         <input type="text" name="apeP" id="" class="swal2-input" maxlength="50" required>
                                     </div>
-
+    
                                     <div>
                                         <label class="block text-sm font-medium text-gray-900">Apellido Materno:</label>
                                         <input type="text" name="apeM" id="" class="swal2-input" maxlength="50" required>
                                     </div>
+
+                                    <div class="mb-4">
+                                        <label class="block text-sm font-medium text-gray-900">DNI:</label>
+                                        <input type="text" name="DNI" id="" class="swal2-input" maxlength="8" required oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
+                                    </div>
                                 </div>    
                             </div>
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-900">DNI:</label>
-                                <input type="text" name="DNI" id="" class="swal2-input" maxlength="8" required oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
-                            </div>
-                            <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4">
 
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-900">Especialidad:</label>
+                            <div class="grid gap-6 mb-4 md:grid-cols-2 flex justify-between mt-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-900">Mascota #1:</label>
+                                    <input type="text" name="nombre" id="" class="swal2-input" style="width: 90%;"placeholder="Ingrese el nombre de la mascota "maxlength="30" required>
+                                </div>                                    
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-900">Especie:</label>
                                     <select name="especialidad" id="especialidad" class="swal2-input" style="width:100%;" required>
-                                        <option value="" selected disabled>-Selecciona una especialidad-</option>
-                                        @foreach ($especialidades as $especie)
-                                            <option value="{{$especie->PK_Especialidades}}">{{$especie->Tdescripcion_especialidad}}</option>
-                                        @endforeach
+                                        <option value="" selected disabled>-Selecciona una especie-</option>
+                                        <option value="1"  disabled>Canino</option>
+                                        <option value="2"  disabled>Felino</option>
                                     </select>
                                 </div>
 
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-900">Mascota:</label>
-                                    <select name="tiMascota" id="tiMascota" class="swal2-input" style="width:100%;" required>
-                                        <option value="" selected disabled>---Selecciona una mascota---</option>
-                                        <option value="1">Felino</option>
-                                        <option value="2">Canino</option>
-                                    </select>
-                                </div>
                             </div>
                         </form>
                         `,
@@ -614,135 +818,150 @@
                         }
                     });
                 });
-        </script>
-
-
-
-
-
-
-
-
-
-
+        </script> --}}
 
 
 
         <script>
-            //para editar usuario
-        document.addEventListener('DOMContentLoaded', function () {
-            // Selecciona todos los botones con la clase .btnEditarAsistente
-            document.querySelectorAll('.btnEditarAsistente').forEach(button => {
-                button.addEventListener('click', function () {
-                    // Obtener los datos del asistente desde los atributos data-*
-                    const id = this.getAttribute('data-id');
-                    const nombre = this.getAttribute('data-nombre');
-                    const apellidop = this.getAttribute('data-apellidoP');
-                    const apellidom = this.getAttribute('data-apellidoM');
-                    const dni = this.getAttribute('data-dni');
-                    const especialidad = this.getAttribute('data-especialidad');
-
-                    // Mostrar el SweetAlert2 con el formulario prellenado
-                    Swal.fire({
-                        title: 'Editar Asistente',
-                        html: `
+            document.addEventListener('DOMContentLoaded', function () {
+            
+                document.querySelectorAll('.btnEditarAsistente').forEach(button => {
+                    button.addEventListener('click', function () {
+            
+                        const id        = this.getAttribute('data-id');
+                        const nombre    = this.getAttribute('data-nombre');
+                        const apellidoP = this.getAttribute('data-apellidoP');
+                        const apellidoM = this.getAttribute('data-apellidoM');
+                        const dni       = this.getAttribute('data-dni');
+                        const edad      = this.getAttribute('data-edad');
+                        const celular   = this.getAttribute('data-celular');
+            
+                        const nombreSeguro    = nombre.replace(/"/g, '&quot;');
+                        const apellidoPSeguro = apellidoP.replace(/"/g, '&quot;');
+                        const apellidoMSeguro = apellidoM.replace(/"/g, '&quot;');
+            
+                        Swal.fire({
+                            title: 'Editar Asistentes',
+                            showCancelButton: true,
+                            confirmButtonText: 'Guardar cambios',
+                            cancelButtonText: 'Cancelar',
+                            focusConfirm: false,
+            
+                            html: `
                             <form id="formEditarAsistente">
-                                @csrf
-                                
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-900">Nombre:</label>
-                                    <input type="text" id="nombre" name="nombre" class="swal2-input"
-                                        style="width: 90%;" value="${nombre}" required>
-                                </div>
-
+            
                                 <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4">
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-900">Apellido Paterno:</label>
-                                        <input type="text" id="apellidoP" name="apellidoP" class="swal2-input" value="${apellidop}" required>
+                                        <label>Nombre:</label>
+                                        <input type="text" id="nombre" maxlength="30" class="swal2-input"
+                                               value="${nombreSeguro}" required>
+                                    </div>
+            
+                                    
+            
+                                    <div>
+                                        <label>Apellido Paterno:</label>
+                                        <input type="text" id="apellidoP" maxlength="30" class="swal2-input"
+                                               value="${apellidoPSeguro}" required>
+                                    </div>
+            
+                                    <div>
+                                        <label>Apellido Materno:</label>
+                                        <input type="text" id="apellidoM" maxlength="30" class="swal2-input"
+                                               value="${apellidoMSeguro}" required>
+                                    </div>
+                                    
+            
+                                    <div>
+                                        <label>DNI:</label>
+                                        <input type="text" id="dni" class="swal2-input"
+                                               maxlength="8"
+                                               oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                                               value="${dni}" required>
+                                    </div>
+            
+                                    <div>
+                                        <label>Celular:</label>
+                                        <input type="text" id="celular" class="swal2-input"
+                                               maxlength="9"
+                                               oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                                               value="${celular}" required>
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-900">Apellido Materno:</label>
-                                        <input type="text" id="apellidoM" name="apellidoM" class="swal2-input" value="${apellidom}" required>
-                                    </div>    
-                                </div>
+                                        <label>Edad:</label>
+                                        <input type="number"
+                                        id="edad"
+                                        class="swal2-input"
+                                        min="0" max="999"
+                                        oninput="this.value=this.value.slice(0,3)"
+                                        required
+                                        style="width:50%;">
+                                    </div>
 
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-900">DNI:</label>
-                                    <input type="text" id="dni" name="dni" class="swal2-input" value="${dni}" required>
-                                </div>
-
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-900">Especialidad:</label>
-                                    <select id="especialidad" name="especialidad" class="swal2-input" style="width:100%;" required>
-                                        <option value="" disabled>---Selecciona una especialidad---</option>
-                                        @foreach ($especialidades as $especie)
-                                            <option value="{{$especie->PK_Especialidades}}" 
-                                                ${especialidad == '{{$especie->PK_Especialidades}}' ? 'selected' : ''}>
-                                                {{$especie->Tdescripcion_especialidad}}
-                                            </option>
-                                        @endforeach
-                                    </select>
                                 </div>
                             </form>
-                        `,
-                        showCancelButton: true,
-                        confirmButtonText: 'Guardar cambios',
-                        cancelButtonText: 'Cancelar',
-                        focusConfirm: false,
-                        preConfirm: () => {
-                            // Leer los valores del formulario dentro del SweetAlert
-                            const nombre = Swal.getPopup().querySelector('#nombre').value;
-                            const apellidoP = Swal.getPopup().querySelector('#apellidoP').value;
-                            const apellidoM = Swal.getPopup().querySelector('#apellidoM').value;
-                            const dni = Swal.getPopup().querySelector('#dni').value;
-                            const especialidad = Swal.getPopup().querySelector('#especialidad').value;
-
-                            if (!nombre || !apellidoP || !apellidoM || !dni || !especialidad) {
-                                Swal.showValidationMessage(`Por favor completa todos los campos`);
-                                return false;
+                            `,
+            
+                            preConfirm: () => {
+                                const nombre    = Swal.getPopup().querySelector('#nombre').value;
+                                const apellidoP = Swal.getPopup().querySelector('#apellidoP').value;
+                                const apellidoM = Swal.getPopup().querySelector('#apellidoM').value;
+                                const dni       = Swal.getPopup().querySelector('#dni').value;
+                                const edad      = Swal.getPopup().querySelector('#edad').value;
+                                const celular   = Swal.getPopup().querySelector('#celular').value;
+            
+                                if (!nombre || !apellidoP || !apellidoM || !dni || !edad || !celular) {
+                                    Swal.showValidationMessage('Completa todos los campos');
+                                    return false;
+                                }
+            
+                                return { id, nombre, apellidoP, apellidoM, dni, edad, celular };
                             }
-
-                            return { id, nombre, apellidoP, apellidoM, dni, especialidad };
-                        }
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            const datos = result.value;
-                            const formData = new FormData();
-                            formData.append('_method', 'PUT'); // importante para que Laravel lo trate como PUT
-                            formData.append('nombre', datos.nombre);
-                            formData.append('apellidoP', datos.apellidoP);
-                            formData.append('apellidoM', datos.apellidoM);
-                            formData.append('dni', datos.dni);
-                            formData.append('especialidad', datos.especialidad);
-
-                            fetch(`/admin/Asitentes/${datos.id}`, {
-                                method: 'POST', // Laravel reconocerá PUT por el _method
-                                headers: {
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                },
-                                body: formData
-                            })
-                            .then(res => {
-                                if (!res.ok) throw new Error('Error en la actualización');
-                                return res.json();
-                            })
-                            .then(data => {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Actualizado',
-                                    text: 'El asistente fue editado correctamente'
-                                }).then(() => location.reload());
-                            })
-                            .catch(err => {
-                                Swal.fire('Error', 'No se pudo actualizar el asistente', 'error');
-                                console.error(err);
-                            });
-                        }
+            
+                        }).then(result => {
+                            if (result.isConfirmed) {
+            
+                                const d = result.value;
+                                const formData = new FormData();
+            
+                                formData.append('_method', 'PUT');
+                                formData.append('nombre', d.nombre);
+                                formData.append('apellidoP', d.apellidoP);
+                                formData.append('apellidoM', d.apellidoM);
+                                formData.append('dni', d.dni);
+                                formData.append('edad', d.edad);
+                                formData.append('celular', d.celular);
+            
+                                fetch(`/admin/Asitentes/${d.id}`, {
+                                    method: 'POST',
+                                    headers: {
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                    },
+                                    body: formData
+                                })
+                                .then(res => {
+                                    if (!res.ok) throw new Error('Error al actualizar');
+                                    return res.json();
+                                })
+                                .then(() => {
+                                    Swal.fire(
+                                        'Actualizado',
+                                        'El asistente fue editado correctamente',
+                                        'success'
+                                    ).then(() => location.reload());
+                                })
+                                .catch(() => {
+                                    Swal.fire('Error', 'No se pudo actualizar', 'error');
+                                });
+                            }
+                        });
+            
                     });
                 });
+            
             });
-        });
         </script>
+            
 
 
 

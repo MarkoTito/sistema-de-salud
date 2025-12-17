@@ -30,25 +30,36 @@ class AsistenteController extends Controller
             $Idusuario = Auth::user()->id;
 
             if ($request->TipoCampa == 1) {
-                $resultado = DB::statement('EXEC dbo.InserAsistenteCampañaMascota ?,?,?,?,?,?,?,?', [
-                    $request->idCampaña,
-                    $request->especialidad,
-                    $Idusuario,
-                    $request->nombre,
-                    $request->apeP,
-                    $request->apeM,
-                    $request->DNI,
-                    $request->tiMascota,
-                ]);
+                foreach ($request->mascotas as $m) {
+                    $resultado = DB::statement('EXEC dbo.InserAsistenteCampañaMascota ?,?,?,?,? ,?,?,? ,?,?,?', [
+                        $request->idCampaña,
+                        1,
+                        $Idusuario,
+
+                        $request->nombre,
+                        $request->apeP,
+                        $request->apeM,
+
+                        $request->celular,
+                        $request->edad,
+
+                        $request->DNI,
+                        $m['especie'],
+                        $m['nombre']
+                    ]);
+                }
             } else {
-                $resultado = DB::statement('EXEC dbo.InserAsistenteCampaña2 ?,?,?,?,?,?,?', [
+                $resultado = DB::statement('EXEC dbo.InserAsistenteCampaña2 ?,?,? ,?,?,?, ?,?', [
                     $request->idCampaña,
-                    $request->especialidad,
                     $Idusuario,
                     $request->nombre,
+
                     $request->apeP,
                     $request->apeM,
                     $request->DNI,
+
+                    $request->celular,
+                    $request->edad,
                 ]);
             }
             if ($resultado) {
@@ -84,7 +95,14 @@ class AsistenteController extends Controller
         } else {
             $resultado = collect($informacion);
             $primero = $resultado->first();
-            return Excel::download(new \App\Exports\AsistenteExport($resultado),'E-'.$primero->Tnombre_Tipocampaña.'-'.$primero->DfechaIni_campaña.'.xlsx');
+            // return $resultado;
+            if ($primero->PK_TiposCampañas ==1) {
+                # code...
+                return Excel::download(new \App\Exports\AsistenteMascotaExport($resultado),'E-'.$primero->Tnombre_Tipocampaña.'-'.$primero->DfechaIni_campaña.'.xlsx');
+            } else {
+                # code...
+                return Excel::download(new \App\Exports\AsistenteExport($resultado),'E-'.$primero->Tnombre_Tipocampaña.'-'.$primero->DfechaIni_campaña.'.xlsx');
+            }
         }
         
         
@@ -124,13 +142,17 @@ class AsistenteController extends Controller
         
         
         Log::info('Llega correctamente', ['id' => $id, 'data' => $request->all()]); 
-        $resultado = DB::statement('EXEC dbo.EditarAsistenteCampaña ?,?,?,?,?,?', [
+        $resultado = DB::statement('EXEC dbo.EditarAsistenteCampaña ?,?,?,?,?,?,?', [
             $id,
             $request->nombre,
             $request->apellidoP,
+
             $request->apellidoM,
             $request->dni,
-            $request->especialidad,
+            $request->celular,
+            $request->edad,
+
+            
         ]);
 
         return response()->json(['message' => 'Asistente actualizado correctamente']);
@@ -179,15 +201,11 @@ class AsistenteController extends Controller
             if (!empty($campañaShow)) {
                 $campaña = $campañaShow[0];
                 $imagen = collect(DB::select('EXEC dbo.ViewImagenCampanias ?', [$campaña->PK_TiposCampañas]))->first();
-            
+                //return $resultado;
                 return view('admin.campaña.oneAsitente', compact('campaña','especialidades','resultado','estado','imagen'));
             } else {
                 return redirect()->back()->with('error', 'No se encontró la campaña.');
             }
-
-
-
-
             //return redirect()->route('admin.Asitentes.found')->with(['dni' => $request->dni,'idcampana' => $request->idcampana]);
 
         } else {

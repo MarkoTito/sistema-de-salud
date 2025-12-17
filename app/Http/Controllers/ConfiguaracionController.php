@@ -27,10 +27,11 @@ class ConfiguaracionController extends Controller
         $Tiposcampañas=DB::select('EXEC dbo.ViewsTiposCampañas');
         $TiposCharlas=DB::select('EXEC dbo.ViewsTiposCharlas');
         $expositores=DB::select('EXEC dbo.ViewExpositores2');
+        $Colaboradores=DB::select('EXEC dbo.ViewColaboradores');
         $users=DB::select('EXEC dbo.ViewUser');
         $especialidadades=DB::select('EXEC dbo.ViewEspecialidades2');
-        // return $especialidadades;
-        return view('admin/nada',compact('Tiposcampañas','TiposCharlas','expositores','users','especialidadades'));
+        //return $Colaboradores;
+        return view('admin/nada',compact('Colaboradores','Tiposcampañas','TiposCharlas','expositores','users','especialidadades'));
     }
 
     public function store(Request $request)
@@ -109,6 +110,22 @@ class ConfiguaracionController extends Controller
                 'msg' => empty($creacionEspecialidad) ? 'No se registró la especialidad' : null
             ]);
         }
+        if ($request->tipo == 6) {
+            $validated = $request->validate([
+                'nombre' => 'required|string|max:255',
+                'tipo' => 'required|integer|in:1,2,3,4,5,6'
+            ]);
+
+            $creacionEspecialidad = DB::select('EXEC dbo.InsertarColaborador  ?', [
+                $validated['nombre'],
+            ]);
+
+            return response()->json([
+                'ok' => !empty($creacionEspecialidad),
+                'data' => $creacionEspecialidad[0] ?? null,
+                'msg' => empty($creacionEspecialidad) ? 'No se registró el especialista' : null
+            ]);
+        }
         
     }
 
@@ -185,6 +202,14 @@ class ConfiguaracionController extends Controller
                     'text' => 'Se elimino el tipo de campaña correctamente'
                 ]);
             }
+            if ($request->confi == 'col') {
+                DB::select(' EXEC dbo.EliminarColaborador ? ',[$id]);
+                    session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => '¡Buen trabajo!',
+                    'text' => 'Se elimino el colaborador correctamente'
+                ]);
+            }
        }
        if ($request->tipo == 'up') {
             if ($request->confi == 'espe') { 
@@ -213,6 +238,14 @@ class ConfiguaracionController extends Controller
             }
             if ($request->confi == 'campa') {
                 DB::select(' EXEC dbo.habilitarTipoCampaña ? ',[$id]);
+                    session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => '¡Buen trabajo!',
+                    'text' => 'Se habilito el tipo de campaña correctamente'
+                ]);
+            }
+            if ($request->confi == 'col') {
+                DB::select(' EXEC dbo.habilitarCola ? ',[$id]);
                     session()->flash('swal', [
                     'icon' => 'success',
                     'title' => '¡Buen trabajo!',

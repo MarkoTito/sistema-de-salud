@@ -12,6 +12,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
 use Illuminate\Support\Facades\Crypt; //seguridad osea cifrado
+use Illuminate\Support\Facades\Mail;
 
 class MascotasController extends Controller
 {
@@ -19,7 +20,26 @@ class MascotasController extends Controller
     public function index()
     {
         Gate::authorize('view-mascotas');  
-        $mascotas=DB::select('EXEC dbo.viewMascotas');
+        $results=DB::select('EXEC dbo.viewMascotas');
+
+        // Convertir a colección
+        $collection = collect($results);
+
+        // Parámetros de paginación
+        $perPage = 20; 
+        $page = request()->get('page', 1); 
+
+        $items = $collection->slice(($page - 1) * $perPage, $perPage)->values();
+
+        $mascotas = new LengthAwarePaginator(
+            $items,
+            $collection->count(),
+            $perPage,
+            $page,
+            ['path' => request()->url(), 'query' => request()->query()]
+        );
+
+
         return view('admin/Veterinaria/Mascotas',compact('mascotas'));
     }
 
@@ -250,6 +270,20 @@ class MascotasController extends Controller
                                     $tipoModi,
                                     $Idusuario
                             ]);
+                            //envio al correo
+                            // if ($request->correo) {
+                            //     $url = route('perro.carnet', $idMascota);
+                            //     $options = new QROptions([
+                            //         'outputType' => QRCode::OUTPUT_IMAGE_PNG,
+                            //         'scale' => 5,
+                            //     ]);
+                                
+                            //     $qr = (new QRCode($options))->render($url);
+
+
+                            //     Mail::to($request->correo)->send(new \App\Mail\ConfimacionMascota($qr));
+                            // }
+
                             return response()->json([
                                 'success' => true,
                                 ]);
@@ -281,8 +315,22 @@ class MascotasController extends Controller
         $imagen = collect(DB::select('EXEC dbo.ViewImagenMascota ?', [$id]));
         $razas = DB::select('EXEC dbo.viewRazas');
         $identificadores = DB::select('EXEC dbo.viewIdentificaciones');
+
+
+        $url = route('perro.carnet', $idCifrado);
+
+        $options = new QROptions([
+            'outputType' => QRCode::OUTPUT_MARKUP_SVG,
+            'scale'      => 5,
+        ]);
+
+        // La librería devuelve directamente un Data URI
+        $qr = (new QRCode($options))->render($url);
+
+
+
         // return $imagen;
-        return view('admin/Veterinaria/oneMascota',compact('mascota','documentos','imagen','razas','identificadores'));
+        return view('admin/Veterinaria/oneMascota',compact('qr','mascota','documentos','imagen','razas','identificadores'));
         
     }
     public function carnet($idCifrado)
@@ -509,12 +557,9 @@ class MascotasController extends Controller
             );
             session()->flash('swal', [
                 'icon' => 'success',
-                'text' => 'Se encontraron las charlas'
+                'text' => 'Se encontraron relación'
             ]);
-
-
             return view('admin/Veterinaria/MascotaFound', compact('mascotas','request'));
-            
         }
     }
 

@@ -121,7 +121,10 @@
                         Numero DNI
                     </th>
                     <th scope="col" class="px-6 py-3" align="center" >
-                        Especialidad
+                        Numero de celular
+                    </th>
+                    <th scope="col" class="px-6 py-3" align="center" >
+                        Edad
                     </th>
                     <th scope="col" class="px-6 py-3" align="center" >
                         Action
@@ -146,7 +149,9 @@
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
                             No hay asistentes registrados
                         </th>
-                        
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                            No hay asistentes registrados
+                        </th>
                     </tr>
                     
                 @else
@@ -178,21 +183,29 @@
                                 {{$resul->Tdni_asistente}}
                             </th>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
-                                {{$resul->Tdescripcion_especialidad}}
+                                {{$resul->Tcelular_asistente}}
                             </th>
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
+                                {{$resul->Nedad_asistente}}
+                            </th>
+
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
                                 <div class="grid gap-6 mb-4 md:grid-cols-2">
                                     <div>
                                         @can('update-asitentes')
-                                            <button class="btnEditarAsistente bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                                                data-id="{{ $resul->PK_Asistentes }}"
-                                                data-nombre="{{ $resul->Tnombre_asistente }}"
-                                                data-apellidoP="{{ $resul->TapellidoP_asistente }}"
-                                                data-apellidoM="{{ $resul->TapellidoM_asistente }}"
-                                                data-dni="{{ $resul->Tdni_asistente }}"
-                                                data-especialidad="{{ $resul->PK_Especialidades }}">
-                                                Editar Asistente
-                                            </button>
+                                            <div>
+                                                <button class="btnEditarAsistente bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                                                    data-id="{{ $resul->PK_Asistentes }}"
+                                                    data-nombre="{{ $resul->Tnombre_asistente }}"
+                                                    data-apellidoP="{{ $resul->TapellidoP_asistente }}"
+                                                    data-apellidoM="{{ $resul->TapellidoM_asistente }}"
+                                                    data-edad="{{ $resul->Nedad_asistente }}"
+                                                    data-celular="{{ $resul->Tcelular_asistente }}"
+                                                    data-dni="{{ $resul->Tdni_asistente }}">
+                                                    Editar Asistente
+                                                </button>
+                                                
+                                            </div>
                                             
                                         @endcan
                                         
@@ -318,119 +331,143 @@
         </script>
 
         <script>
-            //para editar usuario
-        document.addEventListener('DOMContentLoaded', function () {
-            // Selecciona todos los botones con la clase .btnEditarAsistente
-            document.querySelectorAll('.btnEditarAsistente').forEach(button => {
-                button.addEventListener('click', function () {
-                    // Obtener los datos del asistente desde los atributos data-*
-                    const id = this.getAttribute('data-id');
-                    const nombre = this.getAttribute('data-nombre');
-                    const apellidop = this.getAttribute('data-apellidoP');
-                    const apellidom = this.getAttribute('data-apellidoM');
-                    const dni = this.getAttribute('data-dni');
-                    const especialidad = this.getAttribute('data-especialidad');
-
-                    // Mostrar el SweetAlert2 con el formulario prellenado
-                    Swal.fire({
-                        title: 'Editar Asistente',
-                        html: `
+            document.addEventListener('DOMContentLoaded', function () {
+            
+                document.querySelectorAll('.btnEditarAsistente').forEach(button => {
+                    button.addEventListener('click', function () {
+            
+                        const id        = this.getAttribute('data-id');
+                        const nombre    = this.getAttribute('data-nombre');
+                        const apellidoP = this.getAttribute('data-apellidoP');
+                        const apellidoM = this.getAttribute('data-apellidoM');
+                        const dni       = this.getAttribute('data-dni');
+                        const edad      = this.getAttribute('data-edad');
+                        const celular   = this.getAttribute('data-celular');
+            
+                        const nombreSeguro    = nombre.replace(/"/g, '&quot;');
+                        const apellidoPSeguro = apellidoP.replace(/"/g, '&quot;');
+                        const apellidoMSeguro = apellidoM.replace(/"/g, '&quot;');
+            
+                        Swal.fire({
+                            title: 'Editar Asistentes',
+                            showCancelButton: true,
+                            confirmButtonText: 'Guardar cambios',
+                            cancelButtonText: 'Cancelar',
+                            focusConfirm: false,
+            
+                            html: `
                             <form id="formEditarAsistente">
-                                @csrf
-                                
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-900">Nombre:</label>
-                                    <input type="text" id="nombre" name="nombre" class="swal2-input"
-                                        style="width: 90%;" value="${nombre}" required>
-                                </div>
-
+            
                                 <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4">
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-900">Apellido Paterno:</label>
-                                        <input type="text" id="apellidoP" name="apellidoP" class="swal2-input" value="${apellidop}" required>
+                                        <label>Nombre:</label>
+                                        <input type="text" id="nombre" class="swal2-input"
+                                            value="${nombreSeguro}" required>
+                                    </div>
+            
+                                    
+            
+                                    <div>
+                                        <label>Apellido Paterno:</label>
+                                        <input type="text" id="apellidoP" class="swal2-input"
+                                            value="${apellidoPSeguro}" required>
+                                    </div>
+            
+                                    <div>
+                                        <label>Apellido Materno:</label>
+                                        <input type="text" id="apellidoM" class="swal2-input"
+                                            value="${apellidoMSeguro}" required>
+                                    </div>
+                                    
+            
+                                    <div>
+                                        <label>DNI:</label>
+                                        <input type="text" id="dni" class="swal2-input"
+                                            maxlength="8"
+                                            oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                                            value="${dni}" required>
+                                    </div>
+            
+                                    <div>
+                                        <label>Celular:</label>
+                                        <input type="text" id="celular" class="swal2-input"
+                                            maxlength="9"
+                                            oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                                            value="${celular}" required>
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-900">Apellido Materno:</label>
-                                        <input type="text" id="apellidoM" name="apellidoM" class="swal2-input" value="${apellidom}" required>
-                                    </div>    
-                                </div>
+                                        <label>Edad:</label>
+                                        <input type="number"
+                                        id="edad"
+                                        class="swal2-input"
+                                        min="0" max="999"
+                                        oninput="this.value=this.value.slice(0,3)"
+                                        required
+                                        style="width:50%;">
+                                    </div>
 
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-900">DNI:</label>
-                                    <input type="text" id="dni" name="dni" class="swal2-input" value="${dni}" required>
-                                </div>
-
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-900">Especialidad:</label>
-                                    <select id="especialidad" name="especialidad" class="swal2-input" style="width:100%;" required>
-                                        <option value="" disabled>---Selecciona una especialidad---</option>
-                                        @foreach ($especialidades as $especie)
-                                            <option value="{{$especie->PK_Especialidades}}" 
-                                                ${especialidad == '{{$especie->PK_Especialidades}}' ? 'selected' : ''}>
-                                                {{$especie->Tdescripcion_especialidad}}
-                                            </option>
-                                        @endforeach
-                                    </select>
                                 </div>
                             </form>
-                        `,
-                        showCancelButton: true,
-                        confirmButtonText: 'Guardar cambios',
-                        cancelButtonText: 'Cancelar',
-                        focusConfirm: false,
-                        preConfirm: () => {
-                            // Leer los valores del formulario dentro del SweetAlert
-                            const nombre = Swal.getPopup().querySelector('#nombre').value;
-                            const apellidoP = Swal.getPopup().querySelector('#apellidoP').value;
-                            const apellidoM = Swal.getPopup().querySelector('#apellidoM').value;
-                            const dni = Swal.getPopup().querySelector('#dni').value;
-                            const especialidad = Swal.getPopup().querySelector('#especialidad').value;
-
-                            if (!nombre || !apellidoP || !apellidoM || !dni || !especialidad) {
-                                Swal.showValidationMessage(`Por favor completa todos los campos`);
-                                return false;
+                            `,
+            
+                            preConfirm: () => {
+                                const nombre    = Swal.getPopup().querySelector('#nombre').value;
+                                const apellidoP = Swal.getPopup().querySelector('#apellidoP').value;
+                                const apellidoM = Swal.getPopup().querySelector('#apellidoM').value;
+                                const dni       = Swal.getPopup().querySelector('#dni').value;
+                                const edad      = Swal.getPopup().querySelector('#edad').value;
+                                const celular   = Swal.getPopup().querySelector('#celular').value;
+            
+                                if (!nombre || !apellidoP || !apellidoM || !dni || !edad || !celular) {
+                                    Swal.showValidationMessage('Completa todos los campos');
+                                    return false;
+                                }
+            
+                                return { id, nombre, apellidoP, apellidoM, dni, edad, celular };
                             }
-
-                            return { id, nombre, apellidoP, apellidoM, dni, especialidad };
-                        }
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            const datos = result.value;
-                            const formData = new FormData();
-                            formData.append('_method', 'PUT'); // importante para que Laravel lo trate como PUT
-                            formData.append('nombre', datos.nombre);
-                            formData.append('apellidoP', datos.apellidoP);
-                            formData.append('apellidoM', datos.apellidoM);
-                            formData.append('dni', datos.dni);
-                            formData.append('especialidad', datos.especialidad);
-
-                            fetch(`/admin/Asitentes/${datos.id}`, {
-                                method: 'POST', // Laravel reconocerá PUT por el _method
-                                headers: {
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                },
-                                body: formData
-                            })
-                            .then(res => {
-                                if (!res.ok) throw new Error('Error en la actualización');
-                                return res.json();
-                            })
-                            .then(data => {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Actualizado',
-                                    text: 'El asistente fue editado correctamente'
-                                }).then(() => location.reload());
-                            })
-                            .catch(err => {
-                                Swal.fire('Error', 'No se pudo actualizar el asistente', 'error');
-                                console.error(err);
-                            });
-                        }
+            
+                        }).then(result => {
+                            if (result.isConfirmed) {
+            
+                                const d = result.value;
+                                const formData = new FormData();
+            
+                                formData.append('_method', 'PUT');
+                                formData.append('nombre', d.nombre);
+                                formData.append('apellidoP', d.apellidoP);
+                                formData.append('apellidoM', d.apellidoM);
+                                formData.append('dni', d.dni);
+                                formData.append('edad', d.edad);
+                                formData.append('celular', d.celular);
+            
+                                fetch(`/admin/Asitentes/${d.id}`, {
+                                    method: 'POST',
+                                    headers: {
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                    },
+                                    body: formData
+                                })
+                                .then(res => {
+                                    if (!res.ok) throw new Error('Error al actualizar');
+                                    return res.json();
+                                })
+                                .then(() => {
+                                    Swal.fire(
+                                        'Actualizado',
+                                        'El asistente fue editado correctamente',
+                                        'success'
+                                    ).then(() => location.reload());
+                                })
+                                .catch(() => {
+                                    Swal.fire('Error', 'No se pudo actualizar', 'error');
+                                });
+                            }
+                        });
+            
                     });
                 });
+            
             });
-        });
         </script>
 
         <script>

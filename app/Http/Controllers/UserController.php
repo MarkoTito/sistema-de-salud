@@ -174,7 +174,17 @@ class UserController extends Controller
 
             ]);
             return response()->json(['message' => 'Campaña actualizado correctamente']);
-        } else {
+        } 
+        if ($request->tipo == 8) {
+            
+            Log::info('Llega correctamente', ['id' => $id, 'data' => $request->all()]);
+            $resultado = DB::statement('EXEC dbo.EditarColaborador ?,?', [
+                $id,
+                $request->nombre,
+
+            ]);
+            return response()->json(['message' => 'Colaborador actualizado correctamente']);
+        }else {
 
             $request->validate([
                 'password' => 'required|string|min:8|confirmed',         

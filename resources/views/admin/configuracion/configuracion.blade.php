@@ -3,13 +3,16 @@
     <div x-data="{ activeTab: 'Campañas' }" class="text-sm font-medium text-center text-gray-500 border-b border-gray-200">
         <ul class="flex flex-wrap -mb-px">
             <li class="me-2">
-            <a @click="activeTab = 'Campañas'" :class="activeTab === 'Campañas' ? 'text-blue-600 border-blue-600 border-b-2' : 'border-transparent hover:text-gray-600 hover:border-gray-300'" class="inline-block p-4 rounded-t-lg">Campañas</a>
+            <a @click="activeTab = 'Campañas'" :class="activeTab === 'Campañas' ? 'text-blue-600 border-blue-600 border-b-2' : 'border-transparent hover:text-gray-600 hover:border-gray-300'" class="inline-block p-4 rounded-t-lg">Campañads</a>
             </li>
             <li class="me-2">
             <a @click="activeTab = 'Charlas'" :class="activeTab === 'Charlas' ? 'text-blue-600 border-blue-600 border-b-2' : 'border-transparent hover:text-gray-600 hover:border-gray-300'" class="inline-block p-4 rounded-t-lg">Charlas</a>
             </li>
             <li class="me-2">
-            <a @click="activeTab = 'Expositores'" :class="activeTab === 'Expositores' ? 'text-blue-600 border-blue-600 border-b-2' : 'border-transparent hover:text-gray-600 hover:border-gray-300'" class="inline-block p-4 rounded-t-lg">Expositores</a>
+                <a @click="activeTab = 'Expositores'" :class="activeTab === 'Expositores' ? 'text-blue-600 border-blue-600 border-b-2' : 'border-transparent hover:text-gray-600 hover:border-gray-300'" class="inline-block p-4 rounded-t-lg">Expositores</a>
+            </li>
+            <li class="me-2">
+                <a @click="activeTab = 'Colaboradores'" :class="activeTab === 'Colaboradores' ? 'text-blue-600 border-blue-600 border-b-2' : 'border-transparent hover:text-gray-600 hover:border-gray-300'" class="inline-block p-4 rounded-t-lg">Colaboradores</a>
             </li>
         </ul>
         
@@ -150,13 +153,94 @@
                 </div>
             </div>
 
-
-
-
             <div x-show="activeTab === 'Expositores'">
                 <div class="flex justify-end mb-4 ">
                     <button id="agregar-asistente" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">                        
                         Agregar Expositor
+                    </button>
+                </div>
+                
+                <div class="relative overflow-x-auto">
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" class="px-6 py-3" align="center" >
+                                    Nombre
+                                </th>
+                                <th scope="col" class="px-6 py-3" align="center" >
+                                    Apellido Paterno
+                                </th>
+                                <th scope="col" class="px-6 py-3" align="center" >
+                                    Apellido Materno
+                                </th>
+                                <th scope="col" class="px-6 py-3" align="center" >
+                                    Numero de contacto
+                                </th>
+                                <th scope="col" class="px-6 py-3" align="center" >
+                                    Acción
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (!$Tiposcampañas)
+                                <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                        No existe ningun expositor
+                                    </th>
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                        No existe ningun expositor
+                                    </th>
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                        No existe ningun expositor
+                                    </th>
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                        No existe ningun expositor
+                                    </th>
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                        No existe ningun expositor
+                                    </th>
+                                </tr>
+                                
+                            @else
+                                @foreach ($expositores as $expo)
+                                    <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                            {{$expo->Tnombre_expositor}}
+                                        </th>
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                            {{$expo->TapellidoP_expositor}}
+                                        </th>
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                            {{$expo->TapellidoM_expositor}}
+                                        </th>
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                            {{$expo->Tnumero_expositor}}
+                                        </th>
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                            <a href="{{route('admin.Tipocampaña.show',$expo->PK_Expositores)}}">
+                                                <i class="fa-solid fa-camera"></i>
+                                            </a>
+                                            <a href="">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </a>
+                                        </th>
+                            
+                                    </tr>
+                                    
+                                @endforeach
+                                
+                            @endif
+                            
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div x-show="activeTab === 'Colaboradores'">
+                <div class="flex justify-end mb-4 ">
+                    <button id="agregar-asistente" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">                        
+                        Agregar Colaboradores
                     </button>
                 </div>
                 

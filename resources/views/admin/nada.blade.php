@@ -23,11 +23,11 @@
             Especialidades
             </button>
         </li>
-        {{-- <li class="me-2" role="presentation">
-            <button class="inline-block p-4 border-b-2 rounded-t-lg" id="usuario-tab" data-tabs-target="#usuario" type="button" role="tab" aria-controls="usuario" aria-selected="false">
-            Usuarios
+        <li class="me-2" role="presentation">
+            <button class="inline-block p-4 border-b-2 rounded-t-lg" id="Colaboradores-tab" data-tabs-target="#Colaboradores" type="button" role="tab" aria-controls="Colaboradores" aria-selected="false">
+            Colaboradores
             </button>
-        </li> --}}
+        </li>
         
     </ul>
 
@@ -148,9 +148,6 @@
                 </tbody>
             </table>
         </div>
-
-
-
 
         {{-- area --}}
         <div  id="area" role="tabpanel" aria-labelledby="area-tab">
@@ -423,8 +420,6 @@
 
 
         </div>
-
-
         {{-- sistemas --}}
         <div  id="sistema" role="tabpanel" aria-labelledby="sistema-tab">
 
@@ -511,7 +506,7 @@
                                                         </form>
                                                     </div>
                                                     <div class="text-green-500" >
-                                                        <a class="btnEditarEspecialidad  text-green"
+                                                        <a class="btnEditarColabor  text-green"
                                                             data-id="{{ $especialidad->PK_Especialidades }}"
                                                             data-nombre="{{ $especialidad->Tdescripcion_especialidad }}"
                                                             >
@@ -528,6 +523,135 @@
                                                         @csrf
                                                         <input type="text" name="tipo" value="up" hidden >
                                                         <input type="text" name="confi" value="espe" hidden >
+                                                        <button class="text-blue-500" >
+                                                            <span class="w-6 h-6 inline-flex justify-center items-center">
+                                                                <i class="fa-solid fa-circle-up"></i>
+                                                            </span>
+                                                        </button>            
+                                                    </form>                                                    
+                                            </th>   
+                                            
+                                        @endif
+                            
+                                    </tr>
+                                    
+                                @endforeach
+                                
+                            @endif
+                            
+                            
+                        </tbody>
+                    </table>
+            </div>
+
+
+
+
+        </div>
+
+        {{-- Colaboradores --}}
+        <div  id="Colaboradores" role="tabpanel" aria-labelledby="Colaboradores-tab">
+
+            <div class="flex justify-end mb-4 ">
+                    <button id="btnFormulario-colaborador" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">                        
+                        Agregar Colaboradores
+                    </button>
+            </div>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Colaboradores</p>
+            <div class="relative overflow-x-auto">
+                <table class="w-full text-sm text-left rtl:text-right text-fg-brand-subtle">
+                        <thead class="text-sm text-black bg-brand-strong">
+                            <tr class="bg-brand border-b border-brand-light">
+                                <th scope="col" class="px-6 py-3" align="center" >
+                                    Nombre
+                                </th>
+                                <th scope="col" class="px-6 py-3" align="center" >
+                                    Fecha de creación
+                                </th>
+                                <th scope="col" class="px-6 py-3" align="center" >
+                                    Estado
+                                </th>
+                                <th scope="col" class="px-6 py-3" align="center" >
+                                    Acción
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (!$Colaboradores)
+                                <tr class="bg-brand border-b border-brand-light">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                        No existe Colaboradores
+                                    </th>
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                        No existe Colaboradores
+                                    </th>
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                        No existe Colaboradores
+                                    </th>
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                        No existe Colaboradores
+                                    </th>
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                        No existe Colaboradores
+                                    </th>
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                        No existe Colaboradores
+                                    </th>
+                                </tr>
+                                
+                            @else
+                                @foreach ($Colaboradores as $col)
+                                    <tr class="bg-brand border-b border-brand-light">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                            {{$col->Tnombre_colaborador}}
+                                        </th>
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                            {{$col->created_at}}
+                                        </th>
+                                        @if ($col->Nestado_colaborador == 1)
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-blue-500" align="center" >
+                                                Habilitado
+                                            </th>
+                                        @else
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-red-500" align="center" >
+                                                Desabilitado
+                                            </th>
+                                        @endif
+                                        
+                                        @if ($col->Nestado_colaborador == 1)
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                                <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4">
+                                                    <div>
+                                                        <form action="{{route('admin.Configuracion.update',$col->PK_Colaborador)}}" method="POST" class="delete-form-cola">
+                                                            @method('PUT')
+                                                            @csrf
+                                                            <input type="text" name="tipo" value="down" hidden >
+                                                            <input type="text" name="confi" value="col" hidden >
+                                                            <button class="text-red-500" >
+                                                                <span class="w-6 h-6 inline-flex justify-center items-center">
+                                                                    <i class="fa-solid fa-circle-down"></i>
+                                                                </span>
+                                                            </button>            
+                                                        </form>
+                                                    </div>
+                                                    <div class="text-green-500" >
+                                                        <a class="btnEditarcol  text-green"
+                                                            data-id="{{ $col->PK_Colaborador }}"
+                                                            data-nombre="{{ $col->Tnombre_colaborador }}"
+                                                            >
+                                                            <i class="fa-solid fa-pen-to-square"></i>
+                                                        </a>
+                                                    </div>
+
+                                            </th>
+                                        @else
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black" align="center" >
+                                                <div class="justify-center">
+                                                    <form action="{{route('admin.Configuracion.update',$col->PK_Colaborador)}}" method="POST" class="up-form-cola">
+                                                        @method('PUT')
+                                                        @csrf
+                                                        <input type="text" name="tipo" value="up" hidden >
+                                                        <input type="text" name="confi" value="col" hidden >
                                                         <button class="text-blue-500" >
                                                             <span class="w-6 h-6 inline-flex justify-center items-center">
                                                                 <i class="fa-solid fa-circle-up"></i>
@@ -642,6 +766,82 @@
                 });
             });
         </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+
+                document.querySelectorAll('.btnEditarcol').forEach(button => {
+                    button.addEventListener('click', function () {
+
+                        const id = this.getAttribute('data-id');
+                        const nombre = this.getAttribute('data-nombre');
+
+                        Swal.fire({
+                            title: 'Editar Especialidad',
+                            html: `
+                                <form id="formEditarAsistente">
+                                    @csrf
+                                    <input type="hidden" id="tipo" name="tipo" value="8">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-900">Nombre de la especialidad:</label>
+                                        <input maxlength="100" type="text" id="nombre" value="${nombre}" class="swal2-input" style="width:75%;" required>
+                                    </div>
+                                   
+
+                                   
+                                </form>
+                            `,
+                            showCancelButton: true,
+                            confirmButtonText: 'Guardar cambios',
+                            cancelButtonText: 'Cancelar',
+                            focusConfirm: false,
+
+                            preConfirm: () => {
+
+                                const nombre = Swal.getPopup().querySelector('#nombre').value;
+                                
+                                const tipo = Swal.getPopup().querySelector('#tipo').value;
+            
+
+                                if (!nombre || !tipo) {
+                                    Swal.showValidationMessage(`Completa todos los campos`);
+                                    return false;
+                                }
+
+                                return { id, nombre, tipo};
+                            }
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+
+                                const datos = result.value;
+                                const formData = new FormData();
+                                formData.append('_method', 'PUT');
+                                formData.append('nombre', datos.nombre);
+                                formData.append('tipo', datos.tipo);
+
+                                fetch(`/admin/usuarios/${datos.id}`, {
+                                    method: 'POST',
+                                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                                    body: formData
+                                })
+                                .then(res => res.json())
+                                .then(data => {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Actualizado',
+                                        text: 'El colaborador fue editado correctamente'
+                                    }).then(() => location.reload());
+                                })
+                                .catch(err => {
+                                    console.error(err);
+                                    Swal.fire('Error', 'No se pudo actualizar', 'error');
+                                });
+                            }
+                        });
+
+                    });
+                });
+            });
+        </script>
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -699,6 +899,82 @@
                                 formData.append('_method', 'PUT');
                                 formData.append('nombre', datos.nombre);
                                 formData.append('descripcion', datos.descripcion);
+                                formData.append('tipo', datos.tipo);
+
+                                fetch(`/admin/usuarios/${datos.id}`, {
+                                    method: 'POST',
+                                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                                    body: formData
+                                })
+                                .then(res => res.json())
+                                .then(data => {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Actualizado',
+                                        text: 'la campañafue editado correctamente'
+                                    }).then(() => location.reload());
+                                })
+                                .catch(err => {
+                                    console.error(err);
+                                    Swal.fire('Error', 'No se pudo actualizar', 'error');
+                                });
+                            }
+                        });
+
+                    });
+                });
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+
+                document.querySelectorAll('.btnEditarEspecialidad').forEach(button => {
+                    button.addEventListener('click', function () {
+
+                        const id = this.getAttribute('data-id');
+                        const nombre = this.getAttribute('data-nombre');
+
+                        Swal.fire({
+                            title: 'Editar Especialidad',
+                            html: `
+                                <form id="formEditarAsistente">
+                                    @csrf
+                                    <input type="hidden" id="tipo" name="tipo" value="6">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-900">Nombre de la especialidad:</label>
+                                        <input maxlength="100" type="text" id="nombre" value="${nombre}" class="swal2-input" style="width:75%;" required>
+                                    </div>
+                                   
+
+                                   
+                                </form>
+                            `,
+                            showCancelButton: true,
+                            confirmButtonText: 'Guardar cambios',
+                            cancelButtonText: 'Cancelar',
+                            focusConfirm: false,
+
+                            preConfirm: () => {
+
+                                const nombre = Swal.getPopup().querySelector('#nombre').value;
+                                
+                                const tipo = Swal.getPopup().querySelector('#tipo').value;
+            
+
+                                if (!nombre || !tipo) {
+                                    Swal.showValidationMessage(`Completa todos los campos`);
+                                    return false;
+                                }
+
+                                return { id, nombre, tipo};
+                            }
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+
+                                const datos = result.value;
+                                const formData = new FormData();
+                                formData.append('_method', 'PUT');
+                                formData.append('nombre', datos.nombre);
                                 formData.append('tipo', datos.tipo);
 
                                 fetch(`/admin/usuarios/${datos.id}`, {
@@ -998,13 +1274,58 @@
             });
         </script>
        
-        
-        
+       <script>
+        //ELIMINAR ESPECIALIDAD
+            forms = document.querySelectorAll('.delete-form-cola')
+            //que recorra todos los formularios
+            forms.forEach(form => {
+                //que se ponga al escucha de ese formulario con el evento submit
+                form.addEventListener('submit',function(e){ //e es el evento en si
+                    //previne el evento 
+                    e.preventDefault('');
+                        Swal.fire({
+                            title: "Deshabilitar este colaborador?",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Si, Deshabilitar colaborador",
+                            cancelButtonText: "No cancelar"
+                            }).then((result) => {
+                            if (result.isConfirmed) {
+                                form.submit();
+                            }
+                        });    
+                });
+            });
+        </script>
 
-        
-
-
-
+<script>
+    //levantar colaborro
+        forms = document.querySelectorAll('.up-form-cola')
+        //que recorra todos los formularios
+        forms.forEach(form => {
+            //que se ponga al escucha de ese formulario con el evento submit
+            form.addEventListener('submit',function(e){ //e es el evento en si
+                //previne el evento 
+                e.preventDefault('');
+                    Swal.fire({
+                        title: "Habilidar este colaborador?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Si, habilitar colaborador",
+                        cancelButtonText: "No cancelar"
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });    
+            });
+        });
+    </script>
+    
 
         
         <script>
@@ -1356,6 +1677,62 @@
                     <input id="tipo"  class="swal2-input" value="4" hidden>
                     <label>Nombre</label>
                     <input id="nombre" class="swal2-input" placeholder="Nombre de la especialidad">
+                </form>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Guardar',
+                cancelButtonText: 'Cancelar',
+                focusConfirm: false,
+                preConfirm: () => {
+                const nombre = document.getElementById('nombre').value
+                const tipo = document.getElementById('tipo').value
+
+
+                if (!nombre || !tipo) {
+                    Swal.showValidationMessage('Completa todos los campos')
+                    return false
+                }
+
+                // Retornamos los datos al then()
+                return { nombre ,tipo}
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                // 📨 Enviar al backend con fetch()
+                fetch("{{ route('admin.Configuracion.store') }}", {
+                    method: "POST",
+                    headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify(result.value)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                    throw new Error("Error en el envío");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    Swal.fire('Error', 'No se pudo crear la especialidad', 'error')
+                })
+                .catch(error => {
+                    Swal.fire('Éxito', 'La especialidad fue creada correctamente', 'success')
+                    
+                });
+                }
+            })
+            });
+        </script>
+        <script>
+            document.getElementById('btnFormulario-colaborador').addEventListener('click', function() {
+            Swal.fire({
+                title: 'Formulario de registro de colaborador',
+                html: `
+                <form id="form-campania" onsubmit="return false;">
+                    <input id="tipo"  class="swal2-input" value="6" hidden>
+                    <label>Nombre</label>
+                    <input id="nombre" class="swal2-input" placeholder="Nombre de la colaborador">
                 </form>
                 `,
                 showCancelButton: true,

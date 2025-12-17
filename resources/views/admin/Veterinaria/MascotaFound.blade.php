@@ -145,10 +145,13 @@
                                 {{$mascota->Tnombre_responsable}}
                             </td>
                             <td class="px-6 py-4" align="center" >
-                                <a href=" {{route('admin.Mascotas.show',$mascota->PK_Mascota)}} "> 
+                                @php
+                                    $idCifrado = Crypt::encryptString($mascota->PK_Mascota);
+                                @endphp
+                                <a class="text-blue-600"  href="{{ route('admin.Mascotas.show', $idCifrado) }}">
                                     <i class="fa-solid fa-eye"></i>   
                                 </a>
-                                <a href=" {{route('admin.Mascotas.edit',$mascota->PK_Mascota)}} "> 
+                                <a class="text-green-600" href=" {{route('admin.Mascotas.edit',$mascota->PK_Mascota)}} "> 
                                     <i class="fa-solid fa-pen-to-square"></i>   
                                 </a>
                                <button type="button" onclick="eliminarMascota({{ $mascota->PK_Mascota }})" class="text-red-600">

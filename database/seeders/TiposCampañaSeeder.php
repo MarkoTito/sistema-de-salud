@@ -37,13 +37,7 @@ class TiposCampañaSeeder extends Seeder
                     'created_at' => now(),
                     'updated_at' => now(),
                 ],
-                [
-                    'Tnombre_Tipocampaña' => 'CAMPAÑA DE AMOR ',
-                    'Tdescripcion_Tipocampaña'=> 'Habla sobre el cuidado de las parejas',
-                    'Nestado_Tipocampaña' => 1,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ],
+                
 
             ]
         );

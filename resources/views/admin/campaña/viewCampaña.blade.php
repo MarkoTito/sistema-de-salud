@@ -183,14 +183,14 @@
                                             <i class="fa-solid fa-trash"></i>
                                         </a>
                                     @endcan
-                                    @can('view-campañas')
-                                        <a class="text-black-700" class="btnImportar" 
+                                    {{-- @can('view-campañas')
+                                        <a class="text-black-700 btnImportar"
                                             data-id="{{ $campaña->PK_Campaña }}"
                                             data-nombre="{{ $campaña->Tnombre_Tipocampaña }}">
-                                                <i class="fa-solid fa-file-export"></i>
+                                            <i class="fa-solid fa-file-export"></i>
                                         </a>
                                         
-                                    @endcan
+                                    @endcan --}}
                                 </th>
 
                                 
@@ -227,14 +227,13 @@
                                     <p class="mb-3">Seleccione un archivo Excel</p>
 
                                     <input 
-                                        type="file" 
-                                        id="excel" 
-                                        name="excel" 
-                                        accept=".xlsx, .xls" 
-                                        required
-                                        class="swal2-input"
-                                        style="width: 80%;"
-                                    >
+                                    type="file" 
+                                    id="archivo" 
+                                    name="archivo" 
+                                    accept=".xlsx,.xls,.pdf"
+                                    required
+                                    class="swal2-input"
+                                    style="width: 80%;">
 
                                     <button type="submit"
                                         class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mt-4">
@@ -249,7 +248,7 @@
                 });
 
             });
-            </script>
+        </script>
 
         <script>
             document.getElementById('btnAgregarCampania').addEventListener('click', function() {

@@ -8,18 +8,14 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class AsistenteExport implements FromCollection ,WithHeadings, WithStyles, ShouldAutoSize
+class AsistenteMascotaExport implements FromCollection ,WithHeadings, WithStyles, ShouldAutoSize
 {
-
     protected $asistentes;
 
     public function __construct($asistentes)
     {
         $this->asistentes = $asistentes;
     }
-
-
-
     /**
     * @return \Illuminate\Support\Collection
     */
@@ -27,6 +23,13 @@ class AsistenteExport implements FromCollection ,WithHeadings, WithStyles, Shoul
     {
         //
         return $this->asistentes->map(function ($asistentes){
+            $tipo="";
+            if ($asistentes->Nedad_asistente ==1) {
+                $tipo = "Canino";
+            } else {
+                $tipo = "Felino";
+            }
+            
             return [
                 $asistentes->Tnombre_asistente,
                 $asistentes->TapellidoP_asistente,
@@ -34,7 +37,9 @@ class AsistenteExport implements FromCollection ,WithHeadings, WithStyles, Shoul
                 $asistentes->Tdni_asistente,
                 $asistentes->Tlugar_campaña,
                 $asistentes->Tcelular_asistente,
-                $asistentes->Nedad_asistente
+                $asistentes->Nedad_asistente,
+                $tipo,
+                $asistentes->TnombreMasctoa_asistente
                 
                 
             ];
@@ -48,7 +53,9 @@ class AsistenteExport implements FromCollection ,WithHeadings, WithStyles, Shoul
             'DNI',
             'Dirección',
             'Celular',
-            'Edad'
+            'Edad',
+            'Tip. Mascota',
+            'Nombre',
         ];
     }
 

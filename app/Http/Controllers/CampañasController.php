@@ -65,7 +65,7 @@ class CampañasController extends Controller
     {
         #paara la importacion de asistentes a cmapañas
         $request->validate([
-            'excel' => 'required|mimes:xlsx,xls|max:2048',
+            'archivo' => 'required|file|mimes:xlsx,xls,pdf'
         ]);
 
         Excel::import(new \App\Imports\UserImport($id), $request->file('excel'));
@@ -232,7 +232,7 @@ class CampañasController extends Controller
                     $cantiPerros = 1+ $cantiPerros;
                 }
             }
-           
+           //return $resulAsistentes;
             return view('admin.campaña.oneCampaña', compact('cantiPerros','cantiGatos','campaña','OnEspecialidadades','especialidades','asistentes','cantidad','estado','imagen','colaboradores'));
         } else {
             return redirect()->back()->with('error', 'No se encontró la campaña.');

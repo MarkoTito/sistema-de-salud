@@ -9,6 +9,13 @@
     ]">
     <div class="flex justify-between items-center mb-4">
         <div>
+            <a href="{{route('admin.Mascotas.create')}}">
+                <button  class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    Registrar nueva Mascota
+                </button>
+            </a>
+        </div>
+        <div>
             <form action="{{route('admin.Mascotas.found')}}" method="POST" >
                 @csrf
                 <div class="flex items-center gap-4">
@@ -39,13 +46,6 @@
             </form>
         </div>
 
-        <div>
-            <a href="{{route('admin.Mascotas.create')}}">
-                <button  class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                    Registrar nueva Mascota
-                </button>
-            </a>
-        </div>
     </div>
 
 
@@ -146,10 +146,10 @@
                                 {{-- <a href="">
                                         <i class="fa-solid fa-download"></i>   
                                 </a> --}}
-                                <a href="{{ route('admin.Mascotas.show', $idCifrado) }}">
+                                <a class="text-blue-600"  href="{{ route('admin.Mascotas.show', $idCifrado) }}">
                                     <i class="fa-solid fa-eye"></i>   
                                 </a>
-                                <a href=" {{route('admin.Mascotas.edit',$mascota->PK_Mascota)}} "> 
+                                <a class="text-green-600" href=" {{route('admin.Mascotas.edit',$mascota->PK_Mascota)}} "> 
                                     <i class="fa-solid fa-pen-to-square"></i>   
                                 </a>
                                <button type="button" onclick="eliminarMascota({{ $mascota->PK_Mascota }})" class="text-red-600">
@@ -163,15 +163,18 @@
                                     @csrf
                                     @method('DELETE')
                                 </form>
-                                <a href=" {{route('admin.perro.qr',$idCifrado)}} "> 
+                                {{-- <a href=" {{route('admin.perro.qr',$idCifrado)}} "> 
                                     QR  
-                                </a>
+                                </a> --}}
                             </td>
                         </tr>                        
                     @endforeach
                 @endif
             </tbody>
         </table>
+    </div>
+    <div class="mt-4">
+        {{ $mascotas->links() }}
     </div>
 
 

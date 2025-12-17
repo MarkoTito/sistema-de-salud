@@ -117,13 +117,13 @@
             <div id="paso2" class="hidden">
                 <h3 class="text-lg font-medium mb-4">Paso 2: Datos de la Mascota</h3>
                 
-                <div class="flex gap-4">
-                    <div class="w-3/4">
+                <div class="grid gap-6 mb-4 md:grid-cols-3 mt-4">
+                    <div class="mb-4">
                         <label class="text-sm">Nombre</label>
                         <input name="nombreMas"  maxlength="55" type="text" class="border w-full p-2 rounded-lg" required  >
                     </div>
             
-                    <div class="w-3/4">
+                    <div class="mb-4">
                         <label class="text-sm">Especie:</label>
                         <select required name="tipo" id="" style="width: 100%"  >
                             <option selected disabled  value="">Escoja una opción</option>
@@ -131,7 +131,7 @@
                             <option value="Felino">Felino</option>
                         </select>
                     </div>
-                    <div class="w-3/4">
+                    <div class="mb-4">
                         <label class="text-sm">Raza:</label>
                         <select required name="raza" id="miSelect-raza" style="width: 100%"  >
                             <option selected disabled  value="">Escoja una opción</option>
@@ -140,7 +140,12 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="w-3/4">
+                    
+                </div>
+                
+                
+                <div class="grid gap-6 mb-4 md:grid-cols-3 mt-4">
+                    <div class="mb-4">
                         <label class="text-sm">Sexo:</label>
                         <select required name="sexo"  style="width: 100%"  >
                             <option selected disabled  value="">Escoja una opción</option>
@@ -148,11 +153,6 @@
                             <option value="HEMBRA">HEMBRA</option>
                         </select>
                     </div>
-    
-                </div>
-    
-    
-                <div class="grid gap-6 mb-4 md:grid-cols-3 mt-4">
                     {{-- opcional --}}
                     <div class="mb-4">
                         <label class="text-sm">Fecha de Nacimiento:</label>
@@ -186,6 +186,9 @@
                         <label class="text-sm">Señas particulares:</label>
                         <input type="text" name="señales" maxlength="100" class="border w-full p-2 rounded-lg"  />
                     </div>
+                </div>
+                
+                <div class="grid gap-4 mb-4 md:grid-cols-3 mt-4">
                     {{-- opcional --}}
                     <div class="mb-4">
                     <label class="text-sm">Identificación :</label>
@@ -196,9 +199,6 @@
                             @endforeach
                         </select>
                     </div>
-                </div>
-    
-                <div class="grid gap-4 mb-4 md:grid-cols-2 mt-4">
                     <div class="mb-4">
                         <label class="text-sm">Fotografía de la Mascota: </label>
                         <input type="file" name="fotoMascota[]" multiple accept="image/*" class="border w-full p-2 rounded-lg" required>

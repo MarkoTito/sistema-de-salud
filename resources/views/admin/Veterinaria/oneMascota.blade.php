@@ -21,17 +21,11 @@
                 <div class="flex justify-center" >
                     @if ($imagen->isEmpty())
                         <br>
-                        <br>
-                        <br>
-                        <br>
+              
                         <img src="https://st2.depositphotos.com/2945617/6862/v/450/depositphotos_68621493-stock-illustration-cute-dog-cartoon.jpg" height="550px" width="550px" alt="imagen de la campaña">
                     @else
                         <div class="swiper mySwiper w-full max-w-xl mb-4 ">
-                            <br>
-                            <br>
-                            <br>    
                             {{-- <img src="{{ asset('storage/'.$imagen->Tpath_imagenes) }}" height="650px" width="650px" alt="imagen de la mascota"> --}}
-                            
                             <div class="swiper-wrapper">
                                 @foreach ($imagen as $img)
                                     <div class="swiper-slide relative flex justify-center">
@@ -45,9 +39,9 @@
                             <div class="swiper-button-next"></div>
                             <div class="swiper-button-prev"></div>
                             <div class="swiper-pagination"></div>
-                        
+                            
                         </div>
-                    @endif
+                        @endif
                         
                     </div>
                     <div class="flex justify-center mb-4 " >
@@ -55,7 +49,10 @@
                             Mostrar Documentos
                         </button>
                     </div>
-
+                    
+                    <div class="mb-4 flex justify-center " >
+                        <img src="{{ $qr }}" alt="QR" style="width: 230px;">
+                    </div>
             </div>
     
             <div>
