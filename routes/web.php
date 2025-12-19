@@ -21,3 +21,8 @@ Route::middleware([
 });
 
 Route::get('/perro/carnet/{id}', [MascotasController::class, 'carnet'])->name('perro.carnet');
+Route::get('/mascota/publico', [MascotasController::class, 'registro'])->name('perro.publico');
+
+
+
+Route::post('Mascotas/regsitro/libre',[MascotasController::class,'LibreStore'])->name('Mascotas.libre');

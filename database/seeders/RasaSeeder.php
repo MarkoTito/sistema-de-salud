@@ -17,6 +17,12 @@ class RasaSeeder extends Seeder
             [
                 /* PERROS (15) */
                 [
+                    'Tdescripcion_raza'=> 'No especifica',
+                    'Nestado_raza' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
                     'Tdescripcion_raza'=> 'Border Collie',
                     'Nestado_raza' => 1,
                     'created_at' => now(),

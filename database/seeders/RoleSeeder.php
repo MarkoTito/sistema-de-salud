@@ -85,6 +85,20 @@ class RoleSeeder extends Seeder
                 'read-charlas',
                 'delete-charlas',
 
+                'all-mascota',
+                'view-mascotas',
+                'create-mascotas',
+                'update-mascotas',
+                'read-mascotas',
+                'delete-mascotas',
+
+                //configuracion
+                'view-historial',
+                'all-configuration-Campañas',
+                'all-configuration-Charlas',
+                'all-configuration-Expositores',
+                'all-configuracion'
+
             ]);
         //admin campaña
         Role::create(['name' => 'nivel1-campaña'])
@@ -148,6 +162,53 @@ class RoleSeeder extends Seeder
                 'read-mascotas',
                 'delete-mascotas',
             ]);
+
+        Role::create(['name' => 'campaña-veterinaria'])
+            ->givePermissionTo([
+                'all-salud',
+                'all-configuracion',
+                'admin-campañas',
+
+                'view-campañas',
+                'create-campañas',
+                'update-campañas',
+                'read-campañas',
+                'delete-campñas',
+                'update-asitentes',
+                'view-asitentes',
+                'create-asitentes',
+                'read-asitentes',
+                'delete-asitentes',
+
+                'all-mascota',
+                'view-mascotas',
+                'create-mascotas',
+                'update-mascotas',
+                'read-mascotas',
+                'delete-mascotas',
+            ]);
+
+        //admin de charlas
+        Role::create(['name' => 'charla-veterinaria'])
+            ->givePermissionTo([
+                'all-salud',
+                'all-configuracion',
+                'view-charlas',
+                'create-charlas',
+                'update-charlas',
+                'read-charlas',
+                'agregar-evidencia',
+                'delete-charlas',
+                'admin-charlas',
+
+                'all-mascota',
+                'view-mascotas',
+                'create-mascotas',
+                'update-mascotas',
+                'read-mascotas',
+                'delete-mascotas',
+            ]);
+        
 
 
         User::factory()->create([

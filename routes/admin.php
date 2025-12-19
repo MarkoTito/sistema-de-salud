@@ -49,7 +49,7 @@ Route::middleware('auth')->group(function () {
 
 
     // ruta de generar link (solo admin)
-    Route::get('/generar-link', [FormularioController::class, 'generarLink'])->name('formulario.generar');
+    
 
     //Configuracion - pruebas
     Route::get('pruebas/nada',[ConfiguaracionController::class,'nada'])->name('prueba.nada');
@@ -60,6 +60,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('Mascotas', MascotasController::class);
     Route::post('Mascotas/Found', [MascotasController::class, 'Found'])->name('Mascotas.found');
     Route::get('Mascotas/encontrado/excel',[MascotasController::class,'dowloadExport'])->name('Mascotas.excell');
+    
 
     //Historial
     Route::resource('Historial', HistorialController::class);

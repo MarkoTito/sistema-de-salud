@@ -46,6 +46,8 @@
                         <option value="nivel1-charla">Charla - Nivel 1</option>
                         <option value="nivel2-charla">Charla - Nivel 2</option>
                         <option value="admin-mascotas">Mascota - Todos los accesos</option>
+                        <option value="campaña-veterinaria">Campañas - Macotas</option>
+                        <option value="charla-veterinaria">Charlas - Mascotas</option>
                     </select>
                 </div>
                 
