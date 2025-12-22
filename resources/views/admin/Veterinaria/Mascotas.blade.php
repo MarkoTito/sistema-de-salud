@@ -163,7 +163,7 @@
                                     @csrf
                                     @method('DELETE')
                                 </form>
-                                {{-- <a href=" {{route('admin.perro.qr',$idCifrado)}} "> 
+                                {{-- <a href=" {{route('admin.Mascotas.certificado',$mascota->PK_Mascota)}} "> 
                                     QR  
                                 </a> --}}
                             </td>

@@ -10,6 +10,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
 
 
 class CampañasController extends Controller
@@ -198,7 +199,8 @@ class CampañasController extends Controller
         }
         if (!empty($campañaShow)) {
             $campaña = $campañaShow[0];
-            $imagen = collect(DB::select('EXEC dbo.ViewImagenCampanias ?', [$campaña->PK_TiposCampañas]))->last();
+
+            $imagen = collect(DB::select('EXEC dbo.ViewImagenCampañas ?', [$id]));
             $colaboradores= DB::select('EXEC dbo.ViewColaboradoresCamp ?',[$id]);
 
             // aca
@@ -232,14 +234,36 @@ class CampañasController extends Controller
                     $cantiPerros = 1+ $cantiPerros;
                 }
             }
-           //return $resulAsistentes;
+            // return $imagen;
             return view('admin.campaña.oneCampaña', compact('cantiPerros','cantiGatos','campaña','OnEspecialidadades','especialidades','asistentes','cantidad','estado','imagen','colaboradores'));
         } else {
             return redirect()->back()->with('error', 'No se encontró la campaña.');
         }
     }
 
+    public function imagen(string $id)
+    {
+        return view('admin/campaña/IngreImagenCampaña', compact('id'));
+    }
 
+    public function dropzoneImagen(Request $request, $id)
+    {
+        $file = $request->file('file');
+        $path = Storage::put('imagenes', $file);
+        $size = $file->getSize();
+
+        $resultado = DB::statement('EXEC dbo.InsertarImagenCamapañ ?, ?, ?', [
+               $id,
+               $size,
+               $path       
+            ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Se subio correctamente las imagenes',
+            'resultado' => $resultado
+        ]);
+    }
 
     public function edit($id)
     {
@@ -380,6 +404,21 @@ class CampañasController extends Controller
         return redirect()->route('admin.Campañas.show',$id);
     }
     
+    public function imagenDelete($id)
+    {
+        Gate::authorize('view-charlas');  
+        $imagen = collect(DB::select('EXEC dbo.ViewIdImagen ?', [$id]))->last();
+        $resultado = DB::statement('EXEC dbo.EliminarImagenCharla ?', [
+               $id        
+            ]);
+
+        session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => '¡Buen trabajo!',
+                    'text' => 'Se elemino la imagen correctamente'
+                ]);
+        return redirect()->route('admin.Campañas.show',$imagen->FK_Imagen_CamapañaId);
+    }
 
     
 }

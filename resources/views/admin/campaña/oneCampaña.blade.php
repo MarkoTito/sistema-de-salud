@@ -139,12 +139,56 @@
     <br>
     <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4 ">
         <div>
-            @if (!$imagen || empty($imagen->Tpath_imagenes))
-                <img src="https://www.stellamaris.com.pe/uploads/shares/BLOG/CAMPA__A_DE_SALUD_-_RESP__SOCIAL.jpg" height="450px" width="640px" alt="imagen de la campaña">
+            @if ($imagen->isEmpty())
+                <div style="position:relative; display:inline-block;">
+                    <img src="https://www.stellamaris.com.pe/uploads/shares/BLOG/CAMPA__A_DE_SALUD_-_RESP__SOCIAL.jpg"
+                         height="450px" width="640px" alt="imagen de la campaña">
+                    
+                </div>
             @else
-            <div class="mb-4">
-                <img src="{{ asset('storage/'.$imagen->Tpath_imagenes) }}" height="450px" width="640px" alt="imagen de la campaña">
-            </div>
+                <div class="mb-4">
+                    <div class="swiper mySwiper w-full max-w-xl">
+                        <div class="swiper-wrapper">
+                            @foreach ($imagen as $img)
+                                <div class="swiper-slide relative flex justify-center">
+                                    <a href="{{route('admin.campaña.imagen.delete',$img->PK_Imagenes)}}"
+                                    class="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-full shadow hover:bg-red-700 transition">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
+                                    {{-- <img src="{{ asset('storage/'.$img->Tpath_imagenes) }}"  class="rounded-lg shadow-lg w-full h-auto"> --}}
+                                    <img src="/storage/{{ $img->Tpath_imagenes }}" 
+                                        class="rounded-lg shadow-lg w-full h-auto">
+                                </div>
+                            @endforeach
+                        </div>
+            
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+
+                    {{-- <a href="{{route('admin.campañas.imagen',$campaña->PK_Campaña)}}">
+                        <div style="position:relative; display:inline-block;">
+                            <img src="{{ asset('storage/'.$imagen->Tpath_imagenes) }}" height="450px" width="640px" alt="imagen de la campaña">
+                        
+                            <button style="
+                                position:absolute;
+                                top:10px;
+                                right:10px;
+                                width:40px;
+                                height:40px;
+                                border-radius:50%;
+                                border:none;
+                                background:#007bff;
+                                color:white;
+                                font-size:24px;
+                                cursor:pointer;
+                            ">+</button>
+                        </div>
+                        
+                    </a> --}}
+            
+                </div>
         @endif
         </div>
         <div >
@@ -195,12 +239,22 @@
                     
                 @endif
             </div>
-            <div class="grid gap-6 mb-4 md:grid-cols-3">
-                {{-- aca van los botones --}}
-                @if ($estado == "Finalizar")            
+            
+            {{-- aca van los botones --}}
+            @if ($estado == "Finalizar")  
+                <div class="grid gap-6 mb-4 md:grid-cols-3">
                     @if (!$colaboradores)
                     @else
                         @can('view-campañas')
+                            <div>
+                                <a href="{{route('admin.campañas.imagen',$campaña->PK_Campaña)}}">
+                                    <button style="background:#7c3aed; color:white; padding:8px 16px; border-radius:6px;">
+                                        <i class="fa-solid fa-camera"></i>
+                                        Agregar Evidencia
+                                    </button>
+                                    
+                                </a>
+                            </div>
                             <div>
                                 <button id="mostrarColaboradores" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
                                     Ver Colaboradores
@@ -213,27 +267,15 @@
                                 </button>
                             </div>
                         @endcan
-                        @can('create-asitentes')
-                            @if ($campaña->PK_TiposCampañas==1)
-                                <div >
-                                    <button
-                                        id="agregar-asistente-mascota"
-                                        class="swal2-confirm swal2-styled"
-                                        style="
-                                            background:#22c55e;
-                                            color:white;
-                                            padding:12px 24px;
-                                            font-size:16px;
-                                            line-height:1.2;
-                                            height:auto;
-                                        ">
-                                        <i class="fa-solid fa-user"></i>
-                                        Agregar Asistente
-                                    </button>
-                                </div>
-                            @else
-                                <div >
-                                    <button  class="swal2-confirm swal2-styled"
+                    @endif
+                </div>    
+                <div class="flex justify-center">
+                    @can('create-asitentes')
+                        @if ($campaña->PK_TiposCampañas==1)
+                            <div >
+                                <button
+                                    id="agregar-asistente-mascota"
+                                    class="swal2-confirm swal2-styled"
                                     style="
                                         background:#22c55e;
                                         color:white;
@@ -241,16 +283,33 @@
                                         font-size:16px;
                                         line-height:1.2;
                                         height:auto;
-                                    " id="agregar-asistente" >
-                                        <i class="fa-solid fa-user"></i>
-                                        Agregar Asistente                        
-                                    </button>
-                                </div>
-                            @endif
-                        @endcan
-                    @endif
-                @endif
-            </div>
+                                    ">
+                                    <i class="fa-solid fa-user"></i>
+                                    Agregar Asistente
+                                </button>
+                            </div>
+                        @else
+                            <div >
+                                <button  class="swal2-confirm swal2-styled"
+                                style="
+                                    background:#22c55e;
+                                    color:white;
+                                    padding:12px 24px;
+                                    font-size:16px;
+                                    line-height:1.2;
+                                    height:auto;
+                                " id="agregar-asistente" >
+                                    <i class="fa-solid fa-user"></i>
+                                    Agregar Asistente                        
+                                </button>
+                            </div>
+                        @endif
+                    @endcan
+                </div>
+
+            @endif
+            
+            
         </div>
     </div>
 
@@ -819,7 +878,19 @@
                     });
                 });
         </script> --}}
-
+        <script>
+            const swiper = new Swiper(".mySwiper", {
+                loop: true,
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
+                },
+            });
+        </script>
 
 
         <script>

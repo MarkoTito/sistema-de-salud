@@ -9,6 +9,16 @@
     ]">
     
     <div class="flex justify-between items-center mb-4">
+        @can('create-charlas')
+            <div>
+                <a href="{{route('admin.Charlas.create')}}">
+                    <button  class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                        <i class="fa-solid fa-plus"></i> Agregar charla
+                    </button>    
+                </a>
+            </div>
+            
+        @endcan
         <div>
             <form action="{{route('admin.charla.downloadFound')}}" method="POST" >
                 @csrf
@@ -46,16 +56,7 @@
             </form>
         </div>
 
-        @can('create-charlas')
-            <div>
-                <a href="{{route('admin.Charlas.create')}}">
-                    <button  class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                        <i class="fa-solid fa-plus"></i> Agregar charla
-                    </button>    
-                </a>
-            </div>
-            
-        @endcan
+        
 
 
 
@@ -248,7 +249,7 @@
         <script>
             $(document).ready(function() {
                 $('#miSelect-tipoCharla').select2({
-                placeholder: "---Seleccioné una campaña---",
+                placeholder: "---Seleccioné una charla---",
                 allowClear: true
                 });
             });

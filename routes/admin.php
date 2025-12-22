@@ -22,6 +22,10 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
 
     Route::resource('Campañas', CampañasController::class);
+    Route::get('Campañas/{campaña}/imagen', [CampañasController::class, 'imagen'])->name('campañas.imagen');
+    Route::post('Campañas/{campaña}/dropzone', [CampañasController::class, 'dropzoneImagen'])->name('campañas.imagen.dropzone');
+    Route::get('Campañas/{campaña}/eleminar/imagen', [CampañasController::class, 'imagenDelete'])->name('campaña.imagen.delete');
+
     #asistentes
     Route::resource('Asitentes', AsistenteController::class);
     Route::post('Asitentes/{asitente}/edit2', [AsistenteController::class, 'edit2'])->name('Asitentes.edit2');
@@ -60,6 +64,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('Mascotas', MascotasController::class);
     Route::post('Mascotas/Found', [MascotasController::class, 'Found'])->name('Mascotas.found');
     Route::get('Mascotas/encontrado/excel',[MascotasController::class,'dowloadExport'])->name('Mascotas.excell');
+    Route::get('Mascotas/certificado/{mascota}',[MascotasController::class,'generarCertificado'])->name('Mascotas.certificado');
+
     
 
     //Historial

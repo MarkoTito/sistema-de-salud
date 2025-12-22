@@ -436,6 +436,9 @@ class CharlasController extends Controller
             'resultado' => $resultado
         ]);
     }
+
+
+    
     public function imagenDelete($id)
     {
         Gate::authorize('view-charlas');  

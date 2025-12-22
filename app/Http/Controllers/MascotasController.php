@@ -14,6 +14,7 @@ use chillerlan\QRCode\QROptions;
 use Illuminate\Support\Facades\Crypt; //seguridad osea cifrado
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class MascotasController extends Controller
 {
@@ -870,5 +871,15 @@ class MascotasController extends Controller
         return Excel::download(new \App\Exports\MascotaExport($resultado),'E-Mascota.xlsx');
     }
 
+    public function generarCertificado($id)
+    {
+        $resultado = DB::select('EXEC dbo.OneMascota ?', [$id]);
+        $mascota = $resultado[0];
+
+        $pdf = Pdf::loadView('certificado', compact('mascota'))
+                ->setPaper('A4', 'landscape');
+
+        return $pdf->download('certificado.pdf');
+    }
 
 }
