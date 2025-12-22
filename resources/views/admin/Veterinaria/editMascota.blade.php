@@ -14,7 +14,7 @@
     <form action="{{route('admin.Mascotas.update',$mascota->PK_Mascota)}}" method="POST" >
 
 
-        <div class="grid gap-6 mb-2 md:grid-cols-2 mt-4 mb-2 ">
+        <div class="grid gap-6 md:grid-cols-2 mt-4 mb-2 ">
     
             <div >
     
@@ -24,6 +24,7 @@
                         <br>
                         <br>
                         <img src="https://st2.depositphotos.com/2945617/6862/v/450/depositphotos_68621493-stock-illustration-cute-dog-cartoon.jpg" height="350px" width="350px" alt="imagen de la campaña">
+                        
                     @else
                         <div class="mb-2">
                             <br>
@@ -34,7 +35,40 @@
                     @endif
                     
                 </div>
-                
+                {{-- <div class="mb-4">
+                    <label class="text-sm">Foto de documento:</label>
+                    <input type="file" accept="application/pdf,image/*" name="docuImagen"
+                        class="border w-1/2 p-2 rounded-lg">
+                </div> --}}
+
+                <div class="grid gap-6 md:grid-cols-2 mt-4 mb-4 ">
+                    <div class="mb-4">
+                        <label class="text-sm">Foto de documento:</label>
+                        <input type="file" accept="application/pdf,image/*" name="docuImagen" class="border w-full p-2 rounded-lg  " >
+                    </div>
+    
+                    <div class="mb-4">
+                        <label class="text-sm">Adjuntar Doc. - Residencia del Responsable (PDF):</label>
+                        <input type="file" accept="application/pdf,image/*" name="residenciaDoc" class="border w-full p-2 rounded-lg" >
+                    </div>
+                    {{-- mascota --}}
+    
+                    <div class="mb-4">
+                        <label class="text-sm">Fotografía de la Mascota: </label>
+                        <input type="file" name="fotoMascota[]" multiple accept="application/pdf,image/*" class="border w-full p-2 rounded-lg" >
+    
+                    </div>
+    
+                    <div class="mb-4">
+                        <label class="text-sm">Cartilla o Certificado de Vacunación:</label>
+                        <input  type="file" accept="application/pdf,image/*" name="certiMascota" class="border w-full p-2 rounded-lg"  >
+                    </div>
+
+                </div>
+
+
+
+
                 <div class="flex justify-center" >
                     <button style="width: 35%" type="submit" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-base text-sm px-4 py-2.5 text-center leading-5">Editar</button>
                 </div>

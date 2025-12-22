@@ -98,12 +98,12 @@
                     {{-- opcional --}}
                     <div class="mb-4">
                         <label class="text-sm">Foto de documento:</label>
-                        <input type="file" accept="application/pdf" name="docuImagen" class="border w-full p-2 rounded-lg" >
+                        <input type="file" accept="application/pdf,image/*" name="docuImagen" class="border w-full p-2 rounded-lg" >
                     </div>
                     {{-- opcional --}}
                     <div class="mb-4">
                         <label class="text-sm">Adjuntar Doc. - Residencia del Responsable (PDF):</label>
-                        <input type="file" accept="application/pdf" name="residenciaDoc" class="border w-full p-2 rounded-lg" >
+                        <input type="file" accept="application/pdf,image/*" name="residenciaDoc" class="border w-full p-2 rounded-lg" >
                     </div>
                     
                 </div>
@@ -201,13 +201,12 @@
                     </div>
                     <div class="mb-4">
                         <label class="text-sm">Fotografía de la Mascota: </label>
-                        <input type="file" name="fotoMascota[]" multiple accept="image/*" class="border w-full p-2 rounded-lg" required>
+                        <input type="file" name="fotoMascota[]" multiple accept="application/pdf,image/*" class="border w-full p-2 rounded-lg" >
     
                     </div>
                     <div class="mb-4">
                         <label class="text-sm">Cartilla o Certificado de Vacunación:</label>
-                        <input required type="file" accept="application/pdf" name="certiMascota" class="border w-full p-2 rounded-lg"  >
-                    
+                        <input  type="file" accept="application/pdf,image/*" name="certiMascota" class="border w-full p-2 rounded-lg"  >
                     </div>
                     
                 </div>
