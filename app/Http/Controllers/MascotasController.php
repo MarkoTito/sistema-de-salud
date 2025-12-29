@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Barryvdh\DomPDF\Facade\Pdf;
 use chillerlan\QRCode\Output\QRGdImage;
+use Carbon\Carbon;
 
 class MascotasController extends Controller
 {
@@ -1002,7 +1003,40 @@ class MascotasController extends Controller
     }
 
 
+    public function MascotasPdfs(Request $request){
+        $fecha = Carbon::now()->format('dmY');
 
+        $Ini = $request->fehcIni;
+        $fin = $request->fehFin;
+        $tipo= $request->founTipo;
+
+
+        Gate::authorize('view-mascotas');  
+        $informacion=DB::select('EXEC dbo.MascotaFound ?,?,?',[
+            $request->founTipo,
+            $request->fehcIni,
+            $request->fehFin,
+        ]);
+        if (empty($informacion[0])) {    
+            session()->flash('swal', [
+                'icon' => 'error',
+                'title' => '¡Ups!',
+                'text' => 'no existe las charlas'
+            ]);
+            return redirect()->route('admin.Charlas.index');                
+        }
+
+        // $resultado = collect($informacion);
+        $pdf =Pdf::loadView('admin.PDF.MascotadPdf',[
+            'macotas' =>$informacion,
+            'Ini' => $Ini,
+            'fin' => $fin,
+            'tipo' => $tipo,
+            'fecha' => $fecha
+        ])->setPaper('a4', 'landscape');
+        return $pdf->download("PDF-$fecha.pdf");
+
+    }
 
 
     public function generarCertificado($idCifrado)

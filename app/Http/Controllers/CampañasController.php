@@ -226,12 +226,13 @@ class CampañasController extends Controller
 
             foreach ($resulAsistentes as $asisPerro) {
                 if ($asisPerro->NTipoMascota_asistente==1) {
-                    $cantiGatos = 1+ $cantiGatos;
+                    $cantiPerros = 1+ $cantiPerros;
                 }
             }
             foreach ($resulAsistentes as $asisGato) {
                 if ($asisGato->NTipoMascota_asistente==2) {
-                    $cantiPerros = 1+ $cantiPerros;
+                    $cantiGatos = 1+ $cantiGatos;
+                    
                 }
             }
             // return $imagen;

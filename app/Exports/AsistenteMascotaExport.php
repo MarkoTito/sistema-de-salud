@@ -24,7 +24,7 @@ class AsistenteMascotaExport implements FromCollection ,WithHeadings, WithStyles
         //
         return $this->asistentes->map(function ($asistentes){
             $tipo="";
-            if ($asistentes->Nedad_asistente ==1) {
+            if ($asistentes->NTipoMascota_asistente ==1) {
                 $tipo = "Canino";
             } else {
                 $tipo = "Felino";
@@ -34,10 +34,12 @@ class AsistenteMascotaExport implements FromCollection ,WithHeadings, WithStyles
                 $asistentes->Tnombre_asistente,
                 $asistentes->TapellidoP_asistente,
                 $asistentes->TapellidoM_asistente,
+
                 $asistentes->Tdni_asistente,
                 $asistentes->Tlugar_campaña,
-                $asistentes->Tcelular_asistente,
                 $asistentes->Nedad_asistente,
+                
+                $asistentes->Tcelular_asistente,
                 $tipo,
                 $asistentes->TnombreMasctoa_asistente
                 
@@ -50,9 +52,11 @@ class AsistenteMascotaExport implements FromCollection ,WithHeadings, WithStyles
             'Nombre',
             'Apellido Paterno',
             'Apellido Materno',
+
             'DNI',
             'Dirección',
             'Celular',
+
             'Edad',
             'Tip. Mascota',
             'Nombre',

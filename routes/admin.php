@@ -64,7 +64,8 @@ Route::middleware('auth')->group(function () {
     Route::get('Mascotas/{mascota}/eleminar/imagen', [MascotasController::class, 'imagenDelete'])->name('Mascotas.imagen.delete');
     Route::get('Mascotas/{mascota}/eleminar/documentos', [MascotasController::class, 'documentosDelete'])->name('mascota.documentos.delete');
     
-
+    Route::get('Mascotas/encontrado/pdf', [MascotasController::class, 'MascotasPdfs'])->name('Mascotas.pdf');
+    
     //Historial
     Route::resource('Historial', HistorialController::class);
     //qr de mascotas

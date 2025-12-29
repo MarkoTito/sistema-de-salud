@@ -14,6 +14,13 @@
 
     <div class="flex justify-between items-center mb-4">
         <div>
+            <a href="{{route('admin.Mascotas.create')}}">
+                <button  class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    Registrar nueva Mascota
+                </button>
+            </a>
+        </div>
+        <div>
             <form action="{{route('admin.Mascotas.found')}}" method="POST" >
                 @csrf
                 <div class="flex items-center gap-4">
@@ -44,13 +51,7 @@
             </form>
         </div>
 
-        <div>
-            <a href="{{route('admin.Mascotas.create')}}">
-                <button  class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                    Registrar nueva Mascota
-                </button>
-            </a>
-        </div>
+        
     </div>
 
 
@@ -172,11 +173,25 @@
         </table>
     </div>
     <br>
-    <div class="flex justify-start mb-4">
+
+    <div class="flex justify-between mb-4">
+
         <a href="{{ route('admin.Mascotas.excell',$request)}}">
+            <button style="
+                background:#22c55e;
+                color:white;
+                padding:12px 24px;
+                font-size:16px;
+                line-height:1.2;
+                height:auto;
+            ">
+                EXCELL <i class="fa-solid fa-file-excel"></i>
+            </button>
+        </a>
+
+        <a href="{{route('admin.Mascotas.pdf',$request)}}">
             <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-                <i class="fa-solid fa-file-excel"></i>
-                Descargar
+                PDF <i class="fa-solid fa-file-pdf"></i>
             </button>
         </a>
     </div>
