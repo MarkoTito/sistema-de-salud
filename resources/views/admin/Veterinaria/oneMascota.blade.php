@@ -296,6 +296,11 @@
                                             <i class="fa-solid fa-eye"></i>
                                         </a>
                                     </td>
+                                    <td style="padding:8px; border-bottom:1px solid #ddd; text-align:center;">
+                                        <a href="/admin/Mascotas/${c.PK_Documentos}/eleminar/documentos">
+                                                <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                    </td>
                                     
                                         
                                 </tr>

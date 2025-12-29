@@ -62,7 +62,7 @@ Route::middleware('auth')->group(function () {
     Route::get('Mascotas/encontrado/excel',[MascotasController::class,'dowloadExport'])->name('Mascotas.excell');
     Route::get('Mascotas/certificado/{mascota}',[MascotasController::class,'generarCertificado'])->name('Mascotas.certificado'); //THIS
     Route::get('Mascotas/{mascota}/eleminar/imagen', [MascotasController::class, 'imagenDelete'])->name('Mascotas.imagen.delete');
-
+    Route::get('Mascotas/{mascota}/eleminar/documentos', [MascotasController::class, 'documentosDelete'])->name('mascota.documentos.delete');
     
 
     //Historial

@@ -12,7 +12,7 @@ class HistorialController extends Controller
     {
         //
         $results = DB::select('EXEC dbo.ViewModificaciones');
-        $collection = collect($results);
+        $collection = collect($results)->sortByDesc('created_at');
         
         // Parámetros de paginación
         $perPage = 50; 

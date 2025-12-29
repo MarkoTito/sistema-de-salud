@@ -652,16 +652,17 @@ class MascotasController extends Controller
         // $qr = 'data:image/png;base64,' . base64_encode(
         //     (new QRCode($options))->render($url)
         // );
-
+        
+        // return $documentos;
         return view(
             'admin/Veterinaria/oneMascota',
             compact('mascota','documentos','imagen','razas','identificadores')
         );
 
-        return view(
-            'admin/Veterinaria/oneMascota',
-            compact('qr','mascota','documentos','imagen','razas','identificadores')
-        );
+        // return view(
+        //     'admin/Veterinaria/oneMascota',
+        //     compact('qr','mascota','documentos','imagen','razas','identificadores')
+        // );
         
     }
     public function carnet($idCifrado)
@@ -977,7 +978,32 @@ class MascotasController extends Controller
         return Excel::download(new \App\Exports\MascotaExport($resultado),'E-Mascota.xlsx');
     }
 
-    
+    public function documentosDelete($id)
+    {
+        
+        $resultado = DB::statement('EXEC dbo.EliminarDocumentoMascota ?', [
+               $id        
+            ]);
+
+        $busqueda= collect(DB::select('EXEC dbo.ViewDocumento ? ',[$id]))->first();
+        $IDresponsable= $busqueda->FK_Documento_ResponsableId;
+        
+        $encontrada= collect(DB::select('EXEC dbo.MascotaEncontrado ? ',[$IDresponsable]))->first();
+        $IdMasctota=$encontrada->PK_Mascota;
+
+        
+        session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => '¡Buen trabajo!',
+                    'text' => 'Se elemino el documento correctamente'
+                ]);
+        $idCifrado = Crypt::encryptString($IdMasctota);
+        return redirect()->route('admin.Mascotas.show', [$idCifrado]);
+    }
+
+
+
+
 
     public function generarCertificado($idCifrado)
     {
