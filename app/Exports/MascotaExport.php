@@ -29,7 +29,7 @@ class MascotaExport implements FromCollection ,WithHeadings, WithStyles, ShouldA
                 $mascotas->created_at,
                 $mascotas->Tnombre_mascota,
                 $mascotas->Tespecie_mascota,
-                $mascotas->Tdescripcion_raza,
+                $mascotas->Tmascota_Raza,
                 $mascotas->Tsexo_mascota,
                 $mascotas->Tnombre_responsable,
                 $mascotas->TapellidoP_responsable,

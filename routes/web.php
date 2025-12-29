@@ -20,8 +20,10 @@ Route::middleware([
     })->name('dashboard');
 });
 
-Route::get('/perro/carnet/{id}', [MascotasController::class, 'carnet'])->name('perro.carnet');
+Route::get('/perro/carnet/{id}', [MascotasController::class, 'generarCertificado'])->name('perro.carnet');
 Route::get('/mascota/publico', [MascotasController::class, 'registro'])->name('perro.publico');
+Route::get('/mascota/autentificacion/{id}', [MascotasController::class, 'autentificacion'])->name('perro.autentifiacion');
+Route::get('/perro/carnet/{id}', [MascotasController::class, 'carnet'])->name('perro.qr');
 
 
 

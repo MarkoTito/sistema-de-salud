@@ -29,10 +29,8 @@
                             <div class="swiper-wrapper">
                                 @foreach ($imagen as $img)
                                     <div class="swiper-slide relative flex justify-center">
-                                    <img src="{{ asset('storage/'.$img->Tpath_imagenes) }}" class="rounded-lg shadow-lg w-full h-auto">
+                                    <img src="{{ asset('storage/'.$img->Tpath_imagenes) }}" height="250px" width="250px" class="rounded-lg shadow-lg w-full h-auto">
 
-                                        <!-- <img src="/storage/{{$img->Tpath_imagenes}}" 
-                            class="rounded-lg shadow-lg w-full h-auto"> -->
                                     </div>
                                 @endforeach
                             </div>
@@ -50,9 +48,20 @@
                         </button>
                     </div>
                     
-                    <div class="mb-4 flex justify-center " >
-                        <img src="{{ $qr }}" alt="QR" style="width: 230px;">
-                    </div>
+                    {{-- <div class="mb-4 flex justify-center">
+                        <img src="{{ $qr }}" style="width:230px">
+
+                    </div> --}}    
+                    @php
+                        $idCifrado = Crypt::encryptString($mascota->PK_Mascota);
+                    @endphp   
+                    <div class="flex justify-center mb-4 " >
+                        <a href="{{route('admin.Mascotas.certificado',$idCifrado)}}">
+                            <button class="bg-red-600 text-white px-4 py-2 rounded  ">
+                                Ver Carnet <i class="fa-regular fa-id-card"></i> 
+                            </button>
+                        </a>
+                    </div>                              
             </div>
     
             <div>
@@ -74,7 +83,7 @@
             
                             <div>
                                 <label for="first_name" class="block mb-1 text-sm font-medium text-gray-900 dark:text-black">Raza:</label>    
-                                <input maxlength="33" name="masName" type="text" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 "  value="{{$mascota->Tdescripcion_raza}}" disabled >
+                                <input maxlength="33" name="masName" type="text" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 "  value="{{$mascota->Tmascota_Raza}}" disabled >
 
                                
                             </div>

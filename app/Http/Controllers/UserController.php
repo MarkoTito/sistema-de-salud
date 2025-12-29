@@ -9,16 +9,20 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Log;
-
+use PhpParser\Node\Stmt\Return_;
 
 class UserController extends Controller
 {
     public function index()
     {
-        //
+        
+
+
         $users=DB::select('EXEC dbo.ViewUser');
         return view('admin/configuracion/usuerconfiguracion',compact('users'));
     }
+
+    
 
     /**
      * Show the form for creating a new resource.

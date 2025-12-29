@@ -11,7 +11,7 @@
         'name'=> 'Edit Mascota',
     ]
     ]">
-    <form action="{{route('admin.Mascotas.update',$mascota->PK_Mascota)}}" method="POST" >
+    <form action="{{route('admin.Mascotas.update',$mascota->PK_Mascota)}}" method="POST" enctype="multipart/form-data">
 
 
         <div class="grid gap-6 md:grid-cols-2 mt-4 mb-2 ">
@@ -19,19 +19,40 @@
             <div >
     
                 <div class="flex justify-center" >
-                    @if (!$imagen || empty($imagen->Tpath_imagenes))
+                    @if ($imagen->isEmpty())
                         <br>
                         <br>
                         <br>
                         <img src="https://st2.depositphotos.com/2945617/6862/v/450/depositphotos_68621493-stock-illustration-cute-dog-cartoon.jpg" height="350px" width="350px" alt="imagen de la campaña">
                         
                     @else
-                        <div class="mb-2">
+                        <br>
+                        <br>
+                        <br> 
+                        <div class="swiper mySwiper w-full max-w-xl">
+                            <div class="swiper-wrapper">
+                                @foreach ($imagen as $img)
+                                    <div class="swiper-slide relative flex justify-center">
+                                        <a href="{{route('admin.Mascotas.imagen.delete',$img->PK_Imagenes)}}"
+                                        class="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-full shadow hover:bg-red-700 transition">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                        <img src="/storage/{{ $img->Tpath_imagenes }}" 
+                                            class="rounded-lg shadow-lg w-full h-auto">
+                                    </div>
+                                @endforeach
+                            </div>
+                
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                            <div class="swiper-pagination"></div>
+                        </div>
+                        {{-- <div class="mb-2">
                             <br>
                             <br>
                             <br>    
                             <img src="{{ asset('storage/'.$imagen->Tpath_imagenes) }}" height="550px" width="550px" alt="imagen de la mascota">
-                        </div>
+                        </div> --}}
                     @endif
                     
                 </div>
@@ -70,7 +91,7 @@
 
 
                 <div class="flex justify-center" >
-                    <button style="width: 35%" type="submit" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-base text-sm px-4 py-2.5 text-center leading-5">Editar</button>
+                    <button style="width: 35%" type="submit" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-base text-sm px-4 py-2.5 text-center leading-5">GUARDAR</button>
                 </div>
                 
             </div>
@@ -102,12 +123,13 @@
                             <div>
             
                                 <label class="text-sm">Raza:</label>
-                                <select required name="raza" id="miSelect-raza" style="width: 100%" required >
+                                <input maxlength="33" name="raza" type="text" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 " required value="{{$mascota->Tmascota_Raza}}" >
+                                {{-- <select required name="raza" id="miSelect-raza" style="width: 100%" required >
                                     <option selected disabled  value="">Escoja una opción</option>
                                     @foreach ($razas as $raza)
                                         <option value="{{$raza->PK_Raza}}" {{$raza->Tdescripcion_raza == $mascota->Tdescripcion_raza ? 'selected' : '' }} >{{$raza->Tdescripcion_raza}}</option>
                                     @endforeach
-                                </select>
+                                </select> --}}
                             </div>
             
                             <div>
@@ -236,6 +258,23 @@
     
         </div>
     </form>
+
+    @push('js')
+        <script>
+            const swiper = new Swiper(".mySwiper", {
+                loop: true,
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
+                },
+            });
+        </script>
+        
+    @endpush
     
 
 </x-admin-layout>

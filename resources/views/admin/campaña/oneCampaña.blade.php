@@ -20,28 +20,7 @@
     
     @if ($estado == "Finalizar")
 
-        <div class="flex justify-between items-center mb-4">
-            {{-- @if (!$colaboradores)
-                
-            @else
-                @can('view-campañas')
-                    <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4">
-                        <div>
-                            <button id="mostrarColaboradores" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                                Ver Colaboradores
-                            </button>
-                        </div>
-
-                        <div>
-                            <button id="mostrarEspecilidades" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                                Especialidades
-                            </button>
-                        </div>
-
-                    </div>
-                @endcan
-            @endif --}}
-            
+        <div class="flex justify-between items-center mb-4">            
             @can('update-campañas')
                 <div>
                     <form action="{{route('admin.Campañas.update',$campaña->PK_Campaña)}}" method="POST" class="finalizar-form" >
@@ -71,7 +50,7 @@
                         </div>
 
                         <div>
-                            <button id="mostrarEspecilidades" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                            <button id="mostrarEspecilidades" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
                                 Especialidades
                             </button>
                         </div>
@@ -85,7 +64,14 @@
                         @method('PUT')
                         @csrf
                         <input type="text" name="situacion" value="2" hidden >
-                        <button type="submit"  class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                        <button type="submit"  style="
+                            background:#22c55e;
+                            color:white;
+                            padding:12px 24px;
+                            font-size:16px;
+                            line-height:1.2;
+                            height:auto;
+                        ">
                             {{$estado}}
                         </button>
                     </form>
@@ -109,7 +95,7 @@
                         </div>
 
                         <div>
-                            <button id="mostrarEspecilidades" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                            <button id="mostrarEspecilidades" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
                                 Especialidades
                             </button>
                         </div>

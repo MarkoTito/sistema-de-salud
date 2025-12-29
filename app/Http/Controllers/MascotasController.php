@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Crypt; //seguridad osea cifrado
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Barryvdh\DomPDF\Facade\Pdf;
+use chillerlan\QRCode\Output\QRGdImage;
 
 class MascotasController extends Controller
 {
@@ -26,7 +27,7 @@ class MascotasController extends Controller
 
         // Convertir a colección
         $collection = collect($results);
-
+        
         // Parámetros de paginación
         $perPage = 20; 
         $page = request()->get('page', 1); 
@@ -40,7 +41,7 @@ class MascotasController extends Controller
             $page,
             ['path' => request()->url(), 'query' => request()->query()]
         );
-
+        // return $results;
 
         return view('admin/Veterinaria/Mascotas',compact('mascotas'));
     }
@@ -187,8 +188,15 @@ class MascotasController extends Controller
             if ($responsable && $responsable[0]->estado === 'OK') {
     
                 $idResponsable = $responsable[0]->id_insertado;
-    
-                $mascota=DB::select('EXEC dbo.InserMascota  ?,?,?,?,?,?,?,?,?,?,?',
+
+                do {
+                    $resultado= $this->GenerateCode();
+                    $codigo= $resultado['codigo'] ;
+                } while ($resultado['valor'] == 1);
+               
+                
+
+                $mascota=DB::select('EXEC dbo.InserMascota  ?,?,?,?,?,?,?,?,?,?,?,?',
                     [
                         $idResponsable,
                         $request->raza,
@@ -201,7 +209,7 @@ class MascotasController extends Controller
                         $request->fechaNaci,
                         $request->sexo,
                         $request->antecedentes,
-                    
+                        $codigo
                     ]);
 
                     
@@ -283,6 +291,8 @@ class MascotasController extends Controller
                             //         $tipoModi,
                             //         $Idusuario
                             // ]);
+
+
                             //envio al correo
                             // if ($request->correo) {
                             //     $url = route('perro.carnet', $idMascota);
@@ -315,6 +325,33 @@ class MascotasController extends Controller
         }
         return response()->json(['success' => false]);
     } 
+
+    public function GenerateCode(){
+        //realisaremos la busqueda del codigo de mascota
+        $codigos=DB::select('EXEC dbo.viewCode');
+        $cant= count($codigos);
+        
+        $numero = random_int(100000000, 999999999);
+        $Newcodigo = 'C.U-'.$numero;
+        
+        $valor=0;
+        for ($i=0; $i <$cant ; $i++) { 
+            $Oldcode=$codigos[$i]->Tcodigo_mascota;
+            if ($Oldcode) {
+                if ($Newcodigo == $Oldcode) {
+                    $valor = 1;
+                } 
+            }
+            
+        }
+        
+        $resultado = [
+            'valor' => $valor,
+            'codigo' => $Newcodigo
+        ];
+        return $resultado;
+    }
+
 
     public function LibreStore(Request $request)
     {
@@ -605,20 +642,26 @@ class MascotasController extends Controller
         $identificadores = DB::select('EXEC dbo.viewIdentificaciones');
 
 
-        $url = route('perro.carnet', $idCifrado);
+        // $url = route('perro.carnet', $idCifrado);
 
-        $options = new QROptions([
-            'outputType' => QRCode::OUTPUT_MARKUP_SVG,
-            'scale'      => 5,
-        ]);
+        // $options = new QROptions([
+        //     'outputType' => QRCode::OUTPUT_MARKUP_SVG,
+        //     'scale'      => 5,
+        // ]);
 
-        // La librería devuelve directamente un Data URI
-        $qr = (new QRCode($options))->render($url);
+        // $qr = 'data:image/png;base64,' . base64_encode(
+        //     (new QRCode($options))->render($url)
+        // );
 
+        return view(
+            'admin/Veterinaria/oneMascota',
+            compact('mascota','documentos','imagen','razas','identificadores')
+        );
 
-
-        // return $imagen;
-        return view('admin/Veterinaria/oneMascota',compact('qr','mascota','documentos','imagen','razas','identificadores'));
+        return view(
+            'admin/Veterinaria/oneMascota',
+            compact('qr','mascota','documentos','imagen','razas','identificadores')
+        );
         
     }
     public function carnet($idCifrado)
@@ -645,10 +688,11 @@ class MascotasController extends Controller
         $mascota= $resultado[0];
         $documentos = collect(DB::select('EXEC dbo.ViewDocumentResponsable ?', [$id]));
         
-        $imagen = collect(DB::select('EXEC dbo.ViewImagenMascota ?', [$id]))->last();
+        $imagen = collect(DB::select('EXEC dbo.ViewImagenMascota ?', [$id]));
 
         $razas = DB::select('EXEC dbo.viewRazas');
         $identificadores = DB::select('EXEC dbo.viewIdentificaciones');
+        // return $imagen;
         
         return view('admin/Veterinaria/editMascota',compact('mascota','documentos','imagen','razas','identificadores'));
     }
@@ -656,72 +700,74 @@ class MascotasController extends Controller
     public function update(Request $request, $id)
     {
         Gate::authorize('update-mascotas');  
+        $idCifrado = Crypt::encryptString($id);
         
         $resultado=DB::select('EXEC dbo.OneMascota ? ',[$id]);
         $mascota= $resultado[0];
         
         $idResponsable = $mascota->PK_Responsable;
         
-        // if ($request->hasFile('docuImagen')) {
-        //     $file = $request->file('docuImagen');
-        //     $path = Storage::put('documentos', $file);
-        //     $size = $file->getSize();
-        //     $nombre = $file->getClientOriginalName();
+        if ($request->hasFile('docuImagen')) {
+            $file = $request->file('docuImagen');
+            $path = Storage::put('documentos', $file);
+            $size = $file->getSize();
+            $nombre = $file->getClientOriginalName();
 
-        //     DB::statement('EXEC dbo.InsertarDocumentoRespon ?, ?, ?,?', [
-        //         $idResponsable,
-        //         $size,
-        //         $path,
-        //         $nombre
-        //     ]);
-        // }
-        // if ($request->hasFile('residenciaDoc')) {
-        //         $file = $request->file('residenciaDoc');
-        //         $path = Storage::put('documentos', $file);
-        //         $size = $file->getSize();
-        //         $nombre = $file->getClientOriginalName();
+            DB::statement('EXEC dbo.InsertarDocumentoRespon ?, ?, ?,?', [
+                $idResponsable,
+                $size,
+                $path,
+                $nombre
+            ]);
+        }
+        if ($request->hasFile('residenciaDoc')) {
+                $file = $request->file('residenciaDoc');
+                $path = Storage::put('documentos', $file);
+                $size = $file->getSize();
+                $nombre = $file->getClientOriginalName();
 
-        //         DB::statement('EXEC dbo.InsertarDocumentoRespon ?, ?, ?,?', [
-        //             $idResponsable,
-        //             $size,
-        //             $path,
-        //             $nombre
+                DB::statement('EXEC dbo.InsertarDocumentoRespon ?, ?, ?,?', [
+                    $idResponsable,
+                    $size,
+                    $path,
+                    $nombre
                     
-        //         ]);
-        // }
+                ]);
+        }
 
         
-        // if ($request->hasFile('certiMascota')) {
-        //         $file = $request->file('certiMascota');
-        //         $path = Storage::put('documentos', $file);
-        //         $size = $file->getSize();
-        //         $nombre = $file->getClientOriginalName();
+        if ($request->hasFile('certiMascota')) {
+            
+                $file = $request->file('certiMascota');
+                $path = Storage::put('documentos', $file);
+                $size = $file->getSize();
+                $nombre = $file->getClientOriginalName();
 
-        //         DB::statement('EXEC dbo.InsertarDocumentoRespon ?, ?, ?,?', [
-        //             $idResponsable,
-        //             $size,
-        //             $path,
-        //             $nombre
+                DB::statement('EXEC dbo.InsertarDocumentoRespon ?, ?, ?,?', [
+                    $idResponsable,
+                    $size,
+                    $path,
+                    $nombre
                     
-        //         ]);
-        // }
-        // if ($request->hasFile('fotoMascota')) {
-        //     foreach ($request->file('fotoMascota') as $file) {
+                ]);
+        }
+        if ($request->hasFile('fotoMascota')) {
+            foreach ($request->file('fotoMascota') as $file) {
 
-        //         if ($file->isValid()) {
+                if ($file->isValid()) {
 
-        //             $path = $file->store('imagenes');
-        //             $size = $file->getSize();
+                    $path = $file->store('imagenes');
+                    $size = $file->getSize();
 
-        //             DB::statement('EXEC dbo.InsertarImagenMascota ?, ?, ?', [
-        //                 $id,
-        //                 $size,
-        //                 $path,
-        //             ]);
-        //         }
-        //     }
-        // }
-
+                    DB::statement('EXEC dbo.InsertarImagenMascota ?, ?, ?', [
+                        $id,
+                        $size,
+                        $path,
+                    ]);
+                }
+            }
+        }
+        
         $correo="";
         $telefono="";
         if (!$request->resEmail) {
@@ -786,6 +832,7 @@ class MascotasController extends Controller
 
             ]);
             if ($Mascota === true) {
+                
                 // insersion en la talba de modificacion
                 $tipoInser="masco";
                 $tipoModi=3;
@@ -797,13 +844,12 @@ class MascotasController extends Controller
                         $Idusuario
                 ]);
 
-
                 session()->flash('swal', [
                     'icon' => 'success',
                     'title' => '¡Buen trabajo!',
                     'text' => 'Se edito la informacion correctamente'
                 ]);
-                return redirect()->route('admin.Mascotas.show', [$id]);
+                return redirect()->route('admin.Mascotas.show', [$idCifrado]);
             }
             else {
             session()->flash('swal', [
@@ -811,7 +857,7 @@ class MascotasController extends Controller
                 'title' => '¡Ups!',
                 'text' => 'No edito la informacion correctamente'
             ]);
-            return redirect()->route('admin.Mascotas.edit', [$id]);
+            return redirect()->route('admin.Mascotas.edit', [$idCifrado]);
         }   
         } else {
             session()->flash('swal', [
@@ -819,15 +865,15 @@ class MascotasController extends Controller
                 'title' => '¡Ups!',
                 'text' => 'No edito la informacion correctamente'
             ]);
-            return redirect()->route('admin.Mascotas.edit', [$id]);
+            return redirect()->route('admin.Mascotas.edit', [$idCifrado]);
         }   
-        return redirect()->route('admin.Mascotas.edit', [$id]);
+        return redirect()->route('admin.Mascotas.edit', [$idCifrado]);
     }
     
-    public function QR($idCifrado)
+    public function autentificacion($idCifrado)
     {
         //$id = Crypt::decryptString($idCifrado);
-        $url = route('perro.carnet', $idCifrado);
+        $url = route('perro.qr', $idCifrado);
 
         $options = new QROptions([
             'outputType' => QRCode::OUTPUT_MARKUP_SVG,
@@ -931,15 +977,78 @@ class MascotasController extends Controller
         return Excel::download(new \App\Exports\MascotaExport($resultado),'E-Mascota.xlsx');
     }
 
-    public function generarCertificado($id)
+    
+
+    public function generarCertificado($idCifrado)
     {
+        $id = Crypt::decryptString($idCifrado);
+
         $resultado = DB::select('EXEC dbo.OneMascota ?', [$id]);
         $mascota = $resultado[0];
 
-        $pdf = Pdf::loadView('certificado', compact('mascota'))
-                ->setPaper('A4', 'landscape');
+        $imagen = collect(DB::select('EXEC dbo.ViewImagenMascota ?', [$id]))->first();
+
+        /* ========= FONDO ========= */
+        $rutaFondo = public_path('certificados/base.jpg');
+        $fondoBase64 = 'data:image/jpeg;base64,' . base64_encode(
+            file_get_contents($rutaFondo)
+        );
+
+        /* ========= FOTO MASCOTA ========= */
+        $fotoBase64 = null;
+
+        if ($imagen && $imagen->Tpath_imagenes) {
+            $rutaFoto = storage_path('app/public/' . $imagen->Tpath_imagenes);
+
+            if (file_exists($rutaFoto)) {
+                $mime = mime_content_type($rutaFoto);
+                $fotoBase64 = 'data:' . $mime . ';base64,' . base64_encode(
+                    file_get_contents($rutaFoto)
+                );
+            }
+        }
+
+        /* ========= QR ========= */
+        $url = route('perro.qr', $idCifrado);
+
+        $options = new QROptions([
+            'outputInterface' => QRGdImage::class, // 🔑 GD (PNG)
+            'imageBase64' => true,                 // 🔑 Base64
+            'scale' => 5,
+        ]);
+
+        $qrBase64 = (new QRCode($options))->render($url);
+
+        
+
+        $pdf = Pdf::loadView(
+            'admin.Veterinaria.certificado',
+            compact('mascota', 'fondoBase64', 'fotoBase64', 'qrBase64')
+        )->setPaper('a4', 'landscape');
 
         return $pdf->download('certificado.pdf');
     }
+
+
+
+
+    public function imagenDelete($id)
+    {
+        Gate::authorize('view-charlas');  
+        $imagen = collect(DB::select('EXEC dbo.ViewIdImagen ?', [$id]))->last();
+        $resultado = DB::statement('EXEC dbo.EliminarImagenCharla ?', [
+               $id        
+            ]);
+
+        session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => '¡Buen trabajo!',
+                    'text' => 'Se elemino la imagen correctamente'
+                ]);
+        
+        $idCifrado = Crypt::encryptString($imagen->FK_Imagen_MascotaId);
+        return redirect()->route('admin.Mascotas.show',$idCifrado);
+    }
+
 
 }

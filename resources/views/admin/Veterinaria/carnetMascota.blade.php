@@ -86,7 +86,7 @@
                     
                                     <div>
                                         <label for="first_name" class="block mb-1 text-sm font-medium text-gray-900 dark:text-black">Raza:</label>    
-                                        <input maxlength="33" name="masName" type="text" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 "  value="{{$mascota->Tdescripcion_raza}}" disabled >
+                                        <input maxlength="33" name="masName" type="text" class="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 "  value="{{$mascota->Tmascota_Raza}}" disabled >
         
                                        
                                     </div>

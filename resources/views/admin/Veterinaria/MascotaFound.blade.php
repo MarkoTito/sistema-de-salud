@@ -130,7 +130,7 @@
                                 {{$mascota->Tespecie_mascota}}
                             </th>
                             <td class="px-6 py-4" align="center" >
-                                {{$mascota->Tdescripcion_raza}}
+                                {{$mascota->Tmascota_Raza}}
                             </td>
                             <td class="px-6 py-4" align="center" >
                                 {{$mascota->Tsexo_mascota}}

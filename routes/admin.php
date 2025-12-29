@@ -11,11 +11,7 @@ use App\Http\Controllers\TipoCampañaController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-// rutas protegidas (con auth)
-
-
-
-
+// rutas protegidas (con auth) 
 Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('admin.dashboard');
@@ -64,7 +60,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('Mascotas', MascotasController::class);
     Route::post('Mascotas/Found', [MascotasController::class, 'Found'])->name('Mascotas.found');
     Route::get('Mascotas/encontrado/excel',[MascotasController::class,'dowloadExport'])->name('Mascotas.excell');
-    Route::get('Mascotas/certificado/{mascota}',[MascotasController::class,'generarCertificado'])->name('Mascotas.certificado');
+    Route::get('Mascotas/certificado/{mascota}',[MascotasController::class,'generarCertificado'])->name('Mascotas.certificado'); //THIS
+    Route::get('Mascotas/{mascota}/eleminar/imagen', [MascotasController::class, 'imagenDelete'])->name('Mascotas.imagen.delete');
 
     
 

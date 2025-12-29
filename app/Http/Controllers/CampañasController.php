@@ -90,7 +90,7 @@ class CampañasController extends Controller
                 'colaborador' => 'required',
                 'DfechaIni_campaña' => 'required|date',
                 'hora_inicio' => 'required',
-                'Tlugar_campaña' => 'required|string|max:30',
+                'Tlugar_campaña' => 'required|string|max:150',
             ]);
 
         

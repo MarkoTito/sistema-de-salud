@@ -119,7 +119,7 @@
                 
                 <div class="grid gap-6 mb-4 md:grid-cols-3 mt-4">
                     <div class="mb-4">
-                        <label class="text-sm">Nombre</label>
+                        <label class="text-sm">Nombre:</label>
                         <input name="nombreMas"  maxlength="55" type="text" class="border w-full p-2 rounded-lg" required  >
                     </div>
             
@@ -132,13 +132,17 @@
                         </select>
                     </div>
                     <div class="mb-4">
-                        <label class="text-sm">Raza:</label>
+                        <div class="mb-4">
+                            <label class="text-sm">Raza:</label>
+                            <input name="raza"  maxlength="55" type="text" class="border w-full p-2 rounded-lg" required  >
+                        </div>
+                        {{-- <label class="text-sm">Raza:</label>
                         <select required name="raza" id="miSelect-raza" style="width: 100%"  >
                             <option selected disabled  value="">Escoja una opción</option>
                             @foreach ($razas as $raza)
                                 <option value="{{$raza->PK_Raza}}">{{$raza->Tdescripcion_raza}}</option>
                             @endforeach
-                        </select>
+                        </select> --}}
                     </div>
                     
                 </div>

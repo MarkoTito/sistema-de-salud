@@ -72,7 +72,7 @@
         <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4">
             <div class="mb-4">
                 <label>Seleccione a a los colaboradores:</label>
-                <select id="selectColaboradores" class="w-full border rounded px-3 py-2">
+                <select required  id="selectColaboradores" class="w-full border rounded px-3 py-2">
                     <option value="" disabled selected>Seleccione a un colaborador</option>
                     @foreach ($Colaboradores as $colaborador)
                             <option value="{{$colaborador->PK_Colaborador}}" >{{$colaborador->Tnombre_colaborador}}</option>
@@ -87,7 +87,7 @@
 
             <div class="mb-4">
                 <label>Seleccione las especialidades:</label>
-                <select id="selectCategorias2" class="w-full border rounded px-3 py-2">
+                <select  required id="selectCategorias2" class="w-full border rounded px-3 py-2">
                     <option value="" disabled selected>Seleccione una especialidad</option>
                     @foreach ($especialidadades as $espe)
                         @if ($espe->Nestado_especialidad == 0)

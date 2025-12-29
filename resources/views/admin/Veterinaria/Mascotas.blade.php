@@ -125,7 +125,7 @@
                                 {{$mascota->Tespecie_mascota}}
                             </th>
                             <td class="px-6 py-4" align="center" >
-                                {{$mascota->Tdescripcion_raza}}
+                                {{$mascota->Tmascota_Raza}}
                             </td>
                             <td class="px-6 py-4" align="center" >
                                 {{$mascota->Tsexo_mascota}}
@@ -143,9 +143,7 @@
                                 $idCifrado = Crypt::encryptString($mascota->PK_Mascota);
                             @endphp
                             <td class="px-6 py-4" align="center" >
-                                {{-- <a href="">
-                                        <i class="fa-solid fa-download"></i>   
-                                </a> --}}
+                                
                                 <a class="text-blue-600"  href="{{ route('admin.Mascotas.show', $idCifrado) }}">
                                     <i class="fa-solid fa-eye"></i>   
                                 </a>
@@ -163,8 +161,9 @@
                                     @csrf
                                     @method('DELETE')
                                 </form>
-                                {{-- <a href=" {{route('admin.Mascotas.certificado',$mascota->PK_Mascota)}} "> 
-                                    QR  
+                                {{-- <a href=" {{route('admin.Mascotas.certificado',$idCifrado)}} "> 
+                                    <i class="fa-regular fa-id-card"></i> 
+                                    QR
                                 </a> --}}
                             </td>
                         </tr>                        
