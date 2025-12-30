@@ -86,7 +86,7 @@
             </div>
 
             <div class="mb-4">
-                <label>Seleccione las especialidades:</label>
+                <label>Seleccione las especialidades o servicios:</label>
                 <select  required id="selectCategorias2" class="w-full border rounded px-3 py-2">
                     <option value="" disabled selected>Seleccione una especialidad</option>
                     @foreach ($especialidadades as $espe)

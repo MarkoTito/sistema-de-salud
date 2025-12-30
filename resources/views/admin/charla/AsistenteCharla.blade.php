@@ -8,7 +8,11 @@
         'href' => route('admin.Charlas.index')
     ],
     [
-        'name'=> 'Charla',
+        'name'=>'Charla',
+        'href' => route('admin.Charlas.show',$charla->PK_Charlas)
+    ],
+    [
+        'name'=> 'Asitente encontrado',
     ]
     ]">
     

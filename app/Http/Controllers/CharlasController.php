@@ -154,7 +154,29 @@ class CharlasController extends Controller
         $documentos = collect(DB::select('EXEC dbo.ViewDocumentCharla ?', [$id]));
         $imagenes = collect(DB::select('EXEC dbo.ViewImagenCharla ?', [$id]));
         $charla = $charlaShow[0];
-        return view('admin/charla/oneCharla', compact('charla','expositores','documentos','imagenes'));
+        //asitentes de charla
+        $asitentes1 = DB::select('EXEC dbo.ViewsAsistentescharlas ?', [$id]);
+
+        $cantidad= count($asitentes1);
+        $collection = collect($asitentes1);
+        
+        // return $cantidad;
+        // Parámetros de paginación
+        $perPage = 20; 
+        $page = request()->get('page', 1); 
+
+        $items = $collection->slice(($page - 1) * $perPage, $perPage)->values();
+
+        $asitentes = new LengthAwarePaginator(
+            $items,
+            $collection->count(),
+            $perPage,
+            $page,
+            ['path' => request()->url(), 'query' => request()->query()]
+        );
+
+        // return $asitentes;
+        return view('admin/charla/oneCharla', compact('cantidad','asitentes','charla','expositores','documentos','imagenes'));
     }
 
     /**
@@ -358,7 +380,7 @@ class CharlasController extends Controller
         return view('admin/charla/imagenCharla', compact('id'));
     }
 
-    public function     dowloadExport(Request $request){
+    public function dowloadExport(Request $request){
         #este descarga la busuqeda de charlas
         Gate::authorize('view-charlas');  
         $informacion=DB::select('EXEC dbo.CharlaFoundExport ?, ?',[
