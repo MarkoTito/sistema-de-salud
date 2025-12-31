@@ -21,6 +21,11 @@ Route::middleware('auth')->group(function () {
     Route::get('Campañas/{campaña}/imagen', [CampañasController::class, 'imagen'])->name('campañas.imagen');
     Route::post('Campañas/{campaña}/dropzone', [CampañasController::class, 'dropzoneImagen'])->name('campañas.imagen.dropzone');
     Route::get('Campañas/{campaña}/eleminar/imagen', [CampañasController::class, 'imagenDelete'])->name('campaña.imagen.delete');
+    Route::get('Campañas/{campaña}/documento', [CampañasController::class, 'documento'])->name('campañas.index.documen');
+    Route::post('Campañas/{campaña}/documento/dropzone', [CampañasController::class, 'dropzoneDocumento'])->name('campañas.documento.dropzone');
+    Route::get('Campañas/{campaña}/eleminar/documentos', [CampañasController::class, 'documentosDelete'])->name('campañas.documentos.delete');
+    Route::get('Campañas/{campaña}/pdf', [CampañasController::class, 'AsistentesCampaPdfs'])->name('Campañas.pdf');
+
 
     #asistentes
     Route::resource('Asitentes', AsistenteController::class);
@@ -43,6 +48,9 @@ Route::middleware('auth')->group(function () {
     Route::post('Charlas/{charla}/dropzone/documento', [CharlasController::class, 'dropzone'])->name('charla.documento.dropzone');
     Route::post('Charlas/{charla}/dropzone', [CharlasController::class, 'dropzoneImagen'])->name('charla.imagen.dropzone');
     Route::get('Charlas/{charla}/eleminar/imagen', [CharlasController::class, 'imagenDelete'])->name('charla.imagen.delete');
+    Route::get('Charlas/{charla}/pdf', [CharlasController::class, 'AsistentesCharlaPdfs'])->name('charla.pdf');
+
+    
     //para exportacion de datos unitarios en excel a la BD
     Route::get('Campañas/{charla}/impotar', [CampañasController::class, 'viewImportar'])->name('Campañas.excell.import');
     Route::post('Campañas/{campaña}/dropzone/importacion', [CampañasController::class, 'dropzoneImpor'])->name('campañas.excell.import.dropzone');

@@ -30,7 +30,7 @@ class AsistenteController extends Controller
     {
         try {
             $Idusuario = Auth::user()->id;
-
+            #aca es para ingresar asistentes a charlas
             if (isset($request->charla  )) {
                 $resultado = DB::statement('EXEC dbo.InserAsistenteCharla1 ?,?,? ,?,?,?, ?,?', [
                     $request->idCharla,
@@ -46,6 +46,7 @@ class AsistenteController extends Controller
                 ]);
                 
             } else {
+                #aca es para ingreasar asistentes a charlas
                 if ($request->TipoCampa == 1) {
                     foreach ($request->mascotas as $m) {
                         $resultado = DB::statement('EXEC dbo.InserAsistenteCampañaMascota ?,?,?,?,? ,?,?,? ,?,?,?', [

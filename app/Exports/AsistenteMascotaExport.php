@@ -37,9 +37,9 @@ class AsistenteMascotaExport implements FromCollection ,WithHeadings, WithStyles
 
                 $asistentes->Tdni_asistente,
                 $asistentes->Tlugar_campaña,
-                $asistentes->Nedad_asistente,
-                
                 $asistentes->Tcelular_asistente,
+                
+                $asistentes->Nedad_asistente,
                 $tipo,
                 $asistentes->TnombreMasctoa_asistente
                 

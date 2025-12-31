@@ -26,30 +26,25 @@ class CharlaExport implements FromCollection,WithHeadings,WithStyles,ShouldAutoS
     {
         return $this->charla->map(function ($asistentes){
             return [
-                $asistentes->Tnombre_charla,
-                $asistentes->Tnombre_expositor,
-                $asistentes->TapellidoP_expositor,
-                $asistentes->TapellidoM_expositor,
-                $asistentes->Tnumero_expositor,
-                $asistentes->DfechaIni_charla,
-                $asistentes->ThoraIni_charla,
-                $asistentes->ThoraFin_charla,
-                $asistentes->Ncantidad_charla
+                $asistentes->Tnombre_asistente,
+                $asistentes->TapellidoP_asistente,
+                $asistentes->TapellidoM_asistente,
+
+                $asistentes->Tdni_asistente,
+                $asistentes->Tcelular_asistente,
+                $asistentes->Nedad_asistente
                 
             ];
         });
     }
     public function headings (): array{
         return [
-            'Tema',
-            'Nombre del Expositor',
-            'Apellido Paterno del Expositor',
-            'Apellido materno del Expositor',
-            'Contacto',
-            'Fecha',
-            'Horario de inicio',
-            'Horario de finalización',
-            'N° de asistentes'
+            'Nombre',
+            'Apellido Paterno',
+            'Apellido materno',
+            'N° DNI',
+            'Celular',
+            'Edad'
         ];
     }
     public function styles(Worksheet $sheet)

@@ -62,24 +62,13 @@
                     </ul>
                 </div>
             </div>
-            {{-- <label for="table-search" class="sr-only">Search</label>
-            <div class="relative">
-                <div class="absolute inset-y-0 left-0 rtl:inset-r-0 rtl:right-0 flex items-center ps-3 pointer-events-none">
-                    <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
-                </div>
-                <input type="text" id="table-search" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items">
-            </div> --}}
+   
         </div>
         <div class="">
             <table class="w-full text-sm text-left rtl:text-right text-fg-brand-subtle">
             <thead class="text-sm text-black bg-brand-strong">
                     <tr class="bg-brand border-b border-brand-light">
-                        {{-- <th scope="col" class="p-4">
-                            <div class="flex items-center">
-                                <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                <label for="checkbox-all-search" class="sr-only">checkbox</label>
-                            </div>
-                        </th> --}}
+
                         <th scope="col" class="px-6 py-3" align="center" >
                             Numero 
                         </th>
@@ -163,11 +152,10 @@
                                 @endif
                                 
                                 <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap"align="center" >
-                                    @can('view-campañas')
-                                        <a class="text-black-700" href="{{route('admin.Asitentes.show',$campaña->PK_Campaña)}}"> 
-                                            <i class="fa-solid fa-download"></i>   
-                                        </a>
-                                    @endcan
+                                    <button type="button" onclick="mostrarAlerta({{ $campaña->PK_Campaña }})">
+                                        <i class="fa-solid fa-download"></i>
+                                    </button>
+                                    
                                     @can('view-campañas')
                                         <a class="text-blue-700" href="{{route('admin.Campañas.show',$campaña->PK_Campaña)}}">
                                             <i class="fa-solid fa-eye"></i>   
@@ -210,6 +198,27 @@
 
     @push('js')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            function mostrarAlerta(pk) {
+                Swal.fire({
+                    title: '¿Como descargar la información?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Excel <i class="fa-solid fa-file-excel"></i> ',
+                    cancelButtonText: 'PDF <i class="fa-solid fa-file-pdf"></i>',
+                    confirmButtonColor: '#16a34a',
+                    cancelButtonColor: '#dc2626'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = `/admin/Asitentes/${pk}`;
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        window.location.href = `/admin/Campañas/${pk}/pdf`;
+                    }
+                });
+            }
+        </script>
+            
+            
         <script> 
             document.addEventListener('DOMContentLoaded', function () {
 
@@ -249,7 +258,7 @@
 
             });
         </script>
-
+        {{-- YA NO SIRVE --}}
         <script>
             document.getElementById('btnAgregarCampania').addEventListener('click', function() {
                 Swal.fire({
@@ -337,7 +346,7 @@
                     }
                 });
             });
-    </script>
+        </script>
 
 
 

@@ -175,13 +175,15 @@
                                 </th>
                                 <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap"align="center" >
                                     @can('view-charlas')
-                                
-                                    <a class="text-green-500"  href="{{route('admin.charla.downloadOne',$charla->PK_Charlas)}}"> 
+                                    {{-- <a class="text-black"  href="{{route('admin.charla.downloadOne',$charla->PK_Charlas)}}"> 
                                         <i class="fa-solid fa-download"></i>   
-                                    </a>
+                                    </a> --}}
+                                    <button type="button" onclick="mostrarAlerta({{ $charla->PK_Charlas }})">
+                                        <i class="fa-solid fa-download"></i>
+                                    </button>
                                     @endcan
                                     @can('view-charlas')
-                                        <a class="text-blue-700" href="{{route('admin.Charlas.show',$charla->PK_Charlas)}}">
+                                        <a class="text-blue-800" href="{{route('admin.Charlas.show',$charla->PK_Charlas)}}">
                                             <i class="fa-solid fa-eye"></i>   
                                         </a>
                                     @endcan
@@ -220,6 +222,27 @@
 
     @push('js')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script>
+            function mostrarAlerta(pk) {
+                Swal.fire({
+                    title: '¿Como descargar la información?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Excell <i class="fa-solid fa-file-excel"></i> ',
+                    cancelButtonText: 'PDF <i class="fa-solid fa-file-pdf"></i>',
+                    confirmButtonColor: '#16a34a',
+                    cancelButtonColor: '#dc2626'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = `/admin/Charlas/${pk}/download`;
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        window.location.href = `/admin/Charlas/${pk}/pdf`;
+                    }
+                });
+            }
+        </script>
+
         <script>
             document.querySelectorAll('.btn-finalizar').forEach(link => {
                 link.addEventListener('click', function(e) {

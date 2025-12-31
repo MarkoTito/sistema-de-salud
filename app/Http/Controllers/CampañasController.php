@@ -11,7 +11,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CampañasController extends Controller
 {
@@ -180,6 +180,7 @@ class CampañasController extends Controller
         $OnEspecialidadades= DB::select('EXEC dbo.ViewCruseEspecialidades ?',[$id]);
         $cantidad= count($resulAsistentes);
 
+        $documentos = collect(DB::select('EXEC dbo.ViewDocumentCamp ?', [$id]));
 
         // return $OnEspecialidadades;
         $fechaHora = Carbon::parse($campañaShow[0]->DfechaIni_campaña . ' ' . $campañaShow[0]->ThoraIni_campaña);
@@ -207,7 +208,7 @@ class CampañasController extends Controller
             $collection = collect($resulAsistentes);
 
             // Parámetros de paginación
-            $perPage = 2; 
+            $perPage = 5; 
             $page = request()->get('page', 1); 
 
             $items = $collection->slice(($page - 1) * $perPage, $perPage)->values();
@@ -236,7 +237,7 @@ class CampañasController extends Controller
                 }
             }
             // return $imagen;
-            return view('admin.campaña.oneCampaña', compact('cantiPerros','cantiGatos','campaña','OnEspecialidadades','especialidades','asistentes','cantidad','estado','imagen','colaboradores'));
+            return view('admin.campaña.oneCampaña', compact('documentos','cantiPerros','cantiGatos','campaña','OnEspecialidadades','especialidades','asistentes','cantidad','estado','imagen','colaboradores'));
         } else {
             return redirect()->back()->with('error', 'No se encontró la campaña.');
         }
@@ -245,6 +246,11 @@ class CampañasController extends Controller
     public function imagen(string $id)
     {
         return view('admin/campaña/IngreImagenCampaña', compact('id'));
+    }
+
+    public function documento(string $id)
+    {
+        return view('admin/campaña/documentoCampaña', compact('id'));
     }
 
     public function dropzoneImagen(Request $request, $id)
@@ -262,6 +268,24 @@ class CampañasController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Se subio correctamente las imagenes',
+            'resultado' => $resultado
+        ]);
+    }
+    public function dropzoneDocumento(Request $request, $id)
+    {
+        $file = $request->file('file');
+        $path = Storage::put('documentos', $file);
+        $size = $file->getSize();
+
+        $resultado = DB::statement('EXEC dbo.InsertarDocumenCamapaña ?, ?, ?', [
+               $id,
+               $size,
+               $path       
+            ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Se subio correctamente los documentos',
             'resultado' => $resultado
         ]);
     }
@@ -286,6 +310,26 @@ class CampañasController extends Controller
     {
         
         
+    }
+
+    public function documentosDelete($id)
+    {
+        Gate::authorize('view-charlas');  
+        $resultado = DB::statement('EXEC dbo.EliminarDocumentoCharla ?', [
+               $id        
+            ]);
+
+        $busqueda= collect(DB::select('EXEC dbo.ViewDocumento ? ',[$id]))->first();
+        $IDCampaña= $busqueda->FK_Documento_campañaId;
+
+        session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => '¡Buen trabajo!',
+                    'text' => 'Se elemino el documento correctamente'
+                ]);
+        return redirect()->route('admin.Campañas.show',$IDCampaña);
+
+
     }
 
     public function update(Request $request, $id)
@@ -421,5 +465,29 @@ class CampañasController extends Controller
         return redirect()->route('admin.Campañas.show',$imagen->FK_Imagen_CamapañaId);
     }
 
+    public function AsistentesCampaPdfs($id){
+        $fecha = Carbon::now()->format('dmY');
+        
+        $informacion=DB::select('EXEC dbo.ViewsAsistentesCampañas ?',[$id]);
+        $campaña= $informacion[0];
+        
+        if (empty($informacion[0])) {    
+            session()->flash('swal', [
+                'icon' => 'error',
+                'title' => '¡Ups!',
+                'text' => 'no existe las charlas'
+            ]);
+            return redirect()->route('admin.Charlas.index');                
+        }
+
+        // $resultado = collect($informacion);
+        $pdf =Pdf::loadView('admin.PDF.AsistentesCamapañaPdf',[
+            'asistente' =>$informacion,
+            'campaña'=>$campaña,
+            'fecha' => $fecha
+        ])->setPaper('a4', 'landscape');
+        return $pdf->download("PDF-$campaña->Tnombre_Tipocampaña-$fecha.pdf");
+
+    }
     
 }

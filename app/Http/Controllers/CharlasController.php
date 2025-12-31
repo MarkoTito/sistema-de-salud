@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CharlasController extends Controller
 {
@@ -162,7 +164,7 @@ class CharlasController extends Controller
         
         // return $cantidad;
         // Parámetros de paginación
-        $perPage = 20; 
+        $perPage = 8; 
         $page = request()->get('page', 1); 
 
         $items = $collection->slice(($page - 1) * $perPage, $perPage)->values();
@@ -300,22 +302,27 @@ class CharlasController extends Controller
     public function downloadOne(string $id)
     {
         Gate::authorize('view-charlas');  
-        $informacion=DB::select('EXEC dbo.OneCHARLA ?',[$id]);
+        $informacion=DB::select('EXEC dbo.ViewsAsistentescharlas ?',[$id]);
+        
+
         if (empty($informacion[0])) {
 
             session()->flash('swal', [
                     'icon' => 'error',
                     'title' => '¡Ups!',
-                    'text' => 'no existe charla'
+                    'text' => 'no contiene asistentes'
                 ]);
             return redirect()->route('admin.Charlas.index');
             
         } else {
             $resultado = collect($informacion);
             $primero = $resultado->first();
+
+            
             return Excel::download(new \App\Exports\CharlaExport($resultado),'E-'.$primero->Tnombre_charla.'-'.$primero->DfechaIni_charla.'.xlsx');
         }
     }
+
     public function downloadFound(Request $request)
     {
         Gate::authorize('view-charlas');  
@@ -476,6 +483,32 @@ class CharlasController extends Controller
         return redirect()->route('admin.Charlas.index');
     }
 
+
+    public function AsistentesCharlaPdfs($id){
+        $fecha = Carbon::now()->format('dmY');
+        
+        $informacion=DB::select('EXEC dbo.ViewsAsistentescharlas ?',[$id]);
+        $charla= $informacion[0];
+        
+        // return $informacion;
+        if (empty($informacion[0])) {    
+            session()->flash('swal', [
+                'icon' => 'error',
+                'title' => '¡Ups!',
+                'text' => 'no existe las charlas'
+            ]);
+            return redirect()->route('admin.Charlas.index');                
+        }
+
+        
+        $pdf =Pdf::loadView('admin.PDF.AsistentesCharlaPdf',[
+            'asistente' =>$informacion,
+            'charla'=>$charla,
+            'fecha' => $fecha
+        ])->setPaper('a4', 'landscape');
+        return $pdf->download("PDF-$charla->Tnombre_charla-$fecha.pdf");
+
+    }
 
 
 }

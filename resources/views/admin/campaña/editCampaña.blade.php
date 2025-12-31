@@ -17,10 +17,10 @@
             @method('PUT')
             @csrf
             <input type="text" name="situacion" value="4"  hidden >
-            <div class="flex justify-center mt-4" >
+            <div class="flex justify-center " >
                 <div>
                     <label for="campañas" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Elige una Campaña</label>
-                    <select name="newCampaña" id="miSelect-tipoCampaña" style="width: 200%;" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <select name="newCampaña" id="miSelect-tipoCampaña" style="width: 300%;" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value=""selected disabled >---Seleccioné una campaña---</option>
                         @foreach ($Tiposcampañas as $campañaTipo)
                             <option value="{{$campañaTipo->PK_TiposCampañas}}" {{$campañaTipo->PK_TiposCampañas == $campaña->FK_Campaña_TipoId  ? 'selected' : ''}}  >{{$campañaTipo->Tnombre_Tipocampaña}}</option>

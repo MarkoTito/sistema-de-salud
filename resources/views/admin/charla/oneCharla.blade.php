@@ -79,7 +79,7 @@
     @endif
 
     <br>
-    <div class="grid gap-6 mb-4 md:grid-cols-3 mb-4 ">
+    <div class="grid gap-6 mb-4 md:grid-cols-3  ">
         
         <div>
             <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Fecha:</label>    
@@ -95,7 +95,7 @@
         </div>
 
         @if ($charla->PK_TiposCharla ==1 )
-            <div class="grid gap-6 mb-4 md:grid-cols-3 mb-4 ">
+            <div class="grid gap-6  md:grid-cols-3 mb-4 ">
                 @if (!$charla->Ncantidad_felinos)
                     <div>
                         <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Cantidad de Gatos beneficiados:</label>    
@@ -176,7 +176,7 @@
             </div>
             <div>
                 <button id="mostrarDocumentos" 
-                class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                    class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
                     Mostrar Documentos
                 </button>
 
@@ -330,7 +330,9 @@
         </table>
     </div>
 
-
+    <div class="mt-4">
+        {{ $asitentes->links() }}
+    </div>
 
 
 
