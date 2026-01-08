@@ -83,7 +83,7 @@
     @endif
 
     <br>
-    <div class="grid gap-6 mb-4 md:grid-cols-3 mb-4 ">
+    <div class="grid gap-6 mb-4 md:grid-cols-3  ">
         
         <div>
             <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Fecha:</label>    

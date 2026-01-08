@@ -27,7 +27,7 @@
             <img src="https://www.stellamaris.com.pe/uploads/shares/BLOG/CAMPA__A_DE_SALUD_-_RESP__SOCIAL.jpg" height="450px" width="640px" alt="imagen de la campaña">
         </div>
         <br>
-        <div class="grid gap-6 mb-4 md:grid-cols-3 mb-4 ">
+        <div class="grid gap-6 mb-4 md:grid-cols-3  ">
             
             <div>
                 <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Fecha:</label>    
@@ -61,7 +61,7 @@
 
 
             @if ($charla->PK_TiposCharla ==1 )
-                <div class="grid gap-6 mb-4 md:grid-cols-3 mb-4 ">
+                <div class="grid gap-6 mb-4 md:grid-cols-3 ">
                     @if (!$charla->Ncantidad_felinos)
                         <div>
                             <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Cantidad de Gatos beneficiados:</label>    

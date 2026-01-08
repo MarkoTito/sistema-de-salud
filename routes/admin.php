@@ -50,7 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::get('Charlas/{charla}/eleminar/imagen', [CharlasController::class, 'imagenDelete'])->name('charla.imagen.delete');
     Route::get('Charlas/{charla}/pdf', [CharlasController::class, 'AsistentesCharlaPdfs'])->name('charla.pdf');
 
-    
+
     //para exportacion de datos unitarios en excel a la BD
     Route::get('Campañas/{charla}/impotar', [CampañasController::class, 'viewImportar'])->name('Campañas.excell.import');
     Route::post('Campañas/{campaña}/dropzone/importacion', [CampañasController::class, 'dropzoneImpor'])->name('campañas.excell.import.dropzone');
@@ -71,6 +71,15 @@ Route::middleware('auth')->group(function () {
     Route::get('Mascotas/certificado/{mascota}',[MascotasController::class,'generarCertificado'])->name('Mascotas.certificado'); //THIS
     Route::get('Mascotas/{mascota}/eleminar/imagen', [MascotasController::class, 'imagenDelete'])->name('Mascotas.imagen.delete');
     Route::get('Mascotas/{mascota}/eleminar/documentos', [MascotasController::class, 'documentosDelete'])->name('mascota.documentos.delete');
+    //index para buscar a un responsalbe ya registrado
+    Route::post('Mascotas/responsable/index',[MascotasController::class,'indexResponsable'])->name('Mascotas.responsable');
+    //RESPONSABLE ENCONTRADO, SE MOSTRARAN SUS DATOS
+    Route::get('Mascotas/responsable/encontrado/{id}',[MascotasController::class,'ResponsableFound'])->name('Responsable.found'); 
+    //BUSCAR MASCOTA X CODIGO:
+    Route::post('Mascotas/codigo/look',[MascotasController::class,'MascotaCode'])->name('Mascotas.codigo');
+    //mascota encontrada, para mostrarlo
+    Route::get('Mascotas/codigo/encontrado/{id}',[MascotasController::class,'MacotFoundCodigo'])->name('Mascota.code.found'); 
+
     
     Route::get('Mascotas/encontrado/pdf', [MascotasController::class, 'MascotasPdfs'])->name('Mascotas.pdf');
     

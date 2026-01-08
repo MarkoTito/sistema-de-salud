@@ -17,7 +17,6 @@ class UserController extends Controller
     {
         
 
-
         $users=DB::select('EXEC dbo.ViewUser');
         return view('admin/configuracion/usuerconfiguracion',compact('users'));
     }

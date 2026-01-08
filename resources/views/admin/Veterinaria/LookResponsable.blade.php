@@ -8,16 +8,15 @@
         'href' => route('admin.Mascotas.index')
     ],
     [
-        'name'=> 'Registrar Mascotas',
+        'name'=> 'Registrar Mascota',
+        'href' => route('admin.Mascotas.create')
+    ],
+    [
+        'name'=> 'Responsable Encontrado',
     ]
     ]">
-
-    <div>
-        <button type="button"   class="bg-yellow-500 text-white px-4 py-2 rounded" onclick="mostrarFormulario()">
-            Responsable ya registrado
-        </button>
-    </div>
-
+    
+    
     <div class="max-w-6xl mx-auto p-6">
         
         <div id="gallery" class="w-full" data-carousel="slide">
@@ -62,31 +61,31 @@
                 <div class="grid gap-6 mb-4 md:grid-cols-3 mt-4">
                     <div class="mb-4">
                         <label class="text-sm">Nombre</label>
-                        <input name="nombreRes" maxlength="55" type="text" class="border w-full p-2 rounded-lg" required   >
+                        <input name="nombreRes" value="{{$responsable->Tnombre_responsable}}"  maxlength="55" type="text" class="border w-full p-2 rounded-lg" required disabled   >
                     </div>
             
                     <div class="mb-4">
                         <label class="text-sm">Apellido Paterno:</label>
-                        <input type="text" name="apePaRes" maxlength="30" class="border w-full p-2 rounded-lg" required  >
+                        <input type="text" name="apePaRes" value="{{$responsable->TapellidoP_responsable}}"  maxlength="30" class="border w-full p-2 rounded-lg" required  disabled >
                     </div>
                     <div class="mb-4">
                         <label class="text-sm">Apellido Materno:</label>
-                        <input type="text" name="apeMaRes" maxlength="30" class="border w-full p-2 rounded-lg" required  >
+                        <input type="text" value="{{$responsable->TapellidoM_responsable}}" name="apeMaRes" maxlength="30" class="border w-full p-2 rounded-lg" required  disabled >
                     </div>
     
                     <div class="mb-4">
                         <label class="text-sm">DNI:</label>
-                        <input type="text" name="dniRes" maxlength="8" class="border w-full p-2 rounded-lg"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" required  />
+                        <input type="text" name="dniRes" value="{{ $responsable->Tdni_responsable }}" readonly>
                     </div>
             
                     <div class="mb-4">
                         <label class="text-sm">Celular:</label>
-                        <input type="text" name="numCelRes" maxlength="9" class="border w-full p-2 rounded-lg"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" required  />
+                        <input type="text" value="{{$responsable->Tcelular_responsable}}" name="numCelRes" maxlength="9" class="border w-full p-2 rounded-lg"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" required disabled  />
                     </div>
                     
                     <div class="mb-4">
                         <label class="text-sm">Direccion:</label>
-                        <input type="text" name="direRes" maxlength="120" class="border w-full p-2 rounded-lg"  required >
+                        <input type="text" value="{{$responsable->Tdireccion_responsable}}" name="direRes" maxlength="120" class="border w-full p-2 rounded-lg"  required disabled >
                     </div>
                 </div>
     
@@ -94,22 +93,22 @@
                     {{-- opcional --}}
                     <div class="mb-4">
                         <label class="text-sm">Numero de Telefono Fijo:</label>
-                        <input type="text" name="telFijo" maxlength="15" class="border w-full p-2 rounded-lg"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
+                        <input type="text" value="{{$responsable->Ttelefono_responsable}}" name="telFijo" maxlength="15" class="border w-full p-2 rounded-lg"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" disabled />
                     </div>
                     {{-- opcional --}}
                     <div class="mb-4">
                         <label class="text-sm">Correo electronico:</label>
-                        <input type="email" name="correo" class="border w-full p-2 rounded-lg" >
+                        <input type="email" value="{{$responsable->Tcorreo_responsable}}" name="correo" class="border w-full p-2 rounded-lg" disabled >
                     </div>
                     {{-- opcional --}}
                     <div class="mb-4">
                         <label class="text-sm">Foto de documento:</label>
-                        <input type="file" accept="application/pdf,image/*" name="docuImagen" class="border w-full p-2 rounded-lg" >
+                        <input type="file"  accept="application/pdf,image/*" name="docuImagen" class="border w-full p-2 rounded-lg" disabled >
                     </div>
                     {{-- opcional --}}
                     <div class="mb-4">
                         <label class="text-sm">Adjuntar Doc. - Residencia del Responsable (PDF):</label>
-                        <input type="file" accept="application/pdf,image/*" name="residenciaDoc" class="border w-full p-2 rounded-lg" >
+                        <input type="file" accept="application/pdf,image/*" name="residenciaDoc" class="border w-full p-2 rounded-lg" disabled >
                     </div>
                     
                 </div>
@@ -267,57 +266,6 @@
 
     @push('js')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-        <script>
-            function mostrarFormulario() {
-                Swal.fire({
-                    title: 'Buscar responsable',
-                    html: `
-                        <input id="dni" class="swal2-input" placeholder="DNI" maxlength="8">
-                    `,
-                    confirmButtonText: 'Buscar',
-                    showCancelButton: true,
-                    showLoaderOnConfirm: true,
-                    allowOutsideClick: () => !Swal.isLoading(),
-                    preConfirm: () => {
-            
-                        const dni = document.getElementById('dni').value;
-            
-                        if (!dni) {
-                            Swal.showValidationMessage('Ingrese el DNI');
-                            return false;
-                        }
-            
-                        return fetch("{{ route('admin.Mascotas.responsable') }}", {
-                            method: 'POST',
-                            credentials: 'same-origin',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document
-                                    .querySelector('meta[name="csrf-token"]')
-                                    .getAttribute('content')
-                            },
-                            body: JSON.stringify({ dni })
-                        })
-                        .then(res => res.json())
-                        .then(data => {
-                            // 🔑 cerramos SweetAlert y redirigimos
-                            Swal.close();
-                            window.location.href = data.url;
-                        })
-                        .catch(() => {
-                            Swal.showValidationMessage('Error al procesar la solicitud');
-                        });
-                    }
-                });
-            }
-        </script>
-            
-            
-        
-            
-
-
 
         <script>
             function validarMaximoImagenes(input) {
@@ -482,4 +430,9 @@
 
 
     
+
+    
+    
+
+
 </x-admin-layout>

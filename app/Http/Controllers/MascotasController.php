@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Barryvdh\DomPDF\Facade\Pdf;
 use chillerlan\QRCode\Output\QRGdImage;
+
 use Carbon\Carbon;
 
 class MascotasController extends Controller
@@ -69,25 +70,41 @@ class MascotasController extends Controller
     {
         Gate::authorize('create-mascotas');  
         // $Idusuario = Auth::user()->id;
+        Log::info($request->all());
         $viewDueño=DB::select('EXEC dbo.FoundResponsable ?',[$request->dniRes]);
-
         if (!empty($viewDueño)) {
+            
             // aca el dueño ya fue registrado
             $idResponsable= $viewDueño[0]->PK_Responsable;
-            
-            $mascota=DB::select('EXEC dbo.InserMascota  ?,?,?,?,?,?,?,?,?,?,?',
+
+            //aca se busca la ultima mascota para generar el codigo
+            $mascota= DB::select('EXEC dbo.LastMascota');
+            $Base=$mascota[0];
+            $numero="";
+            if (!$Base) {
+                $numero="000000001";
+            } else {
+                $numero = str_pad($Base->PK_Mascota +1, 9, '0', STR_PAD_LEFT);
+            }
+            $codigo="C.U-".$numero;
+
+            $mascota=DB::select('EXEC dbo.InserMascota  ?,?,?, ?,?,?, ?,?,? ,?,?,?',
                     [
                         $idResponsable,
                         $request->raza,
                         $request->identificacion,
+
                         $request->nombreMas,
                         $request->tipo,
                         $request->color,
+
                         $request->peligrocidad,
                         $request->señales,
                         $request->fechaNaci,
+
                         $request->sexo,
                         $request->antecedentes,
+                        $codigo
             
                     ]);
                     $idMascota = $mascota[0]->id_insertado;
@@ -162,9 +179,7 @@ class MascotasController extends Controller
                     // ]);
 
                     if ($mascota && $mascota[0]->estado === 'OK') {
-                        return response()->json([
-                            'success' => true,
-                            ]);
+                        return response()->json(['success' => true,]);
                     } else {
                         return response()->json(['success' => false]);
                     }
@@ -172,6 +187,7 @@ class MascotasController extends Controller
 
         } 
         else {
+
             $responsable=DB::select('EXEC dbo.InserResponsable  ?,? ,?,?,?, ?,?,?',
             [
                 $request->nombreRes,
@@ -190,11 +206,16 @@ class MascotasController extends Controller
     
                 $idResponsable = $responsable[0]->id_insertado;
 
-                do {
-                    $resultado= $this->GenerateCode();
-                    $codigo= $resultado['codigo'] ;
-                } while ($resultado['valor'] == 1);
-               
+                //aca se busca la ultima mascota para generar el codigo
+                $mascota= DB::select('EXEC dbo.LastMascota');
+                $Base=$mascota[0];
+                $numero="";
+                if (!$Base) {
+                    $numero="000000001";
+                } else {
+                    $numero = str_pad($Base->PK_Mascota +1, 9, '0', STR_PAD_LEFT);
+                }
+                $codigo="C.U-".$numero;
                 
 
                 $mascota=DB::select('EXEC dbo.InserMascota  ?,?,?,?,?,?,?,?,?,?,?,?',
@@ -1089,7 +1110,93 @@ class MascotasController extends Controller
         return $pdf->download('certificado.pdf');
     }
 
+    public function indexResponsable(Request $request)
+    {
+        Gate::authorize('create-mascotas');
+    
+        $viewDueño = DB::select('EXEC dbo.FoundResponsable ?', [$request->dni]);
+        
+        if (empty($viewDueño)) {
 
+            session()->flash('swal', [
+                'icon' => 'error',
+                'title' => '¡Ups!',
+                'text' => 'No se encontro responsable registrado'
+            ]);
+
+            return response()->json([
+                'url' => route('admin.Mascotas.create'),
+                'error' => true
+            ]);
+        }
+        $Responsable=$viewDueño[0];
+        $id=$Responsable->PK_Responsable;
+        session()->flash('swal', [
+            'icon' => 'success',
+            'text' => 'Se encontro al responsable'
+        ]);
+        return response()->json([
+            'url' => route('admin.Responsable.found',$id),
+            'error' => false
+        ]);
+    }
+
+    public function MascotaCode(Request $request)
+    {
+        Gate::authorize('create-mascotas');
+
+        $numero= $request->dni;
+        $codigo='C.U-'.$numero;
+    
+        $viewMascota = DB::select('EXEC dbo.BuscarMasCodigo ?', [$codigo]);
+        
+        if (empty($viewMascota)) {
+
+            session()->flash('swal', [
+                'icon' => 'error',
+                'title' => '¡Ups!',
+                'text' => 'No se encontro mascota registrado'
+            ]);
+
+            return response()->json([
+                'url' => route('admin.Mascotas.index'),
+                'error' => true
+            ]);
+        }
+        $mascota=$viewMascota[0];
+        $id=$mascota->PK_Mascota;
+
+
+        session()->flash('swal', [
+            'icon' => 'success',
+            'text' => 'Se encontro mascota'
+        ]);
+
+        return response()->json([
+            'url' => route('admin.Mascota.code.found',$id),
+            'error' => false
+        ]);
+    }
+
+
+    public function ResponsableFound($id)
+    {
+        #para el veterninario
+        Gate::authorize('create-mascotas');  
+        $razas = DB::select('EXEC dbo.viewRazas');
+        $identificadores = DB::select('EXEC dbo.viewIdentificaciones');
+        $viewDueño = DB::select('EXEC dbo.FoundResponsableId ?', [$id]);
+        $responsable= $viewDueño[0];
+        return view('admin/Veterinaria/LookResponsable',compact('razas','identificadores','responsable'));
+    }
+
+    public function MacotFoundCodigo($id)
+    {
+        #para el veterninario
+        $mascotas=DB::select('EXEC dbo.OneMascota ? ',[$id]);
+        // return $mascotas;
+        return view('admin/Veterinaria/Mascotas',compact('mascotas'));
+    }
 
 
     public function imagenDelete($id)
