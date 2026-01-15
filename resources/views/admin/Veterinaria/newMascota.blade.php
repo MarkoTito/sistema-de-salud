@@ -62,31 +62,49 @@
                 <div class="grid gap-6 mb-4 md:grid-cols-3 mt-4">
                     <div class="mb-4">
                         <label class="text-sm">Nombre</label>
-                        <input name="nombreRes" maxlength="55" type="text" class="border w-full p-2 rounded-lg" required   >
+                        <input name="nombreRes" maxlength="55" type="text" class="border w-full p-2 rounded-lg" required  value="{{ old('nombreRes') }}" >
+                        @error('nombreRes')
+                            <p class="text-red-600">*{{$message}}</p>
+                        @enderror
                     </div>
             
                     <div class="mb-4">
                         <label class="text-sm">Apellido Paterno:</label>
-                        <input type="text" name="apePaRes" maxlength="30" class="border w-full p-2 rounded-lg" required  >
+                        <input type="text" name="apePaRes" maxlength="30" class="border w-full p-2 rounded-lg" required value="{{ old('apePaRes') }}" >
+                        @error('apePaRes')
+                            <p class="text-red-600">*{{$message}}</p>
+                        @enderror
                     </div>
                     <div class="mb-4">
                         <label class="text-sm">Apellido Materno:</label>
-                        <input type="text" name="apeMaRes" maxlength="30" class="border w-full p-2 rounded-lg" required  >
+                        <input type="text" name="apeMaRes" maxlength="30" class="border w-full p-2 rounded-lg" required value="{{ old('apeMaRes') }}"  >
+                        @error('apeMaRes')
+                            <p class="text-red-600">*{{$message}}</p>
+                        @enderror
                     </div>
     
                     <div class="mb-4">
                         <label class="text-sm">DNI:</label>
-                        <input type="text" name="dniRes" maxlength="8" class="border w-full p-2 rounded-lg"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" required  />
+                        <input type="text" name="dniRes" maxlength="8" class="border w-full p-2 rounded-lg" value="{{ old('dniRes') }}"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" required  />
+                        @error('dniRes')
+                            <p class="text-red-600">*{{$message}}</p>
+                        @enderror
                     </div>
             
                     <div class="mb-4">
                         <label class="text-sm">Celular:</label>
-                        <input type="text" name="numCelRes" maxlength="9" class="border w-full p-2 rounded-lg"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" required  />
+                        <input type="text" name="numCelRes" maxlength="9" class="border w-full p-2 rounded-lg" value="{{ old('numCelRes') }}"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" required  />
+                        @error('numCelRes')
+                            <p class="text-red-600">*{{$message}}</p>
+                        @enderror
                     </div>
                     
                     <div class="mb-4">
                         <label class="text-sm">Direccion:</label>
-                        <input type="text" name="direRes" maxlength="120" class="border w-full p-2 rounded-lg"  required >
+                        <input type="text" name="direRes" maxlength="120" value="{{old('direRes')}}"  class="border w-full p-2 rounded-lg"  required >
+                        @error('direRes')
+                            <p class="text-red-600">*{{$message}}</p>
+                        @enderror
                     </div>
                 </div>
     
@@ -94,12 +112,18 @@
                     {{-- opcional --}}
                     <div class="mb-4">
                         <label class="text-sm">Numero de Telefono Fijo:</label>
-                        <input type="text" name="telFijo" maxlength="15" class="border w-full p-2 rounded-lg"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
+                        <input type="text" name="telFijo" maxlength="15" value="{{old('telFijo')}}" class="border w-full p-2 rounded-lg"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
+                        @error('telFijo')
+                            <p class="text-red-600">*{{$message}}</p>
+                        @enderror
                     </div>
                     {{-- opcional --}}
                     <div class="mb-4">
                         <label class="text-sm">Correo electronico:</label>
-                        <input type="email" name="correo" class="border w-full p-2 rounded-lg" >
+                        <input type="email" name="correo" value="{{old('correo')}}" class="border w-full p-2 rounded-lg" >
+                        @error('email')
+                            <p class="text-red-600">*{{$message}}</p>
+                        @enderror
                     </div>
                     {{-- opcional --}}
                     <div class="mb-4">
@@ -134,29 +158,32 @@
                 <div class="grid gap-6 mb-4 md:grid-cols-3 mt-4">
                     <div class="mb-4">
                         <label class="text-sm">Nombre:</label>
-                        <input name="nombreMas"  maxlength="55" type="text" class="border w-full p-2 rounded-lg" required  >
+                        <input name="nombreMas" value="{{old('nombreMas')}}"  maxlength="55" type="text" class="border w-full p-2 rounded-lg" required  >
+                        @error('nombreMas')
+                            <p class="text-red-600">*{{$message}}</p>
+                        @enderror
                     </div>
             
                     <div class="mb-4">
                         <label class="text-sm">Especie:</label>
                         <select required name="tipo" id="" style="width: 100%"  >
                             <option selected disabled  value="">Escoja una opción</option>
-                            <option value="Canino">Canino</option>
-                            <option value="Felino">Felino</option>
+
+                            <option value="Canino" {{old('tipo')== "Canino" ? 'selected': '' }} >Canino</option>
+                            <option value="Felino" {{old('tipo')== "Felino" ? 'selected': '' }}  >Felino</option>
                         </select>
+                        @error('tipo')
+                            <p class="text-red-600">*{{$message}}</p>
+                        @enderror
                     </div>
                     <div class="mb-4">
                         <div class="mb-4">
                             <label class="text-sm">Raza:</label>
-                            <input name="raza"  maxlength="55" type="text" class="border w-full p-2 rounded-lg" required  >
+                            <input name="raza" value="{{old('raza')}}"   maxlength="55" type="text" class="border w-full p-2 rounded-lg" required  >
                         </div>
-                        {{-- <label class="text-sm">Raza:</label>
-                        <select required name="raza" id="miSelect-raza" style="width: 100%"  >
-                            <option selected disabled  value="">Escoja una opción</option>
-                            @foreach ($razas as $raza)
-                                <option value="{{$raza->PK_Raza}}">{{$raza->Tdescripcion_raza}}</option>
-                            @endforeach
-                        </select> --}}
+                        @error('raza')
+                            <p class="text-red-600">*{{$message}}</p>
+                        @enderror
                     </div>
                     
                 </div>
@@ -167,27 +194,39 @@
                         <label class="text-sm">Sexo:</label>
                         <select required name="sexo"  style="width: 100%"  >
                             <option selected disabled  value="">Escoja una opción</option>
-                            <option value="MACHO">MACHO</option>
-                            <option value="HEMBRA">HEMBRA</option>
+                            <option value="MACHO" {{old('sexo')== "MACHO" ? 'selected': '' }} >MACHO</option>
+                            <option value="HEMBRA" {{old('sexo')== "HEMBRA" ? 'selected': '' }} >HEMBRA</option>
                         </select>
+                        @error('sexo')
+                            <p class="text-red-600">*{{$message}}</p>
+                        @enderror
                     </div>
                     {{-- opcional --}}
                     <div class="mb-4">
                         <label class="text-sm">Fecha de Nacimiento:</label>
-                        <input  type="Date" name="fechaNaci" class="border w-full p-2 rounded-lg" max="{{ date('Y-m-d') }}" />
+                        <input  type="Date" name="fechaNaci" class="border w-full p-2 rounded-lg" value="{{old('fechaNaci')}}"  max="{{ date('Y-m-d') }}" />
+                        @error('fechaNaci')
+                            <p class="text-red-600">*{{$message}}</p>
+                        @enderror
                     </div>
             
                     <div class="mb-4">
                         <label class="text-sm">Color:</label>
-                        <input required type="text" name="color" maxlength="80"   class="border w-full p-2 rounded-lg"  />
+                        <input required type="text"  name="color" maxlength="80"  value="{{old('color')}}"  class="border w-full p-2 rounded-lg"  />
+                        @error('color')
+                            <p class="text-red-600">*{{$message}}</p>
+                        @enderror
                     </div>
                     <div class="mb-4">
                         <label class="text-sm">Antecedentes de Agresividad   :</label>
                         <select  required name="antecedentes" id="" style="width: 100%" >
                             <option selected disabled  value="">Escoja una opción</option>
-                            <option value="Si">Si</option>
-                            <option value="No">NO</option>
+                            <option value="Si" {{old('antecedentes')== "Si" ? 'selected': '' }} >Si</option>
+                            <option value="No" {{old('antecedentes')== "No" ? 'selected': '' }}  >NO</option>
                         </select>
+                        @error('antecedentes')
+                            <p class="text-red-600">*{{$message}}</p>
+                        @enderror
                     </div>
     
     
@@ -195,27 +234,36 @@
                     <label class="text-sm">Potencialmente Peligroso:</label>
                         <select  required name="peligrocidad" id="" style="width: 100%" >
                             <option selected disabled  value="">Escoja una opción</option>
-                            <option value="Si">Si</option>
-                            <option value="NO">No</option>
+                            <option value="Si" {{old('peligrocidad')== "Si" ? 'selected': '' }} >Si</option>
+                            <option value="NO" {{old('peligrocidad')== "NO" ? 'selected': '' }} >No</option>
                         </select>
+                        @error('peligrocidad')
+                            <p class="text-red-600">*{{$message}}</p>
+                        @enderror
                     </div>
                     {{-- opcional --}}
                     <div class="mb-4">
                         <label class="text-sm">Señas particulares:</label>
-                        <input type="text" name="señales" maxlength="100" class="border w-full p-2 rounded-lg"  />
+                        <input type="text" name="señales" maxlength="100" value="{{old('señales')}}"  class="border w-full p-2 rounded-lg"  />
+                        @error('señales')
+                            <p class="text-red-600">*{{$message}}</p>
+                        @enderror
                     </div>
                 </div>
                 
                 <div class="grid gap-4 mb-4 md:grid-cols-3 mt-4">
                     {{-- opcional --}}
                     <div class="mb-4">
-                    <label class="text-sm">Identificación :</label>
+                        <label class="text-sm">Identificación :</label>
                         <select required name="identificacion" id="miSelect-identificacion" style="width: 100%" >
                             <option  selected disabled  value="">Escoja una opción</option>
                             @foreach ($identificadores as $iden)
-                                <option value="{{$iden->PK_Identificacion}}">{{$iden->Tnombre_identificacion}}</option>
+                                <option value="{{$iden->PK_Identificacion}} {{old('identificacion')== $iden->PK_Identificacion ? 'selected': '' }} ">{{$iden->Tnombre_identificacion}}</option>
                             @endforeach
                         </select>
+                        @error('identificacion')
+                            <p class="text-red-600">*{{$message}}</p>
+                        @enderror
                     </div>
                     <div class="mb-4">
                         <label class="text-sm">Fotografía de la Mascota: </label>

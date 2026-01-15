@@ -23,8 +23,15 @@
                     </button>
                 </a>
             </div>
-            <div>
-                <button type="button"   class="bg-yellow-500 text-white px-4 py-2 rounded" onclick="mostrarFormulario()">
+            <div  >
+                <button type="button"   style="
+                background:#22c55e;
+                color:white;
+                padding:12px 24px;
+                font-size:16px;
+                line-height:1.2;
+                height:auto;
+                " text-white px-4 py-2 rounded" onclick="mostrarFormulario()">
                     Buscar Mascota
                 </button>
             </div>

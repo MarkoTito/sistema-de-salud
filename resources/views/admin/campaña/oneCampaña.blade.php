@@ -39,25 +39,7 @@
     @endif
     @if ($estado == "Empesar antes de tiempo")
         <div class="flex justify-between items-center mb-4">
-            @if (!$colaboradores)
-                
-            @else
-                <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4">
-                        <div>
-                            <button id="mostrarColaboradores" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                                Colaboradores
-                            </button>
-                        </div>
-
-                        <div>
-                            <button id="mostrarEspecilidades" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
-                                Especialidades
-                            </button>
-                        </div>
-
-                    </div>
-                
-            @endif
+            
             @can('update-campañas')
                 <div>
                     <form action="{{route('admin.Campañas.update',$campaña->PK_Campaña)}}" method="POST" class="adelantar-form" >
@@ -83,26 +65,9 @@
     @endif
     @if ($estado == "reabrir campaña?")
         <div class="flex justify-between items-center mb-4">
-
-            @if (!$colaboradores)
+            <div>
                 
-            @else
-                <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4">
-                        <div>
-                            <button id="mostrarColaboradores" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                                Colaboradores
-                            </button>
-                        </div>
-
-                        <div>
-                            <button id="mostrarEspecilidades" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
-                                Especialidades
-                            </button>
-                        </div>
-
-                    </div>
-                
-            @endif
+            </div>
             
             @can('update-campañas')
                 <div>
@@ -254,22 +219,57 @@
                     @if (!$colaboradores)
                     @else
                         @can('view-campañas')
-                            
-                            <div>
-                                <a href="{{route('admin.campañas.imagen',$campaña->PK_Campaña)}}">
-                                    <button style="background:#7c3aed; color:white; padding:8px 16px; border-radius:6px;">
-                                        <i class="fa-solid fa-camera"></i>
-                                        Agregar Evidencia
-                                    </button>
-                                    
-                                </a>
-                            </div>
+                            @if ($Drestantes>0)
+                                <div>
+                                    <a href="{{route('admin.campañas.imagen',$campaña->PK_Campaña)}}">
+                                        <button style="background:#7c3aed; color:white; padding:8px 16px; border-radius:6px;">
+                                            <i class="fa-solid fa-camera"></i>
+                                            Agregar Evidencia
+                                        </button>
+                                        
+                                    </a>
+                                </div>
+                            @endif
                             @can('create-asitentes')
-                                @if ($campaña->PK_TiposCampañas==1)
-                                    <div >
-                                        <button
-                                            id="agregar-asistente-mascota"
-                                            class="swal2-confirm swal2-styled"
+                                @if ($Drestantes>0)
+                                    @if ($campaña->PK_TiposCampañas==1)
+                                        <div >
+                                            <button
+                                                id="agregar-asistente-mascota"
+                                                class="swal2-confirm swal2-styled"
+                                                style="
+                                                    background:#22c55e;
+                                                    color:white;
+                                                    padding:12px 24px;
+                                                    font-size:16px;
+                                                    line-height:1.2;
+                                                    height:auto;
+                                                ">
+                                                <i class="fa-solid fa-user"></i>
+                                                Agregar Asistente
+                                            </button>
+                                        </div>
+                                        {{-- para agregar documentos --}}
+                                        <div>
+                                            <a href="{{route('admin.campañas.index.documen',$campaña->PK_Campaña)}}">
+                                                <button 
+                                                    style="
+                                                        background:#facc15;
+                                                        color:#000;
+                                                        padding:12px 24px;
+                                                        font-size:16px;
+                                                        line-height:1.2;
+                                                        height:auto;
+                                                    "
+                                                    >
+                                                    <i class="fa-regular fa-copy"></i>
+                                                    Agregar Lista
+                                                </button>
+                                            </a>
+                                        </div>
+                                    @else
+                                        <div >
+                                            <button  class="swal2-confirm swal2-styled"
                                             style="
                                                 background:#22c55e;
                                                 color:white;
@@ -277,71 +277,45 @@
                                                 font-size:16px;
                                                 line-height:1.2;
                                                 height:auto;
-                                            ">
-                                            <i class="fa-solid fa-user"></i>
-                                            Agregar Asistente
-                                        </button>
-                                    </div>
-                                    {{-- para agregar documentos --}}
-                                    <div>
-                                        <a href="{{route('admin.campañas.index.documen',$campaña->PK_Campaña)}}">
-                                            <button 
-                                                style="
-                                                    background:#facc15;
-                                                    color:#000;
-                                                    padding:12px 24px;
-                                                    font-size:16px;
-                                                    line-height:1.2;
-                                                    height:auto;
-                                                "
-                                                >
-                                                <i class="fa-regular fa-copy"></i>
-                                                Agregar Lista
+                                            " id="agregar-asistente" >
+                                                <i class="fa-solid fa-user"></i>
+                                                Agregar Asistente                        
                                             </button>
-                                        </a>
-                                    </div>
-                                @else
-                                    <div >
-                                        <button  class="swal2-confirm swal2-styled"
-                                        style="
-                                            background:#22c55e;
-                                            color:white;
-                                            padding:12px 24px;
-                                            font-size:16px;
-                                            line-height:1.2;
-                                            height:auto;
-                                        " id="agregar-asistente" >
-                                            <i class="fa-solid fa-user"></i>
-                                            Agregar Asistente                        
-                                        </button>
-                                    </div>
+                                        </div>
 
-                                    {{-- para agregar documentos --}}
-                                    <div>
-                                        <a href="{{route('admin.campañas.index.documen',$campaña->PK_Campaña)}}">
-                                            <button 
-                                                style="
-                                                    background:#facc15;
-                                                    color:#000;
-                                                    padding:12px 24px;
-                                                    font-size:16px;
-                                                    line-height:1.2;
-                                                    height:auto;
-                                                "
-                                                >
-                                                <i class="fa-regular fa-copy"></i>
-                                                Agregar Lista
-                                            </button>
-                                        </a>
-                                    </div>
+                                        {{-- para agregar documentos --}}
+                                        <div>
+                                            <a href="{{route('admin.campañas.index.documen',$campaña->PK_Campaña)}}">
+                                                <button 
+                                                    style="
+                                                        background:#facc15;
+                                                        color:#000;
+                                                        padding:12px 24px;
+                                                        font-size:16px;
+                                                        line-height:1.2;
+                                                        height:auto;
+                                                    "
+                                                    >
+                                                    <i class="fa-regular fa-copy"></i>
+                                                    Agregar Lista
+                                                </button>
+                                            </a>
+                                        </div>
+                                    @endif 
                                 @endif
                             @endcan
-                            
-                            
-                            
                         @endcan
                     @endif
-                </div>    
+                </div>  
+                @if ($Drestantes>0)
+                    <div class="text-blue-600" >
+                        <p>*Queda {{$Drestantes}} dia(s) para subir la evidencia</p>  
+                    </div>
+                @else
+                    <div class="text-red-600" >
+                        <p>*Se termino el tiempo para subir la evidencia</p>  
+                    </div>
+                @endif
             @endif            
         </div>
     </div>

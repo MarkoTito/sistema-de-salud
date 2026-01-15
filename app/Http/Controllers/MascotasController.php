@@ -69,9 +69,61 @@ class MascotasController extends Controller
     public function store(Request $request)
     {
         Gate::authorize('create-mascotas');  
-        // $Idusuario = Auth::user()->id;
-        Log::info($request->all());
+        $Idusuario = Auth::user()->id;
+        // Log::info($request->all());
+
+        // $request->validate(
+        //     [
+        //         'nombreRes' => 'required',
+        //         'apePaRes' => 'required',
+        //         'apeMaRes' => 'required',
+        //         'dniRes' => 'required|min:8|max:8',
+        //         'numCelRes' => 'required|min:9|max:9',
+        //         'direRes' => 'required',
+        //         'correo' => 'nullable|email',
+        //         'telFijo' => 'nullable',
+
+        //         'nombreMas' => 'required',
+        //         'tipo' => 'required',
+        //         'raza' => 'required',
+        //         'sexo' => 'required',
+        //         'fechaNaci' => 'nullable|date',
+        //         'color' => 'required',
+        //         'antecedentes' => 'required',
+        //         'peligrocidad' => 'required',
+        //         'señales' => 'nullable',
+        //         'identificacion' => 'nullable',
+        //     ],
+        //     []
+        //     ,
+        //     [
+        //         'nombreRes' => 'Nombre del responsable',
+        //         'apePaRes' => 'Ape. Paterno del responsable',
+        //         'apeMaRes' => 'Ape. Materno del responsable',
+        //         'dniRes' => 'DNI del responsable',
+        //         'numCelRes' => 'Celular del responsable',
+        //         'direRes' => 'Direccion del responsable',
+        //         'correo' => 'Correo del responsable',
+        //         'telFijo' => 'Tel. Fijo del responsable',
+
+        //         'nombreMas' => 'Nombre de Mascota',
+        //         'tipo' => 'Tipo de Mascota',
+        //         'raza' => 'Raza de Mascota',
+        //         'sexo' => 'Sexo de Mascota',
+        //         'fechaNaci' => 'Fecha de nacimiento de Mascota',
+        //         'color' => 'Color de Mascota',
+        //         'antecedentes' => 'Antecedentes de agrecividad',
+        //         'peligrocidad' => 'Peligrosidad de Mascota',
+        //         'señales' => 'Señales particulares',
+        //         'identificacion' => 'Tipo de identificacion',
+        //     ]
+
+
+        // );
+
+        
         $viewDueño=DB::select('EXEC dbo.FoundResponsable ?',[$request->dniRes]);
+
         if (!empty($viewDueño)) {
             
             // aca el dueño ya fue registrado
@@ -79,14 +131,15 @@ class MascotasController extends Controller
 
             //aca se busca la ultima mascota para generar el codigo
             $mascota= DB::select('EXEC dbo.LastMascota');
-            $Base=$mascota[0];
             $numero="";
-            if (!$Base) {
+            if (!$mascota) {
                 $numero="000000001";
             } else {
+                $Base=$mascota[0];
                 $numero = str_pad($Base->PK_Mascota +1, 9, '0', STR_PAD_LEFT);
             }
             $codigo="C.U-".$numero;
+
 
             $mascota=DB::select('EXEC dbo.InserMascota  ?,?,?, ?,?,?, ?,?,? ,?,?,?',
                     [
@@ -169,14 +222,14 @@ class MascotasController extends Controller
                         }
                     }
                     // insersion en la talba de modificacion
-                    // $tipoInser="masco";
-                    // $tipoModi=1;
-                    // DB::statement('EXEC dbo.InsertarModificacion ?,?,?,?', [
-                    //         $idMascota,
-                    //         $tipoInser,
-                    //         $tipoModi,
-                    //         $Idusuario
-                    // ]);
+                    $tipoInser="masco";
+                    $tipoModi=1;
+                    DB::statement('EXEC dbo.InsertarModificacion ?,?,?,?', [
+                            $idMascota,
+                            $tipoInser,
+                            $tipoModi,
+                            $Idusuario
+                    ]);
 
                     if ($mascota && $mascota[0]->estado === 'OK') {
                         return response()->json(['success' => true,]);
@@ -305,14 +358,14 @@ class MascotasController extends Controller
 
                         if ($mascota && $mascota[0]->estado === 'OK') {
                             // insersion en la talba de modificacion
-                            // $tipoInser="masco";
-                            // $tipoModi=1;
-                            // DB::statement('EXEC dbo.InsertarModificacion ?,?,?,?', [
-                            //         $idMascota,
-                            //         $tipoInser,
-                            //         $tipoModi,
-                            //         $Idusuario
-                            // ]);
+                            $tipoInser="masco";
+                            $tipoModi=1;
+                            DB::statement('EXEC dbo.InsertarModificacion ?,?,?,?', [
+                                    $idMascota,
+                                    $tipoInser,
+                                    $tipoModi,
+                                    $Idusuario
+                            ]);
 
 
                             //envio al correo

@@ -141,12 +141,12 @@
                                     
                                 @endif
                                 @if ($campaña->Nestado_campaña ==2)
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-green-600" align="center" >
+                                    <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-green-600" align="center" >
                                         Abierto
                                     </th>
                                 @endif
                                 @if ($campaña->Nestado_campaña ==3)
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  text-red-600" align="center" >
+                                    <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap  text-red-600" align="center" >
                                         Finalizado
                                     </th>
                                 @endif

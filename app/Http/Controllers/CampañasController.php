@@ -83,94 +83,119 @@ class CampañasController extends Controller
     public function store(Request $request)
     {
         Gate::authorize('create-campañas');
-        try {
-            
-            $validated = $request->validate([
+        
+        $request->validate([
                 'Campañas' => 'required|integer',
                 'colaborador' => 'required',
+                'especialidad' => 'required',
                 'DfechaIni_campaña' => 'required|date',
+
                 'hora_inicio' => 'required',
                 'Tlugar_campaña' => 'required|string|max:150',
-            ]);
+            ],
+            [],
+            [
+                'Campañas' => 'Tipo de campaña',
+                'colaborador' => 'Colaborador',
+                'especialidad' => 'Especialidad',
+
+                'DfechaIni_campaña' => 'Fecha de campaña',
+                'hora_inicio' => 'Hora inicio',
+                'Tlugar_campaña' => 'Lugar de campaña',
+            ]
+        );
+
+        // return $request;
+       //return $request->opciones[0];
+        $Idusuario = Auth::user()->id;
+        //fecha de cracion , para luego sacar cuando se cierra la insercion de documentos
+        $FechCierre= Carbon::now()->addDays(3);
+
 
         
-           //return $request->opciones[0];
-            $Idusuario = Auth::user()->id;
+        $resultado = DB::select('EXEC dbo.InserCampaña ?, ?, ?, ?, ?', [
+            $request->Campañas,
+            $Idusuario,
+            $request->DfechaIni_campaña,
 
-            $resultado = DB::select('EXEC dbo.InserCampaña ?, ?, ?, ?, ?', [
-                $validated['Campañas'],
-                $Idusuario,
-                $validated['DfechaIni_campaña'],
-                $validated['hora_inicio'],
-                $validated['Tlugar_campaña'],
+            $request->hora_inicio,
+            $request->Tlugar_campaña,
+            // $FechCierre
+        ]);
+
+        $idInsertado = $resultado[0]->id_insertado;
+
+        #insercion en la talba relacion de colaborador y campaña
+        $colaborador = explode(',', $request->colaborador);
+        $cant= count($colaborador);
+        
+        for ($i=0; $i <$cant ; $i++) { 
+            $idColaborador = intval(trim($colaborador[$i]));
+            $colCampa = DB::select('EXEC dbo.InserCampaña_colaborador ?, ?', [
+                $idInsertado,
+                $idColaborador
+            ]);
+        }
+
+        #insercion en la talba relacion de especialidad y campaña
+        $especialidad = explode(',', $request->especialidad);
+        $cant= count($especialidad);
+        
+        for ($i=0; $i <$cant ; $i++) { 
+            $idEspecialidad = intval(trim($especialidad[$i]));
+            $colCampa = DB::select('EXEC dbo.InserCampaña_Especie ?, ?', [
+                $idInsertado,
+                $idEspecialidad
+            ]);
+        }
+        // insersion en la talba de modificacion
+        $tipoInser="camp";
+        $tipoModi=1;
+        DB::statement('EXEC dbo.InsertarModificacion ?,?,?,?', [
+                $idInsertado,
+                $tipoInser,
+                $tipoModi,
+                $Idusuario
             ]);
 
-            $idInsertado = $resultado[0]->id_insertado;
 
-            #insercion en la talba relacion de colaborador y campaña
-            $colaborador = explode(',', $request->colaborador);
-            $cant= count($colaborador);
+        if ($colCampa === true) {
+            session()->flash('swal', [
+                'icon' => 'error',
+                'title' => '¡Ups!',
+                'text' => 'No se registro la campaña correctamente'
+            ]);
+        } else {
+            session()->flash('swal', [
+                'icon' => 'success',
+                'title' => '¡Buen trabajo!',
+                'text' => 'Se registro la campaña correctamente'
+            ]);
             
-            for ($i=0; $i <$cant ; $i++) { 
-                $idColaborador = intval(trim($colaborador[$i]));
-                $colCampa = DB::select('EXEC dbo.InserCampaña_colaborador ?, ?', [
-                    $idInsertado,
-                    $idColaborador
-                ]);
-            }
-
-            #insercion en la talba relacion de especialidad y campaña
-            $especialidad = explode(',', $request->especialidad);
-            $cant= count($especialidad);
+        } 
+        return redirect()->route('admin.Campañas.index');
+        // try {
             
-            for ($i=0; $i <$cant ; $i++) { 
-                $idEspecialidad = intval(trim($especialidad[$i]));
-                $colCampa = DB::select('EXEC dbo.InserCampaña_Especie ?, ?', [
-                    $idInsertado,
-                    $idEspecialidad
-                ]);
-            }
-            // insersion en la talba de modificacion
-            $tipoInser="camp";
-            $tipoModi=1;
-            DB::statement('EXEC dbo.InsertarModificacion ?,?,?,?', [
-                    $idInsertado,
-                    $tipoInser,
-                    $tipoModi,
-                    $Idusuario
-                ]);
 
-
-            if ($colCampa === true) {
-                session()->flash('swal', [
-                    'icon' => 'error',
-                    'title' => '¡Ups!',
-                    'text' => 'No se registro la campaña correctamente'
-                ]);
-            } else {
-                session()->flash('swal', [
-                    'icon' => 'success',
-                    'title' => '¡Buen trabajo!',
-                    'text' => 'Se registro la campaña correctamente'
-                ]);
-                
-            } 
-            return redirect()->route('admin.Campañas.index');
-
-        } catch (\Throwable $e) {
-            return response()->json([
-                'ok' => false,
-                'msg' => 'Error en el servidor',
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ], 500);
-        }
+        // } catch (\Throwable $e) {
+        //     return response()->json([
+        //         'ok' => false,
+        //         'msg' => 'Error en el servidor',
+        //         'error' => $e->getMessage(),
+        //         'trace' => $e->getTraceAsString()
+        //     ], 500);
+        // }
     }
 
     public function show($id)
     {
         Gate::authorize('view-campañas');
         $campañaShow = DB::select('EXEC dbo.OneCAMPAÑA ? ',[$id]);
+
+        
+
+
+
         //imagen
         $Tiposcampañas=DB::select('EXEC dbo.ViewsTiposCampañas');
         $resulAsistentes= DB::select('EXEC dbo.ViewsAsistentesCampañas ? ',[$id]);
@@ -201,6 +226,36 @@ class CampañasController extends Controller
         if (!empty($campañaShow)) {
             $campaña = $campañaShow[0];
 
+            //mostrar los dias que quedan para q suban sus evidencias
+            $hoy = Carbon::now();
+            $Inicio = Carbon::parse($campaña->DfechaIni_campaña);
+
+            $dias = $Inicio->diffInDays($hoy);
+            // $Cierre = Carbon::parse($campaña->DfechaCierre_campaña);
+            // $total = $dias -3;
+
+            $Drestantes = 0;
+            if ($dias> 0) {
+                $Drestantes=3;
+            }
+            if ($dias > 1) {
+                $Drestantes=2;
+            }
+            if ($dias> 2) {
+                $Drestantes=1;
+            }
+            if ($dias> 3) {
+                $Drestantes=-1;
+            }
+                 
+            
+            
+            // return $Drestantes;
+
+
+
+        
+            // return $diasRestantes; 
             $imagen = collect(DB::select('EXEC dbo.ViewImagenCampañas ?', [$id]));
             $colaboradores= DB::select('EXEC dbo.ViewColaboradoresCamp ?',[$id]);
 
@@ -237,7 +292,7 @@ class CampañasController extends Controller
                 }
             }
             // return $imagen;
-            return view('admin.campaña.oneCampaña', compact('documentos','cantiPerros','cantiGatos','campaña','OnEspecialidadades','especialidades','asistentes','cantidad','estado','imagen','colaboradores'));
+            return view('admin.campaña.oneCampaña', compact('documentos','cantiPerros','cantiGatos','campaña','OnEspecialidadades','especialidades','asistentes','cantidad','estado','imagen','colaboradores','Drestantes'));
         } else {
             return redirect()->back()->with('error', 'No se encontró la campaña.');
         }
@@ -469,17 +524,17 @@ class CampañasController extends Controller
         $fecha = Carbon::now()->format('dmY');
         
         $informacion=DB::select('EXEC dbo.ViewsAsistentesCampañas ?',[$id]);
-        $campaña= $informacion[0];
         
         if (empty($informacion[0])) {    
             session()->flash('swal', [
                 'icon' => 'error',
                 'title' => '¡Ups!',
-                'text' => 'no existe las charlas'
+                'text' => 'no existe asistentes registrados'
             ]);
-            return redirect()->route('admin.Charlas.index');                
+            return redirect()->route('admin.Campañas.index');                
         }
-
+        $campaña= $informacion[0];
+        
         // $resultado = collect($informacion);
         $pdf =Pdf::loadView('admin.PDF.AsistentesCamapañaPdf',[
             'asistente' =>$informacion,

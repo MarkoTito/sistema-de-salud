@@ -28,7 +28,7 @@
                         @if ($tipo->Nestado_Tipocharla==0)
                             
                         @else
-                            <option value="{{$tipo->PK_TiposCharla}}">{{$tipo->Tnombre_charla}}</option>
+                            <option value="{{$tipo->PK_TiposCharla}}" {{old('charlas')== $tipo->PK_TiposCharla ? 'selected': '' }}  >{{$tipo->Tnombre_charla}}</option>
                             
                         @endif
                     @endforeach
@@ -56,7 +56,7 @@
                 <input type="time" name="horaIni" id="horaIni" required
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
-                        dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        dark:bg-gray-700 dark:border-gray-600 dark:text-white" value="{{old('horaIni')}}">
             </div>
 
             <div>
@@ -66,8 +66,8 @@
                 <input type="time" name="horaFin" id="horaFin" required
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
-                        dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                <p id="errorHora" class="text-red-600 text-sm mt-1 hidden">
+                        dark:bg-gray-700 dark:border-gray-600 dark:text-white" value="{{old('horaFin')}}">
+                <p id="errorHora" class="text-red-600 text-sm mt-1 hidden" >
                     * La hora de fin debe ser mayor que la hora de inicio.
                 </p>
             </div>
@@ -78,7 +78,7 @@
                 <label for="Tlugar_charla" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">
                     Lugar:
                 </label>
-                <input name="Tlugar_charla" type="text" id="Tlugar_charla" required maxlength="30"
+                <input name="Tlugar_charla" type="text" id="Tlugar_charla" required maxlength="150"
                     placeholder="Ingrese el lugar"
                     value="{{ old('Tlugar_charla') }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
@@ -145,6 +145,9 @@
                                 @endif
                         @endforeach
                 </select>
+                @error('expositores')
+                    <p class="text-red-600">*{{$message}}</p>
+                @enderror
                 <!-- Contenedor de chips -->
                 <div id="contenedorTags2" class="flex flex-wrap gap-2 mt-3"></div>
     

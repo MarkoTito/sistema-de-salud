@@ -71,8 +71,9 @@ class CharlasController extends Controller
             'DfechaIni_charla' => 'required|date|after_or_equal:today',
             'horaIni' => 'required|date_format:H:i',
             'horaFin' => 'required|date_format:H:i|after:horaIni',
-            'Tlugar_charla' => 'required|string|max:30',
+            'Tlugar_charla' => 'required|string|max:150',
             'TdescripcionLugar_charla' => 'required|string|max:50',
+            'expositores' => 'required'
         ], [
             'charlas.required' => 'Debe seleccionar un tipo de charla.',
             'charlas.exists' => 'El tipo de charla seleccionado no es válido.',
@@ -82,21 +83,28 @@ class CharlasController extends Controller
             'horaFin.required' => 'Debe ingresar la hora de fin.',
             'horaFin.after' => 'La hora de fin debe ser mayor que la hora de inicio.',
             'Tlugar_charla.required' => 'Debe ingresar el lugar.',
-            'Tlugar_charla.max' => 'El lugar no debe tener más de 30 caracteres.',
+            'Tlugar_charla.max' => 'El lugar no debe tener más de 150 caracteres.',
             'TdescripcionLugar_charla.required' => 'Debe ingresar la descripción del lugar.',
             'TdescripcionLugar_charla.max' => 'La descripción no debe tener más de 50 caracteres.',
+            'expositores.required' => 'Debe seleccionar un expositor.',
+
         ]);
 
         $Idusuario = Auth::user()->id;
-
-        $resultado = DB::select('EXEC dbo.InserCharla ?, ?, ?, ?, ? , ?,?', [
+        //fecha de cracion , para luego sacar cuando se cierra la insercion de documentos
+        $FechCierre= Carbon::now()->addDays(3);
+    
+        $resultado = DB::select('EXEC dbo.InserCharla ?,?,?, ?,?,?, ?,?', [
                 $validated['charlas'],
                 $Idusuario,
                 $validated['DfechaIni_charla'],
+
                 $validated['horaIni'],
                 $validated['horaFin'],
                 $validated['Tlugar_charla'],
+
                 $validated['TdescripcionLugar_charla'],
+                $FechCierre
             ]);
 
             #insercion a la talba realcion
@@ -156,6 +164,28 @@ class CharlasController extends Controller
         $documentos = collect(DB::select('EXEC dbo.ViewDocumentCharla ?', [$id]));
         $imagenes = collect(DB::select('EXEC dbo.ViewImagenCharla ?', [$id]));
         $charla = $charlaShow[0];
+
+        
+        //mostrar los dias que quedan para q suban sus evidencias
+        $hoy = Carbon::now();
+        $Inicio = Carbon::parse($charla->DfechaIni_charla);
+
+        $dias = $Inicio->diffInDays($hoy);
+        // $Cierre = Carbon::parse($campaña->DfechaCierre_campaña);
+        $total = $dias -3;
+
+        $Drestantes = 0;
+        if ($dias> 0) {
+            $Drestantes=3;
+        }
+        if ($dias > 1) {
+            $Drestantes=2;
+        }
+        if ($dias> 2) {
+            $Drestantes=1;
+        }
+
+
         //asitentes de charla
         $asitentes1 = DB::select('EXEC dbo.ViewsAsistentescharlas ?', [$id]);
 
@@ -178,7 +208,7 @@ class CharlasController extends Controller
         );
 
         // return $asitentes;
-        return view('admin/charla/oneCharla', compact('cantidad','asitentes','charla','expositores','documentos','imagenes'));
+        return view('admin/charla/oneCharla', compact('cantidad','asitentes','charla','expositores','documentos','imagenes','Drestantes'));
     }
 
     /**

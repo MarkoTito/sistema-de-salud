@@ -18,43 +18,53 @@
         </h1>
     </div>
     
-    <div class="flex justify-between items-center mb-4">
-        @can('update-charlas')
-            <div>
-                <a href="{{route('admin.charla.documento',$charla->PK_Charlas)}}">
-                    <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" id="agregar-asistente" >
-                        <i class="fa-solid fa-file"></i>
-                        Agregar lista
-                    </button>    
-                </a>
-            </div>            
-        @endcan
-        
-        @can('update-charlas')
-            <div>
-                <a href="{{route('admin.charla.imagen',$charla->PK_Charlas)}}">
-                    <button style="background:#7c3aed; color:white; padding:8px 16px; border-radius:6px;">
-                        <i class="fa-solid fa-camera"></i>
-                        Agregar Evidencia
-                    </button>    
-                </a>
-                
-            </div>
-        @endcan
+    @if ($Drestantes>0)
+        <div class="flex justify-between items-center mb-4">
+            @can('update-charlas')
+                <div>
+                    <a href="{{route('admin.charla.documento',$charla->PK_Charlas)}}">
+                        <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" id="agregar-asistente" >
+                            <i class="fa-solid fa-file"></i>
+                            Agregar lista
+                        </button>    
+                    </a>
+                </div>            
+            @endcan
             
-    </div>
+            @can('update-charlas')
+                <div>
+                    <a href="{{route('admin.charla.imagen',$charla->PK_Charlas)}}">
+                        <button style="background:#7c3aed; color:white; padding:8px 16px; border-radius:6px;">
+                            <i class="fa-solid fa-camera"></i>
+                            Agregar Evidencia
+                        </button>    
+                    </a>
+                    
+                </div>
+            @endcan
+                
+        </div>
+    @endif
     
     <br>
     @if ($imagenes->isEmpty())
         <div class="flex justify-center mb-4 " >
             <img src="https://www.stellamaris.com.pe/uploads/shares/BLOG/CAMPA__A_DE_SALUD_-_RESP__SOCIAL.jpg" height="450px" width="640px" alt="imagen de la campaña">
         </div>
-
-        <div class="flex justify-center mb-4 " >
-            <button id="agregar-asistentes" type="submit"  style=" background:#22c55e; color:white; padding:12px 24px; font-size:16px; line-height:1.2; height:auto;">
-            Agregar asistente                
-            </button>
-        </div>
+        @if ($Drestantes>0)
+            <div class="flex justify-center mb-4 " >
+                <button id="agregar-asistentes" type="submit"  style=" background:#22c55e; color:white; padding:12px 24px; font-size:16px; line-height:1.2; height:auto;">
+                Agregar asistente                
+                </button>
+            </div>
+            <div class="text-blue-500 flex justify-center "  >
+                <p>*Queda {{$Drestantes}} dia(s) para subir la evidencia</p>  
+            </div>
+        @else
+            <div class="text-red-500 flex justify-center "  >
+                <p>*Se termino el tiempo para subir evidencia</p>  
+            </div>
+        @endif
         
     @else
         <div class="swiper mySwiper w-full max-w-xl">

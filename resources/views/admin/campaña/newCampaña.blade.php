@@ -19,13 +19,12 @@
         <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4">
             <div>
                 <label for="campañas" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Elige una Campaña</label>
-                <select required name="Campañas" id="miSelect-tipoCampaña"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <select required name="Campañas" id="miSelect-tipoCampaña"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
                     <option value=""selected disabled >---Seleccioné una campaña---</option>
                     @foreach ($Tiposcampañas as $campaña)
                         @if ($campaña->Nestado_Tipocampaña == 0)
-                            
                         @else
-                            <option value="{{$campaña->PK_TiposCampañas}}" >{{$campaña->Tnombre_Tipocampaña}}</option>
+                            <option value="{{$campaña->PK_TiposCampañas}}" {{old('Campañas')== $campaña->PK_TiposCampañas ? 'selected': '' }}  >{{$campaña->Tnombre_Tipocampaña}}</option>
                         @endif
                     @endforeach
                 </select>
@@ -35,7 +34,7 @@
                 <div>
                 {{-- Lugar de campaña --}}
                 <label for="Tlugar_campaña" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Lugar:</label>
-                <input name="Tlugar_campaña" type="text" id="Tlugar_campaña" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" maxlength="150"  required  placeholder="Ingrese el lugar" required value="{{old('Tlugar_campaña')}}"/>
+                <input name="Tlugar_campaña" maxlength="150" type="text" id="Tlugar_campaña" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"     placeholder="Ingrese el lugar" required value="{{old('Tlugar_campaña')}}"/>
                 @error('Tlugar_campaña')
                         <p class="text-red-600">*{{$message}}</p>
                 @enderror
@@ -61,7 +60,7 @@
                     id="hora_inicio" 
                     name="hora_inicio" 
                     class="mt-1 block w-40 border border-gray-300 rounded-lg p-2 text-gray-700"
-                >
+                    value="{{old('hora_inicio')}}"/>
             </div>
         
             
@@ -70,6 +69,9 @@
         </div>
         <br>
         <div class="grid gap-6 mb-4 md:grid-cols-2 mt-4">
+
+
+            {{-- colaboradores --}}
             <div class="mb-4">
                 <label>Seleccione a a los colaboradores:</label>
                 <select required  id="selectColaboradores" class="w-full border rounded px-3 py-2">
@@ -78,6 +80,9 @@
                             <option value="{{$colaborador->PK_Colaborador}}" >{{$colaborador->Tnombre_colaborador}}</option>
                     @endforeach
                 </select>
+                @error('colaborador')
+                        <p class="text-red-600">*{{$message}}</p>
+                @enderror
                 <!-- Contenedor de chips -->
                 <div id="contenedorTags" class="flex flex-wrap gap-2 mt-3"></div>
     
@@ -85,6 +90,8 @@
                 <input type="hidden" name="colaborador" id="categoriasHidden">
             </div>
 
+
+            {{-- especialidades o servicios --}}
             <div class="mb-4">
                 <label>Seleccione las especialidades o servicios:</label>
                 <select  required id="selectCategorias2" class="w-full border rounded px-3 py-2">
@@ -96,6 +103,9 @@
                         @endif
                     @endforeach
                 </select>
+                @error('especialidad')
+                        <p class="text-red-600">*{{$message}}</p>
+                @enderror
                 <!-- Contenedor de chips -->
                 <div id="contenedorTags2" class="flex flex-wrap gap-2 mt-3"></div>
     
@@ -224,46 +234,46 @@
         </script>
 
         <script>
-        document.addEventListener('change', function(e) {
-        if (e.target.classList.contains('agregarOtro')) {
-            if (e.target.checked) {
-            const contenedor = document.getElementById('contenedor-selects');
-            const cantidadActual = contenedor.querySelectorAll('.select-group').length;
+            document.addEventListener('change', function(e) {
+            if (e.target.classList.contains('agregarOtro')) {
+                if (e.target.checked) {
+                const contenedor = document.getElementById('contenedor-selects');
+                const cantidadActual = contenedor.querySelectorAll('.select-group').length;
 
-            // Límite de 6
-            if (cantidadActual >= 6) {
-                alert('Solo puedes agregar hasta 6 selecciones.');
-                e.target.checked = false;
-                return;
-            }
+                // Límite de 6
+                if (cantidadActual >= 6) {
+                    alert('Solo puedes agregar hasta 6 selecciones.');
+                    e.target.checked = false;
+                    return;
+                }
 
-            // Eliminar el checkbox del bloque actual
-            const labelCheckbox = e.target.closest('label');
-            if (labelCheckbox) {
-                labelCheckbox.remove();
-            }
+                // Eliminar el checkbox del bloque actual
+                const labelCheckbox = e.target.closest('label');
+                if (labelCheckbox) {
+                    labelCheckbox.remove();
+                }
 
-            // Crear nuevo bloque select + checkbox
-            const nuevoSelect = document.createElement('div');
-            nuevoSelect.classList.add('select-group');
-            nuevoSelect.innerHTML = `
-                <br>
-                <label>Seleccione a un colaborador:</label>
-                <select required name="opciones[]" id="miSelect-colaborador" >
-                <option value="">-- Seleccione a un colaborador --</option>
-                    @foreach ($Colaboradores as $colaborador)
-                        <option value="{{$colaborador->PK_Colaborador}}" >{{$colaborador->Tnombre_colaborador}}</option>
-                    @endforeach
-                </select>
-                <label>
-                <input type="checkbox" class="agregarOtro"> ¿Agregar otro?
-                </label>
-            `;
-            
-            contenedor.appendChild(nuevoSelect);
+                // Crear nuevo bloque select + checkbox
+                const nuevoSelect = document.createElement('div');
+                nuevoSelect.classList.add('select-group');
+                nuevoSelect.innerHTML = `
+                    <br>
+                    <label>Seleccione a un colaborador:</label>
+                    <select required name="opciones[]" id="miSelect-colaborador" >
+                    <option value="">-- Seleccione a un colaborador --</option>
+                        @foreach ($Colaboradores as $colaborador)
+                            <option value="{{$colaborador->PK_Colaborador}}" >{{$colaborador->Tnombre_colaborador}}</option>
+                        @endforeach
+                    </select>
+                    <label>
+                    <input type="checkbox" class="agregarOtro"> ¿Agregar otro?
+                    </label>
+                `;
+                
+                contenedor.appendChild(nuevoSelect);
+                }
             }
-        }
-        });
+            });
         </script>
 
 
