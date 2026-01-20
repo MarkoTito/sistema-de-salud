@@ -52,6 +52,8 @@ class CharlasController extends Controller
         Gate::authorize('create-charlas');  
         $Tiposcharlas=DB::select('EXEC dbo.ViewsTiposCharlas');
         $expositores=DB::select('EXEC dbo.ViewExpositores');
+        
+
         return view('admin/charla/newCharla', compact('Tiposcharlas','expositores'));
     }
 
@@ -165,10 +167,11 @@ class CharlasController extends Controller
         $imagenes = collect(DB::select('EXEC dbo.ViewImagenCharla ?', [$id]));
         $charla = $charlaShow[0];
 
+        // return $imagenes;
         
         //mostrar los dias que quedan para q suban sus evidencias
         $hoy = Carbon::now();
-        $Inicio = Carbon::parse($charla->DfechaIni_charla);
+        $Inicio = Carbon::parse($charla->created_at);
 
         $dias = $Inicio->diffInDays($hoy);
         // $Cierre = Carbon::parse($campaña->DfechaCierre_campaña);
@@ -185,6 +188,7 @@ class CharlasController extends Controller
             $Drestantes=1;
         }
 
+        // return $Drestantes;
 
         //asitentes de charla
         $asitentes1 = DB::select('EXEC dbo.ViewsAsistentescharlas ?', [$id]);
@@ -218,6 +222,7 @@ class CharlasController extends Controller
     {
         //
         Gate::authorize('update-charlas');  
+        
         $charlaShow = DB::select('EXEC dbo.OneCHARLA ? ',[$id]);
         $Tiposcharlas=DB::select('EXEC dbo.ViewsTiposCharlas');
         $charla = $charlaShow[0];
@@ -349,6 +354,7 @@ class CharlasController extends Controller
             $primero = $resultado->first();
 
             
+            
             return Excel::download(new \App\Exports\CharlaExport($resultado),'E-'.$primero->Tnombre_charla.'-'.$primero->DfechaIni_charla.'.xlsx');
         }
     }
@@ -369,6 +375,8 @@ class CharlasController extends Controller
                 $request->fehcIni,
                 $request->fehFin
             ]);
+
+            
             if (empty($results[0])) {
     
                 session()->flash('swal', [
@@ -378,9 +386,10 @@ class CharlasController extends Controller
                     ]);
                 return redirect()->route('admin.Charlas.index');                
             } else {
+                
                 $Tiposcharlas=DB::select('EXEC dbo.ViewsTiposCharlas');
                 $collection = collect($results);
-
+                
                 $perPage = 5; 
                 $page = request()->get('page', 1); 
 
@@ -397,6 +406,8 @@ class CharlasController extends Controller
                     'icon' => 'success',
                     'text' => 'Se encontraron las charlas'
                 ]);
+
+                
 
 
                 return view('admin/charla/foundCharla', compact('charlas','Tiposcharlas','request'));
@@ -424,6 +435,7 @@ class CharlasController extends Controller
                 $request->founCharla,
                 $request->fehcIni
         ]);
+        
         if (empty($informacion[0])) {    
             session()->flash('swal', [
                 'icon' => 'error',
@@ -432,8 +444,18 @@ class CharlasController extends Controller
             ]);
             return redirect()->route('admin.Charlas.index');                
         }
-        $resultado = collect($informacion);
-        return Excel::download(new \App\Exports\CharlaExport($resultado),'Descarga.xlsx');
+        // $resultado = collect($informacion);
+        // $campaña=$informacion[0];
+        // return $informacion;
+            
+        $pdf =Pdf::loadView('admin.PDF.CampañasExportPdf',[
+            'charlas'=>$informacion,
+            'datos' => $request
+        ])->setPaper('a4', 'landscape');
+        return $pdf->download("PDF-Charlas.pdf");
+
+
+        // return Excel::download(new \App\Exports\CharlaExport($resultado),'Descarga.xlsx');
     }
 
     public function dropzone(Request $request, $id)
@@ -530,7 +552,8 @@ class CharlasController extends Controller
             return redirect()->route('admin.Charlas.index');                
         }
 
-        
+    
+
         $pdf =Pdf::loadView('admin.PDF.AsistentesCharlaPdf',[
             'asistente' =>$informacion,
             'charla'=>$charla,

@@ -32,7 +32,8 @@ class CharlaExport implements FromCollection,WithHeadings,WithStyles,ShouldAutoS
 
                 $asistentes->Tdni_asistente,
                 $asistentes->Tcelular_asistente,
-                $asistentes->Nedad_asistente
+                $asistentes->Nedad_asistente,
+                $asistentes->Tlugar_asistente
                 
             ];
         });
@@ -44,7 +45,8 @@ class CharlaExport implements FromCollection,WithHeadings,WithStyles,ShouldAutoS
             'Apellido materno',
             'N° DNI',
             'Celular',
-            'Edad'
+            'Edad',
+            'Dirección'
         ];
     }
     public function styles(Worksheet $sheet)

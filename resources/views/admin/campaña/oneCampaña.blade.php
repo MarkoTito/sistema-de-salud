@@ -481,7 +481,7 @@
     
 
    
-
+    <p class="sty" ></p>
 
     
    
@@ -597,7 +597,11 @@
                                         <label class="block text-sm font-medium text-gray-900">Numero de celular:</label>
                                         <input type="text" name="celular" id="" class="swal2-input" maxlength="9" required oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
                                     </div>
-                                </div>    
+                                </div>   
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-900">Dirección:</label>
+                                    <input type="text" style="width: 90%;" name="direccion" id="" class="swal2-input" maxlength="130" required>
+                                </div> 
 
 
                             </div>

@@ -103,91 +103,105 @@
             </div>
             
         </div>
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        <th scope="col" class="px-6 py-3" align="center" >
+        <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
+            <table class="w-full text-sm text-left rtl:text-right text-fg-brand-subtle">
+                <thead class="text-sm text-black bg-brand-strong">
+                    <tr class="bg-brand border-b border-brand-light">
+                        <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap bg-brand-strong" align="center" >
                             Numero 
                         </th>
-                        <th scope="col" class="px-6 py-3" align="center" >
+                        <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap bg-brand-strong" align="center" >
                             Nombre de charla        
                         </th>
-                        <th scope="col" class="px-6 py-3" align="center" >
+                        <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap bg-brand-strong" align="center" >
                             Lugar
                         </th>
-                        <th scope="col" class="px-6 py-3" align="center" >
+                        <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap bg-brand-strong" align="center" >
                             Fecha de inicio
                         </th>
-                        <th scope="col" class="px-6 py-3" align="center" >
+                        <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap bg-brand-strong" align="center" >
                             Hora de inicio
                         </th>
                   
-                        <th scope="col" class="px-6 py-3" align="center" >
+                        <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap bg-brand-strong" align="center" >
                             Acción
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     @if (!$charlas)
-                        <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                        <tr class="bg-brand border-b border-brand-light">
                             
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
+                            <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap"align="center" >
                                 No existe charla
                             </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
+                            <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap"align="center" >
                                 No existe charla
                             </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
+                            <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap"align="center" >
                                 No existe charla
                             </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
+                            <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap">
                                 No existe charla
                             </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
+                            <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap">
                                 No existe charla
                             </th>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
+                            <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap">
                                 No existe charla
                             </th>
                         </tr>    
                     @else
                         @foreach ($charlas as $charla)
-                            <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                            <tr class="bg-brand border-b border-brand-light">
                                 
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
+                                <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap"align="center" >
                                     {{$charla->PK_Charlas}}
                                 </th>
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
+                                <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap"align="center" >
                                     {{$charla->Tnombre_charla}}
                                 </th>
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
+                                <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap"align="center" >
                                     {{$charla->Tlugar_charla}}
                                 </th>
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
+                                <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap"align="center" >
                                     {{$charla->DfechaIni_charla}}
                                 </th>
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
+                                <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap"align="center" >
                                     {{$charla->ThoraIni_charla}}
                                 </th>
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" align="center" >
-                                    <a href="{{route('admin.charla.downloadOne',$charla->PK_Charlas)}}"> 
+                                <th scope="row" class="px-6 py-4 font-medium text-fg-brand-subtle whitespace-nowrap"align="center" >
+                                    @can('view-charlas')
+                                    {{-- <a class="text-black"  href="{{route('admin.charla.downloadOne',$charla->PK_Charlas)}}"> 
                                         <i class="fa-solid fa-download"></i>   
-                                    </a>
-                                    <a href="{{route('admin.Charlas.show',$charla->PK_Charlas)}}">
-                                        <i class="fa-solid fa-eye"></i>   
-                                    </a>
-                                    <a href="{{route('admin.Charlas.edit',$charla->PK_Charlas)}}">
-                                        <i class="fa-solid fa-pen-to-square"></i>   
-                                    </a>
-                                    <a href="{{route('admin.Charlas.destroy',$charla->PK_Charlas)}}" class="btn-finalizar" data-id="{{$charla->PK_Charlas}}" data-nombre="{{$charla->Tnombre_charla}}">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </a>
+                                    </a> --}}
+                                    <button type="button" onclick="mostrarAlerta({{ $charla->PK_Charlas }})">
+                                        <i class="fa-solid fa-download"></i>
+                                    </button>
+                                    @endcan
+                                    @can('view-charlas')
+                                        <a class="text-blue-800" href="{{route('admin.Charlas.show',$charla->PK_Charlas)}}">
+                                            <i class="fa-solid fa-eye"></i>   
+                                        </a>
+                                    @endcan
 
-                                    <form id="form-delete" method="POST" style="display:none;">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
+                                    @can('update-charlas')
+                                        <a class="text-green-500" href="{{route('admin.Charlas.edit',$charla->PK_Charlas)}}">
+                                            <i class="fa-solid fa-pen-to-square"></i>   
+                                        </a>                                        
+                                    @endcan
+
+                                    @can('delete-charlas')
+                                        <a class="text-red-500" href="{{route('admin.Charlas.destroy',$charla->PK_Charlas)}}" class="btn-finalizar" data-id="{{$charla->PK_Charlas}}" data-nombre="{{$charla->Tnombre_charla}}">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                        <form id="form-delete" method="POST" style="display:none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+                                        
+                                    @endcan
+
                                 </th>
                             </tr>
                             

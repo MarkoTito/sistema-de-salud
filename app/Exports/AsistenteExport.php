@@ -32,9 +32,9 @@ class AsistenteExport implements FromCollection ,WithHeadings, WithStyles, Shoul
                 $asistentes->TapellidoP_asistente,
                 $asistentes->TapellidoM_asistente,
                 $asistentes->Tdni_asistente,
-                $asistentes->Tlugar_campaña,
                 $asistentes->Tcelular_asistente,
-                $asistentes->Nedad_asistente
+                $asistentes->Nedad_asistente,
+                $asistentes->Tlugar_asistente
                 
                 
             ];
@@ -48,7 +48,7 @@ class AsistenteExport implements FromCollection ,WithHeadings, WithStyles, Shoul
             'DNI',
             'Dirección',
             'Celular',
-            'Edad'
+            'Edad',
         ];
     }
 

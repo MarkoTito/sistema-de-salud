@@ -1100,7 +1100,8 @@ class MascotasController extends Controller
             return redirect()->route('admin.Charlas.index');                
         }
 
-        // $resultado = collect($informacion);
+        // return $informacion;
+        
         $pdf =Pdf::loadView('admin.PDF.MascotadPdf',[
             'macotas' =>$informacion,
             'Ini' => $Ini,

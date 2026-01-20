@@ -54,7 +54,7 @@
         @if ($Drestantes>0)
             <div class="flex justify-center mb-4 " >
                 <button id="agregar-asistentes" type="submit"  style=" background:#22c55e; color:white; padding:12px 24px; font-size:16px; line-height:1.2; height:auto;">
-                Agregar asistente                
+                Agregar asistente             
                 </button>
             </div>
             <div class="text-blue-500 flex justify-center "  >
@@ -85,7 +85,20 @@
             <div class="swiper-button-prev"></div>
             <div class="swiper-pagination"></div>
         </div>
-        
+        @if ($Drestantes>0)
+            <div class="flex justify-center mb-4 " >
+                <button id="agregar-asistentes" type="submit"  style=" background:#22c55e; color:white; padding:12px 24px; font-size:16px; line-height:1.2; height:auto;">
+                Agregar asistente             
+                </button>
+            </div>
+            <div class="text-blue-500 flex justify-center "  >
+                <p>*Queda {{$Drestantes}} dia(s) para subir la evidencia</p>  
+            </div>
+        @else
+            <div class="text-red-500 flex justify-center "  >
+                <p>*Se termino el tiempo para subir evidencia</p>  
+            </div>
+        @endif
     @endif
 
     <br>

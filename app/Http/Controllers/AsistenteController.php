@@ -32,7 +32,7 @@ class AsistenteController extends Controller
             $Idusuario = Auth::user()->id;
             #aca es para ingresar asistentes a charlas
             if (isset($request->charla  )) {
-                $resultado = DB::statement('EXEC dbo.InserAsistenteCharla1 ?,?,? ,?,?,?, ?,?', [
+                $resultado = DB::statement('EXEC dbo.InserAsistenteCharla1 ?,?,?, ?,?,?, ?,?,?', [
                     $request->idCharla,
                     $Idusuario,
                     $request->nombre,
@@ -43,10 +43,11 @@ class AsistenteController extends Controller
 
                     $request->celular,
                     $request->edad,
+                    $request->direccion,
                 ]);
                 
             } else {
-                #aca es para ingreasar asistentes a charlas
+                #aca es para ingreasar asistentes a campañas mascotas
                 if ($request->TipoCampa == 1) {
                     foreach ($request->mascotas as $m) {
                         $resultado = DB::statement('EXEC dbo.InserAsistenteCampañaMascota ?,?,?,?,? ,?,?,? ,?,?,?', [
@@ -67,7 +68,7 @@ class AsistenteController extends Controller
                         ]);
                     }
                 } else {
-                    $resultado = DB::statement('EXEC dbo.InserAsistenteCampaña2 ?,?,? ,?,?,?, ?,?', [
+                    $resultado = DB::statement('EXEC dbo.InserAsistenteCampaña2 ?,?,?, ?,?,?, ?,?,?', [
                         $request->idCampaña,
                         $Idusuario,
                         $request->nombre,
@@ -78,6 +79,7 @@ class AsistenteController extends Controller
     
                         $request->celular,
                         $request->edad,
+                        $request->direccion,
                     ]);
                 }
             }
@@ -257,13 +259,16 @@ class AsistenteController extends Controller
             ]);
             if (count($resultado) > 0) {
                 $campañaShow = DB::select('EXEC dbo.OneCAMPAÑA ? ',[$request->idcampana]);
-                //imagen
+                
                 $Tiposcampañas=DB::select('EXEC dbo.ViewsTiposCampañas');
                 //$asistentes= DB::select('EXEC dbo.ViewsAsistentesCampañas ? ',[$id]); == $resultado
-    
-                $especialidades= DB::select('EXEC dbo.ViewEspecialidades');
-    
+                
+                $especialidades= DB::select('EXEC dbo.ViewEspecialidades2');
+                
+                
                 $fechaHora = Carbon::parse($campañaShow[0]->DfechaIni_campaña . ' ' . $campañaShow[0]->ThoraIni_campaña);
+
+                
                 if ($fechaHora->lessThan(Carbon::now())) {
                     if ($campañaShow[0]->Nestado_campaña ==3) {
                         # significa ya paso su hoora de open (pero ya finalizo)
@@ -278,10 +283,16 @@ class AsistenteController extends Controller
                     // Significa que es en el futuro
                     $estado = 'Empesar antes de tiempo';
                 }
+
+                
                 if (!empty($campañaShow)) {
                     $campaña = $campañaShow[0];
-                    $imagen = collect(DB::select('EXEC dbo.ViewImagenCampanias ?', [$campaña->PK_TiposCampañas]))->first();
-                    //return $resultado;
+                    
+                    $imagen = collect(DB::select('EXEC dbo.ViewImagenCampañas ?', [$request->idcampana]))->first();
+                    // return $imagen;
+
+
+                    
                     return view('admin.campaña.oneAsitente', compact('campaña','especialidades','resultado','estado','imagen'));
                 } else {
                     return redirect()->back()->with('error', 'No se encontró la campaña.');

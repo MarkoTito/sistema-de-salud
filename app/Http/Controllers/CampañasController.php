@@ -24,6 +24,7 @@ class CampañasController extends Controller
         $Tiposcampañas = DB::select('EXEC dbo.ViewsTiposCampañas');
         $Colaboradores = DB::select('EXEC dbo.ViewsColaboradores');
 
+
         // Convertir a colección
         $collection = collect($results);
 
@@ -250,7 +251,7 @@ class CampañasController extends Controller
                  
             
             
-            // return $Drestantes;
+            // return $resulAsistentes;
 
 
 
@@ -351,9 +352,11 @@ class CampañasController extends Controller
         $campañaShow = DB::select('EXEC dbo.OneCAMPAÑA ? ',[$id]);
         $Tiposcampañas=DB::select('EXEC dbo.ViewsTiposCampañas');
         $Colaboradores=DB::select('EXEC dbo.ViewsColaboradores');
+
         
         if (!empty($campañaShow)) {
-            $imagen = collect(DB::select('EXEC dbo.ViewImagenCampanias ?', [$id]))->last();
+            $imagen = collect(DB::select('EXEC dbo.ViewImagenCampañas ?', [$id]))->last();
+            // return $imagen;
             $campaña = $campañaShow[0];
             return view('admin/campaña/editCampaña',compact('campaña','Tiposcampañas','Colaboradores','imagen'));
         } else {
@@ -535,6 +538,9 @@ class CampañasController extends Controller
         }
         $campaña= $informacion[0];
         
+        
+        
+
         // $resultado = collect($informacion);
         $pdf =Pdf::loadView('admin.PDF.AsistentesCamapañaPdf',[
             'asistente' =>$informacion,

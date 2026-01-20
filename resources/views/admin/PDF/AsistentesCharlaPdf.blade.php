@@ -81,6 +81,7 @@
                         <th>N° DNI</th>
                         <th>Celular</th>
                         <th>Edad</th>
+                        <th>Dirección</th>
 
                         
                     </tr>
@@ -95,6 +96,7 @@
                             <td>{{ $asis->Tdni_asistente}}</td>
                             <td>{{ $asis->Tcelular_asistente}}</td>
                             <td>{{$asis->Nedad_asistente}}</td>                            
+                            <td>{{$asis->Tlugar_asistente}}</td>                            
                         </tr>
                     @endforeach
                 </tbody>
